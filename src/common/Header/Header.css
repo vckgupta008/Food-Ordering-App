@@ -56,7 +56,20 @@ header {
   .header-search {
     min-width: 80%;
   }
-  
+  .header-search
+    > .MuiFormControl-root
+    > .MuiInputBase-root
+    > .MuiInputAdornment-root
+    > .MuiSvgIcon-root {
+    font-size: 36px;
+  }
+  .header-search > .MuiFormControl-root > .MuiInputBase-root > input {
+    font-size: 20px !important
+    ;
+  }
+  .MuiFilledInput-adornedStart {
+    padding-left: unset !important;
+  }
   .header-action > .header-login {
     margin-bottom: 10px !important;
   }
