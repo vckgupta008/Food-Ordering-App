@@ -39,6 +39,9 @@ header {
 .header-search > .MuiFormControl-root > .Mui-focused:after {
   border-bottom: 1px solid #ffffff !important;
 }
+.header-search > .MuiFormControl-root>.MuiInputBase-root {
+  background: #253238;
+}
 
 .header-action > .header-login,
 .header-action > .header-login:hover {
