@@ -9,6 +9,7 @@ class HomePage extends Component {
     super(props);
     this.state = {
       restaurantList: [],
+      filteredRestaurantList: [],
       showErrorMessage: false,
       errorMessage: ""
     };
@@ -20,6 +21,9 @@ class HomePage extends Component {
         console.log("get all restaurnat", response);
         this.setState({
           restaurantList: response.restaurants.length
+            ? response.restaurants
+            : [],
+          filteredRestaurantList: response.restaurants.length
             ? response.restaurants
             : []
         });
@@ -41,7 +45,7 @@ class HomePage extends Component {
   };
 
   render() {
-    const { restaurantList, showErrorMessage, errorMessage } = this.state;
+    const { restaurantList, filteredRestaurantList,showErrorMessage, errorMessage } = this.state;
     return (
       <>
         <Header />
