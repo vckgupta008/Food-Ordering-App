@@ -4,7 +4,7 @@ import { Fastfood, Search, AccountCircle } from "@material-ui/icons";
 import "./Header.css";
 
 const Header = props => {
-  const [searchVal, setSearchVal] = useState(null);
+  const [searchVal, setSearchVal] = useState("");
 
   return (
     <header>
