@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Snackbar, Card, CardContent } from "@material-ui/core";
+import { Snackbar, Card } from "@material-ui/core";
 import Header from "../../common/Header/Header";
 import {
   getRestaurant,
   getRestaurantByName
 } from "../../common/Api/restaurant";
+import LoginModal from "../../common/Modals/LoginModal";
 import "./HomePage.css";
 
 class HomePage extends Component {
@@ -14,7 +15,8 @@ class HomePage extends Component {
       restaurantList: [],
       showErrorMessage: false,
       errorMessage: "",
-      searchVal: ""
+      searchVal: "",
+      openLoginModal: false
     };
   }
 
@@ -77,18 +79,30 @@ class HomePage extends Component {
     });
   };
 
+  handleLoginModal = () => {
+    this.setState({
+      openLoginModal: !this.state.openLoginModal
+    });
+  };
+
   render() {
     const {
       restaurantList,
       showErrorMessage,
       errorMessage,
-      searchVal
+      searchVal,
+      openLoginModal
     } = this.state;
     return (
       <>
         <Header
           searchVal={searchVal}
+          handleLoginModal={() => this.handleLoginModal()}
           onSearch={restaurant => this.searchRestaurantByName(restaurant)}
+        />
+        <LoginModal
+          visible={openLoginModal}
+          onClose={() => this.handleLoginModal()}
         />
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
@@ -99,7 +113,7 @@ class HomePage extends Component {
         ></Snackbar>
         <div className="home-page-container">
           <div className="home-page-restaurant-list">
-            {restaurantList.length ?
+            {restaurantList.length ? (
               restaurantList.map(restaurant => {
                 return (
                   <Card className="restaurant-card" key={restaurant.id}>
@@ -130,7 +144,10 @@ class HomePage extends Component {
                     </div>
                   </Card>
                 );
-              }):<div>No restaurant with the given name.</div>}
+              })
+            ) : (
+              <div>No restaurant with the given name.</div>
+            )}
           </div>
         </div>
       </>

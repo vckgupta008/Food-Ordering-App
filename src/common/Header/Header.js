@@ -27,7 +27,7 @@ const Header = props => {
           />
         </div>
         <div className="header-action">
-          <Button className="header-login">
+          <Button className="header-login" onClick={props.handleLoginModal}>
             <AccountCircle /> Login
           </Button>
         </div>
