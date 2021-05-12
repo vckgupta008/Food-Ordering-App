@@ -99,7 +99,7 @@ class HomePage extends Component {
         ></Snackbar>
         <div className="home-page-container">
           <div className="home-page-restaurant-list">
-            {restaurantList.length &&
+            {restaurantList.length ?
               restaurantList.map(restaurant => {
                 return (
                   <Card className="restaurant-card" key={restaurant.id}>
@@ -130,7 +130,7 @@ class HomePage extends Component {
                     </div>
                   </Card>
                 );
-              })}
+              }):<div>No restaurant with the given name.</div>}
           </div>
         </div>
       </>
