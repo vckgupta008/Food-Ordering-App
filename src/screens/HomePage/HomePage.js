@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Snackbar, Card, CardContent } from "@material-ui/core";
 import Header from "../../common/Header/Header";
-import { getRestaurant } from "../../common/Api/restaurant";
+import {
+  getRestaurant,
+  getRestaurantByName
+} from "../../common/Api/restaurant";
 import "./HomePage.css";
 
 class HomePage extends Component {
@@ -9,33 +12,63 @@ class HomePage extends Component {
     super(props);
     this.state = {
       restaurantList: [],
-      filteredRestaurantList: [],
       showErrorMessage: false,
-      errorMessage: ""
+      errorMessage: "",
+      searchVal: ""
     };
   }
 
   componentDidMount() {
+    this.loadAllRestaurants();
+  }
+
+  loadAllRestaurants() {
     getRestaurant()
       .then(response => {
         console.log("get all restaurnat", response);
         this.setState({
-          restaurantList: response.restaurants.length
-            ? response.restaurants
-            : [],
-          filteredRestaurantList: response.restaurants.length
-            ? response.restaurants
-            : []
+          restaurantList:
+            response.restaurants && response.restaurants.length
+              ? response.restaurants
+              : [],
+          searchVal: ""
         });
       })
       .catch(error => {
         console.log("get restaurant", error);
         this.setState({
           showErrorMessage: true,
-          errorMessage: "Error in loading restaurants"
+          errorMessage: "Error in loading restaurants",
+          searchVal: ""
         });
       });
   }
+
+  searchRestaurantByName = restaurantName => {
+    if (restaurantName) {
+      getRestaurantByName(restaurantName)
+        .then(response => {
+          console.log("get restaurant name", response);
+          this.setState({
+            restaurantList:
+              response.restaurants && response.restaurants.length
+                ? response.restaurants
+                : [],
+            searchVal: restaurantName
+          });
+        })
+        .catch(error => {
+          console.log("get restaurant", error);
+          this.setState({
+            showErrorMessage: true,
+            errorMessage: "Error in loading restaurants",
+            searchVal: restaurantName
+          });
+        });
+    } else {
+      this.loadAllRestaurants();
+    }
+  };
 
   handleCloseErrorMessage = () => {
     this.setState({
@@ -47,13 +80,16 @@ class HomePage extends Component {
   render() {
     const {
       restaurantList,
-      filteredRestaurantList,
       showErrorMessage,
-      errorMessage
+      errorMessage,
+      searchVal
     } = this.state;
     return (
       <>
-        <Header />
+        <Header
+          searchVal={searchVal}
+          onSearch={restaurant => this.searchRestaurantByName(restaurant)}
+        />
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={showErrorMessage}
