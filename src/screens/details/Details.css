@@ -1,0 +1,22 @@
+.body-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.restaurant-section {
+  display: flex;
+  background-color: lightgray;
+  padding: 18px;
+  height: 180px;
+}
+
+.restaurant-img {
+  height: 180px;
+  width: 230px;
+}
+
+.restaurant-details {
+  display: flex;
+  flex-direction: column;
+  padding-left: 40px;
+}
