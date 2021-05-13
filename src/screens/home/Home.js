@@ -4,7 +4,7 @@ import Header from "../../common/header/Header";
 import {
   getRestaurant,
   getRestaurantByName
-} from "../../common/api/Restaurant";
+} from "../../common/apis/Restaurant";
 import LoginModal from "../../common/modals/LoginModal";
 import "./Home.css";
 

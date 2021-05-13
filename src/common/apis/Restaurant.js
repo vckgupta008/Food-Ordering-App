@@ -34,7 +34,7 @@ export function getRestaurantByName(restaurantName) {
   });
 }
 
-/** Functional component to retrieve the restaurant for the given restaurant Id */
+/** Functional component to retrieve the restaurant for the given restaurant UUID */
 export function getRestaurantById(restaurantID) {
   return new Promise(function (resolve, reject) {
     fetch(`${GET_RESTAURANT_BY_ID_URL}${restaurantID}`)
