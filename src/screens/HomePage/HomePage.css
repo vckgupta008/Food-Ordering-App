@@ -1,0 +1,74 @@
+.home-page-container {
+  padding: 10px 20px;
+}
+
+.home-page-restaurant-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.restaurant-card {
+  width: 23%;
+  margin: 10px;
+}
+.restaurant-img {
+  height: 160px;
+  width: 100%;
+}
+.restaurant-img > img {
+  height: 100%;
+  width: 100%;
+}
+.restaurant-body {
+  padding: 20px;
+}
+.restaurant-name {
+  font-size: 24px;
+}
+.restaurant-category {
+  margin-top: 15px;
+  font-size: 16px;
+  min-height: 75px;
+  display: flex;
+  align-items: center;
+}
+.restaurant-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.restaurant-rating {
+  font-size: small;
+  background-color: #eacc5e;
+  color: white;
+  padding: 5px 15px;
+}
+.restaurant-price {
+  font-size: small;
+}
+
+@media only screen and (max-width: 1040px) and (min-width: 830px) {
+  .restaurant-card {
+    width: 30%;
+  }
+  .restaurant-price {
+    margin-left: 10px;
+  }
+}
+@media only screen and (max-width: 829px) and (min-width: 583px) {
+  .restaurant-card {
+    width: 45%;
+  }
+  .restaurant-price {
+    margin-left: 10px;
+  }
+}
+@media only screen and (max-width: 582px) {
+
+  .restaurant-card {
+    width: 100%;
+  }
+  .restaurant-img {
+      height: 200px;
+  }
+}

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './app';
 import * as serviceWorker from './serviceWorker';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 ReactDOM.render(
     <App />,
