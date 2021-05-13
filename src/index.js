@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './app';
+import FoodOrderingAppController from './FoodOrderingAppController';
 import * as serviceWorker from './serviceWorker';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 ReactDOM.render(
-    <App />,
+    <FoodOrderingAppController />,
     document.getElementById('root')
 );
 

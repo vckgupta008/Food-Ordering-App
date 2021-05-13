@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import PropTypes from "prop-types";
 import { Tab, Tabs, Typography, Box, Grid, TextField } from "@material-ui/core";
 import "./LoginModal.css";
+
 const customStyles = {
   content: {
     top: "50%",
@@ -48,13 +49,15 @@ class LoginModal extends Component {
     };
   }
 
-  handleChange = (event, newValue) => {
+  /** Handler to switch between different tabs in login modal */
+  tabChangeHandler = (event, newValue) => {
     this.setState({
       selectedTab: newValue
     });
   };
 
-  handleLoginForm = (value, field) => {
+  /** Handler to set value into a particular state variable */
+  loginFormValueChangeHandler = (value, field) => {
     this.setState({
       [field]: value
     });
@@ -80,7 +83,7 @@ class LoginModal extends Component {
         <div className="modal-container">
           <Tabs
             value={selectedTab}
-            onChange={this.handleChange}
+            onChange={this.tabChangeHandler}
             indicatorColor="secondary"
             centered
           >
@@ -96,7 +99,7 @@ class LoginModal extends Component {
                   label="Contact No"
                   value={loginContactNo}
                   onChange={e =>
-                    this.handleLoginForm(e.target.value, "loginContactNo")
+                    this.loginFormValueChangeHandler(e.target.value, "loginContactNo")
                   }
                   fullWidth
                 />
@@ -111,7 +114,7 @@ class LoginModal extends Component {
                   label="Password"
                   value={loginPassword}
                   onChange={e =>
-                    this.handleLoginForm(e.target.value, "loginPassword")
+                    this.loginFormValueChangeHandler(e.target.value, "loginPassword")
                   }
                   fullWidth
                 />

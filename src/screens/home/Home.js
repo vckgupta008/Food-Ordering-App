@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { Snackbar, Card } from "@material-ui/core";
-import Header from "../../common/Header/Header";
+import Header from "../../common/header/Header";
 import {
   getRestaurant,
   getRestaurantByName
-} from "../../common/Api/restaurant";
-import LoginModal from "../../common/Modals/LoginModal";
-import "./HomePage.css";
+} from "../../common/api/Restaurant";
+import LoginModal from "../../common/modals/LoginModal";
+import "./Home.css";
 
-class HomePage extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,6 +24,7 @@ class HomePage extends Component {
     this.loadAllRestaurants();
   }
 
+  /** Method to load all the restaurant details into the state variables */
   loadAllRestaurants() {
     getRestaurant()
       .then(response => {
@@ -46,6 +47,7 @@ class HomePage extends Component {
       });
   }
 
+  /** Method to load all the restaurant details for the given name into the state variables */
   searchRestaurantByName = restaurantName => {
     if (restaurantName) {
       getRestaurantByName(restaurantName)
@@ -72,14 +74,16 @@ class HomePage extends Component {
     }
   };
 
-  handleCloseErrorMessage = () => {
+  /** Handler to close error message snackbar */
+  closeErrorMessageHandler = () => {
     this.setState({
       showErrorMessage: false,
       errorMessage: ""
     });
   };
 
-  handleLoginModal = () => {
+  /** Handler to open/ close login modal based on user action */
+  loginModalHandler = () => {
     this.setState({
       openLoginModal: !this.state.openLoginModal
     });
@@ -94,23 +98,30 @@ class HomePage extends Component {
       openLoginModal
     } = this.state;
     return (
-      <>
+      <div>
+        {/** Header component included here */}
         <Header
           searchVal={searchVal}
-          handleLoginModal={() => this.handleLoginModal()}
+          handleLoginModal={() => this.loginModalHandler()}
           onSearch={restaurant => this.searchRestaurantByName(restaurant)}
+          isHomePage={true}
         />
+
+        {/** Login Modal  component included here */}
         <LoginModal
           visible={openLoginModal}
-          onClose={() => this.handleLoginModal()}
+          onClose={() => this.loginModalHandler()}
         />
+
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={showErrorMessage}
           autoHideDuration={5000}
           message={errorMessage}
-          onClose={() => this.handleCloseErrorMessage()}
+          onClose={() => this.closeErrorMessageHandler()}
         ></Snackbar>
+
+        {/** Restaurant cards begin here */}
         <div className="home-page-container">
           <div className="home-page-restaurant-list">
             {restaurantList.length ? (
@@ -129,15 +140,12 @@ class HomePage extends Component {
                       </div>
                       <div className="restaurant-info">
                         <div className="restaurant-rating">
-                          <i className="fa fa-star" aria-hidden="true"></i>
-                          {restaurant.customer_rating} (
-                          {restaurant.number_customers_rated})
+                          <i className="fa fa-star" aria-hidden="true" />
+                          {restaurant.customer_rating} ({restaurant.number_customers_rated})
                         </div>
                         <div className="restaurant-price">
-                          <i
-                            className="fa fa-rupee-sign"
-                            aria-hidden="true"
-                          ></i>
+                          <i className="fa fa-rupee-sign"
+                            aria-hidden="true" />
                           {restaurant.average_price} for two
                         </div>
                       </div>
@@ -150,9 +158,10 @@ class HomePage extends Component {
             )}
           </div>
         </div>
-      </>
+        {/** Restaurant cards end here */}
+      </div>
     );
   }
 }
 
-export default HomePage;
+export default Home;

@@ -8,12 +8,15 @@
   height: 300px;
 } */
 
-.modal-container {
-    /* padding: 10px 15px 10px 20px; */
-}
+
+/* .modal-container {
+    padding: 10px 15px 10px 20px;
+} */
+
 .error-msg {
-    color: red;
+  color: red;
 }
+
 .form-field {
-    margin-top: 10px !important;
+  margin-top: 10px !important;
 }
