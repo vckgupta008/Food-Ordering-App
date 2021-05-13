@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Details.css';
-import Header from '../../common/header/Header';
+import Header from '../../common/Header/Header';
 import { getRestaurantById } from "../../common/apis/Restaurant";
 import Typography from '@material-ui/core/Typography';
 
@@ -45,7 +45,7 @@ class Details extends Component {
           <div className="body-container">
             {/** Restaurant information section starts here */}
             <div className="restaurant-section">
-              <div className="restaurant-img">
+              <div className="restaurant-image">
                 <img src={this.state.restaurant.photo_URL} alt="this.state.restaurant.restaurant_name" />
               </div>
               <div className="restaurant-details">
