@@ -8,7 +8,7 @@ function FoodOrderingAppController() {
     <Router>
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path='/restaurant/:restaurantID' component={Details} />
+        <Route exact path='/restaurant/:restaurantId' component={Details} />
       </Switch>
     </Router>
   );
