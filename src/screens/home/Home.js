@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Snackbar, Card } from "@material-ui/core";
-import Header from "../../common/Header/Header";
+import Header from "../../common/headers/Header";
 import {
   getRestaurant,
   getRestaurantByName
-} from "../../common/apis/Restaurant";
-import LoginModal from "../../common/Modals/LoginModal";
+} from "../../common/api/Restaurant";
+import LoginModal from "../../common/modal/LoginModal";
 import "./Home.css";
 
 class Home extends Component {

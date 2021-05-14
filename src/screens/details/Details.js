@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Details.css';
-import Header from '../../common/Header/Header';
-import { getRestaurantById } from "../../common/apis/Restaurant";
+import Header from '../../common/headers/Header';
+import { getRestaurantById } from "../../common/api/Restaurant";
 import Typography from '@material-ui/core/Typography';
 
 class Details extends Component {
