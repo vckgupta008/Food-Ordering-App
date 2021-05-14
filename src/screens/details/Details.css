@@ -5,12 +5,12 @@
 
 .details-restaurant-section {
   display: flex;
-  background-color: lightgray;
+  background-color: #e0dfdf;
   padding: 25px;
   height: 180px;
 }
 
-.restaurant-image {
+.details-restaurant-image {
   height: 180px;
   width: 230px;
 }
@@ -20,6 +20,22 @@
   flex-direction: column;
   padding-left: 60px;
   width: 45%;
+}
+
+.details-restaurant-name > p {
+  font-size: 30px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.details-restaurant-locality > p {
+  font-size: 15px;
+  margin-bottom: 14px;
+}
+
+.details-restaurant-categories > p {
+  font-size: 14px;
+  margin-bottom: 14px;
 }
 
 .details-reataurant-rating-cost-info {
@@ -32,7 +48,98 @@
   flex-direction: column;
 }
 
+.details-restaurant-icon {
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.details-restaurant-text {
+  font-size: 11px;
+  color: grey;
+  margin: 0;
+}
+
 .details-restaurant-cost-info {
   display: flex;
   flex-direction: column;
+}
+
+@media only screen and (max-width: 768px) {
+  .details-restaurant-section {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 6px;
+    height: 285px;
+  }
+
+  .details-restaurant-image {
+    height: 150px;
+    width: 250px;
+  }
+
+  .details-restaurant-info {
+    align-items: center;
+    padding: 0;
+    width: 100%;
+  }
+
+  .details-restaurant-name > p {
+    font-size: 22px;
+    margin-top: 9px;
+    margin-bottom: 3px;
+  }
+  
+  .details-restaurant-locality > p {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  
+  .details-restaurant-categories > p {
+    font-size: 12px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .details-reataurant-rating-cost-info {
+    text-align: center;
+    width: 300px;
+  }
+  
+  .details-restaurant-icon {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+  
+  .details-restaurant-text {
+    font-size: 9px;
+  }
+
+}
+
+@media only screen and (max-width: 360px) {
+
+  .details-restaurant-section {
+    height: 290px;
+  }
+
+  .details-reataurant-rating-cost-info {
+    width: 280px;
+  }
+
+}
+
+@media only screen and (max-width: 332px) {
+
+  .details-reataurant-rating-cost-info {
+    width: 250px;
+  }
+
+}
+
+@media only screen and (max-width: 294px) {
+
+  .details-reataurant-rating-cost-info {
+    width: 230px;
+  }
+
 }

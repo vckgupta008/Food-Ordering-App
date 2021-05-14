@@ -50,47 +50,48 @@ class Details extends Component {
             {/** Restaurant information section starts here */}
             <div className="details-restaurant-section">
               <div>
-                <img src={this.state.restaurant.photo_URL} alt="this.state.restaurant.restaurant_name" className="restaurant-image" />
+                <img src={this.state.restaurant.photo_URL} alt="this.state.restaurant.restaurant_name"
+                  className="details-restaurant-image" />
               </div>
               <div className="details-restaurant-info">
-                <div>
-                  <Typography variant="body1" style={{ fontSize: 30, fontWeight: 500, marginBottom: 5 }}>
+                <div className="details-restaurant-name">
+                  <Typography variant="body1">
                     {this.state.restaurant.restaurant_name}
                   </Typography>
                 </div>
-                <div>
-                  <Typography variant="body1" style={{ fontSize: 15, marginBottom: 14 }}>
+                <div className="details-restaurant-locality">
+                  <Typography variant="body1">
                     {this.state.restaurant.address.locality.toUpperCase()}
                   </Typography>
                 </div>
-                <div>
-                  <Typography variant="body1" style={{ fontSize: 14, marginBottom: 14 }}>
+                <div className="details-restaurant-categories">
+                  <Typography variant="body1">
                     {this.state.categories}
                   </Typography>
                 </div>
                 <div className="details-reataurant-rating-cost-info">
                   <div className="details-restaurant-rating-info">
-                    <div style={{ fontSize: 14, marginBottom: 3 }}>
+                    <div className="details-restaurant-icon">
                       <i className="fa fa-star" aria-hidden="true" /> {this.state.restaurant.customer_rating}
                     </div>
                     <div>
-                      <p style={{ fontSize: 11, color: "grey", margin: 0 }}>
+                      <p className="details-restaurant-text">
                         AVERAGE RATING BY
                       </p>
-                      <p style={{ fontSize: 11, color: "grey", margin: 0 }}>
+                      <p className="details-restaurant-text">
                         <span style={{ fontWeight: "bold" }}>{this.state.restaurant.number_customers_rated}</span> CUSTOMERS
                       </p>
                     </div>
                   </div>
                   <div className="details-restaurant-cost-info">
-                    <div style={{ fontSize: 14, marginBottom: 3 }}>
+                    <div className="details-restaurant-icon">
                       <i className="fa fa-rupee-sign" aria-hidden="true" /> {this.state.restaurant.average_price}
                     </div>
                     <div>
-                      <p style={{ fontSize: 11, color: "grey", margin: 0 }}>
+                      <p className="details-restaurant-text">
                         AVERAGE COST FOR
                       </p>
-                      <p style={{ fontSize: 11, color: "grey", margin: 0 }}>
+                      <p className="details-restaurant-text">
                         TWO PEOPLE
                       </p>
                     </div>
