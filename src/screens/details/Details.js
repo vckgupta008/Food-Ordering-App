@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Details.css';
-import Header from '../../common/headers/Header';
+import Header from '../../common/header/Header';
 import { getRestaurantById } from "../../common/api/Restaurant";
 import Typography from '@material-ui/core/Typography';
 

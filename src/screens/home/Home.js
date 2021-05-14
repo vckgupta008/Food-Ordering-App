@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Snackbar, Card } from "@material-ui/core";
-import Header from "../../common/headers/Header";
+import Header from "../../common/header/Header";
 import {
   getRestaurant,
   getRestaurantByName
