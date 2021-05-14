@@ -1,12 +1,12 @@
-.body-container {
+.details-body-container {
   display: flex;
   flex-direction: column;
 }
 
-.restaurant-section {
+.details-restaurant-section {
   display: flex;
   background-color: lightgray;
-  padding: 18px;
+  padding: 25px;
   height: 180px;
 }
 
@@ -15,8 +15,24 @@
   width: 230px;
 }
 
-.restaurant-details {
+.details-restaurant-info {
   display: flex;
   flex-direction: column;
-  padding-left: 40px;
+  padding-left: 60px;
+  width: 45%;
+}
+
+.details-reataurant-rating-cost-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.details-restaurant-rating-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.details-restaurant-cost-info {
+  display: flex;
+  flex-direction: column;
 }
