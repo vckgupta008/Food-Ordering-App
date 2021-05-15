@@ -120,19 +120,19 @@ class Details extends Component {
                     {this.state.restaurant.categories.map(category => (
                       <li key={'category_' + category.id}>
                         <ul className="details-menu-list-item">
-                          <ListSubheader>{category.category_name.toUpperCase()}</ListSubheader>
-                          <Divider style={{ marginBottom:10}}/>
+                          <ListSubheader disableSticky>{category.category_name.toUpperCase()}</ListSubheader>
+                          <Divider style={{ marginBottom: 10 }} />
                           {category.item_list.map((item) => (
                             <ListItem key={'item_' + item.id} className="details-menu-item-type">
                               <ListItemIcon>
                                 {item.item_type === "VEG" ?
-                                  <i className="fa fa-circle" aria-hidden="true" style={{ color:"#138313", fontSize:15 }}></i>
+                                  <i className="fa fa-circle" aria-hidden="true" style={{ color: "#138313" }}></i>
                                   :
-                                  <i className="fa fa-circle" aria-hidden="true" style={{ color:"#c30909", fontSize:15 }}></i>}
+                                  <i className="fa fa-circle" aria-hidden="true" style={{ color: "#c30909" }}></i>}
                               </ListItemIcon>
                               <ListItemText primary={item.item_name.replace(/\b\w/g, l => l.toUpperCase())} />
                               <ListItemIcon>
-                                <i className="fa fa-rupee-sign" aria-hidden="true" style={{color:"black", fontSize:14}}></i>
+                                <i className="fa fa-rupee-sign" aria-hidden="true" style={{ color: "black" }}></i>
                               </ListItemIcon>
                               <ListItemText primary={" " + item.price} />
                               <ListItemIcon>

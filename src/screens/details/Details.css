@@ -80,6 +80,7 @@
 
 .details-menu-list-item > li {
   padding-left: 0;
+  padding-right: 0;
   color: black;
   height: 40px;
 }
@@ -88,20 +89,32 @@
   min-width: 35px;
 }
 
-.details-menu-item-type > div:nth-child(3) {
-  min-width: 15px;
-}
-
 .details-menu-item-type > div:nth-child(2) {
   width: 67%;
 }
 
-.details-menu-item-type > div:last-child {
-  min-width: 0;
+.details-menu-item-type > div:nth-child(3) {
+  min-width: 14px;
 }
 
-@media only screen and (max-width: 768px) {
-  .details-restaurant-section {
+.details-menu-item-type > div:nth-child(4) {
+  min-width: 40px;
+}
+
+.details-menu-item-type > div:last-child {
+  min-width: 35px;
+}
+
+.fa-circle {
+  font-size: 14px;
+}
+
+.fa-rupee-sign {
+  font-size: 13px;
+}
+
+@media only screen and (max-width: 769px) {
+  .details-restaurant-info-section {
     flex-direction: column;
     align-items: center;
     padding-top: 6px;
@@ -150,17 +163,90 @@
     font-size: 9px;
   }
 
+  .details-menu-item-section {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  .details-menu {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  .details-menu-list-item {
+    padding: 0;
+    margin: 0 20px;
+  }
+
+  .details-menu-list-item > .MuiListSubheader-root {
+    font-size: 13px;
+  }
+
+  .details-menu-item-type > div:nth-child(2) > span {
+    font-size: 15px;
+  }
+
+  .details-menu-item-type > div:nth-child(4) > span {
+    font-size: 15px;
+  }
+
+  .details-menu-item-type > div:last-child > svg{
+    font-size: 20px;
+  }
+
+  .fa-circle {
+    font-size: 13px;
+  }
+  
+  .fa-rupee-sign {
+    font-size: 12px;
+  }
+
+}
+
+@media only screen and (max-width: 500px) {
+
+  .details-menu-list-item {
+    margin: 0 15px;
+  }
+
 }
 
 @media only screen and (max-width: 360px) {
 
-  .details-restaurant-section {
+  .details-restaurant-info-section {
     height: 290px;
   }
 
   .details-reataurant-rating-cost-info {
     width: 280px;
   }
+
+  .details-menu-list-item > .MuiListSubheader-root {
+    font-size: 12px;
+  }
+
+  .details-menu-item-type > div:nth-child(2) > span {
+    font-size: 14px;
+  }
+
+  .details-menu-item-type > div:nth-child(4) > span {
+    font-size: 14px;
+  }
+
+  .details-menu-item-type > div:last-child > svg{
+    font-size: 18px;
+  }
+
+  .fa-circle {
+    font-size: 12px;
+  }
+  
+  .fa-rupee-sign {
+    font-size: 11px;
+  }
+
 
 }
 
