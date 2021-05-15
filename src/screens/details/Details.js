@@ -9,10 +9,15 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Divider
+  Divider,
+  Card,
+  CardContent,
+  Badge,
+  Button
 }
   from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 class Details extends Component {
 
@@ -21,7 +26,8 @@ class Details extends Component {
     this.state = {
       restaurant: {},
       restaurantId: this.props.match.params.restaurantId,
-      categories: ''
+      categories: '',
+      totalAmount: 0
     };
   }
 
@@ -112,8 +118,9 @@ class Details extends Component {
             </div>
             {/** Restaurant information section ends here */}
 
-            {/** Restaurant menu items section ends here */}
-            <div className="details-menu-item-section">
+            {/** Restaurant menu and cart section starts here */}
+            <div className="details-menu-cart-section">
+              {/** Restaurant menu items section starts here */}
               <div className="details-menu">
                 {this.state.restaurant.categories ?
                   <List>
@@ -134,7 +141,7 @@ class Details extends Component {
                               <ListItemIcon>
                                 <i className="fa fa-rupee-sign" aria-hidden="true" style={{ color: "black" }}></i>
                               </ListItemIcon>
-                              <ListItemText primary={" " + item.price} />
+                              <ListItemText primary={" " + item.price.toFixed(2)} />
                               <ListItemIcon>
                                 <AddIcon />
                               </ListItemIcon>
@@ -146,11 +153,71 @@ class Details extends Component {
                   </List>
                   : ""}
               </div>
-              <div>
+              {/** Restaurant menu items section ends here */}
 
+              {/** Restaurant cart section starts here */}
+              <div className="details-cart">
+                <Card className="details-card">
+                  <CardContent>
+                    <div className="details-card-header">
+                      <Badge badgeContent={0} showZero color="primary">
+                        <ShoppingCartIcon />
+                      </Badge>
+                      <span className="details-card-title">
+                        My Cart
+                      </span>
+                    </div>
+                    <div className="details-cart-item">
+
+                    </div>
+                    <div className="details-cart-total">
+                      <Typography variant="body1">
+                        TOTAL AMOUNT
+                      </Typography>
+                      <span>
+                      <i className="fa fa-rupee-sign" aria-hidden="true" /> {this.state.totalAmount.toFixed(2)}
+                      </span>
+                    </div>
+                    <Button variant="contained" color="primary" className="details-cart-button">
+                      CHECKOUT
+                    </Button>
+
+                  </CardContent>
+
+                  {/* <CardContent>
+                    <div style={{ fontWeight: "bold" }}>
+                      <i style={{ paddingRight: "20px" }}>
+                        <Badge className="badge" badgeContent={this.state.totalItems}
+                          color="primary" showZero>
+                          <ShoppingCartIcon />
+                        </Badge>
+                      </i>My Cart
+                                    </div>
+
+                    <Grid item xs={8} lg={9}>
+                      <div style={{ marginTop: 15, marginBottom: 15 }}>
+                        <span style={{ fontWeight: 'bold' }}>TOTAL AMOUNT</span>
+                      </div>
+                    </Grid>
+                    <Grid item xs={4} lg={3}>
+                      <div style={{ marginTop: 15, marginBottom: 15 }}>
+                        <span style={{ fontWeight: 'bold', float: 'right' }}>
+                          <i className="fa fa-inr" aria-hidden="true"
+                            style={{ paddingRight: "2px" }}></i>{this.state.totalAmount.toFixed(2)}
+                        </span>
+                      </div>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button className="checkout" variant="contained" color="primary" onClick={this.checkoutHandler}>
+                        <Typography>CHECKOUT</Typography>
+                      </Button>
+                    </Grid>
+                  </CardContent> */}
+                </Card>
               </div>
+              {/** Restaurant cart section ends here */}
             </div>
-            {/** Restaurant menu items section ends here */}
+            {/** Restaurant menu and cart section ends here */}
           </div>
           : ""}
 

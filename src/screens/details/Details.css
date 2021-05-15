@@ -64,7 +64,7 @@
   flex-direction: column;
 }
 
-.details-menu-item-section {
+.details-menu-cart-section {
   display: flex;
   padding: 20px;
 }
@@ -72,6 +72,8 @@
 .details-menu {
   width: 45%;
   padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 10%;
 }
 
 .details-menu > ul:first-child {
@@ -98,7 +100,7 @@
 }
 
 .details-menu-item-type > div:nth-child(4) {
-  min-width: 40px;
+  min-width: 80px;
 }
 
 .details-menu-item-type > div:last-child {
@@ -111,6 +113,59 @@
 
 .fa-rupee-sign {
   font-size: 13px;
+}
+
+.details-cart {
+  width: 41%;
+}
+
+.details-card {
+  padding: 10px;
+}
+
+.details-card > div:first-child {
+  padding: 15px;
+}
+
+.details-card-header {
+  margin-bottom: 30px;
+}
+
+.details-card > .MuiCardContent-root > div:first-child > span:first-child > svg {
+  font-size: 30px;
+}
+
+.details-card-title {
+  padding-left: 4%;
+  font-size: 23px;
+  font-weight: bold;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.details-cart-item {
+
+}
+
+.details-cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 15px;
+  margin-top: 30px;
+}
+
+.details-cart-total > p {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.details-cart-button {
+  width: 100%;
+}
+
+.details-card > .MuiCardContent-root > button {
+  font-size: 15px;
+  margin-top: 15px;
 }
 
 @media only screen and (max-width: 769px) {
@@ -163,7 +218,7 @@
     font-size: 9px;
   }
 
-  .details-menu-item-section {
+  .details-menu-cart-section {
     flex-direction: column;
     align-items: center;
     padding: 0 20px;
@@ -211,18 +266,6 @@
     margin: 0 15px;
   }
 
-}
-
-@media only screen and (max-width: 360px) {
-
-  .details-restaurant-info-section {
-    height: 290px;
-  }
-
-  .details-reataurant-rating-cost-info {
-    width: 280px;
-  }
-
   .details-menu-list-item > .MuiListSubheader-root {
     font-size: 12px;
   }
@@ -247,6 +290,25 @@
     font-size: 11px;
   }
 
+  .details-menu-item-type > div:nth-child(4) {
+    min-width: 70px;
+  }
+
+}
+
+@media only screen and (max-width: 360px) {
+
+  .details-restaurant-info-section {
+    height: 290px;
+  }
+
+  .details-reataurant-rating-cost-info {
+    width: 280px;
+  }
+
+  .details-menu-item-type > div:nth-child(4) {
+    min-width: 60px;
+  }
 
 }
 
