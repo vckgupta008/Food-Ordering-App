@@ -71,7 +71,7 @@ class LoginModal extends Component {
       loginPassword,
       loginError
     } = this.state;
-    console.log("selectedTab", selectedTab);
+    console.log("visible", visible);
     return (
       <Modal
         isOpen={visible}

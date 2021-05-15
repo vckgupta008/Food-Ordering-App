@@ -4,8 +4,8 @@ import Header from "../../common/header/Header";
 import {
   getRestaurant,
   getRestaurantByName
-} from "../../common/apis/Restaurant";
-import LoginModal from "../../common/modals/LoginModal";
+} from "../../common/api/Restaurant";
+import LoginModal from "../../common/modal/LoginModal";
 import "./Home.css";
 
 class Home extends Component {
