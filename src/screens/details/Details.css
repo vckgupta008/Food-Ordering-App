@@ -1,3 +1,9 @@
+.details-snackbar > .MuiPaper-root {
+  width: 350px;
+  padding: 2px 16px 2px 25px;
+  margin-left: 5px;
+}
+
 .details-body-container {
   display: flex;
   flex-direction: column;

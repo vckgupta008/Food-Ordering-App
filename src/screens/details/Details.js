@@ -9,15 +9,18 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  IconButton,
   Divider,
   Card,
   CardContent,
   Badge,
-  Button
+  Button,
+  Snackbar
 }
   from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import CloseIcon from '@material-ui/icons/Close';
 
 class Details extends Component {
 
@@ -27,7 +30,12 @@ class Details extends Component {
       restaurant: {},
       restaurantId: this.props.match.params.restaurantId,
       categories: '',
-      totalAmount: 0
+      totalItem: 0,
+      totalAmount: 0,
+      itemsAddedToCartList: [],
+      itemAddedToCart: {},
+      showItemMessage: false,
+      itemMessage: ''
     };
   }
 
@@ -56,11 +64,81 @@ class Details extends Component {
       });
   }
 
+  addItemHandler = (item) => {
+    var totalItem = this.state.totalItem;
+    var totalAmount = this.state.totalAmount;
+    var itemsInCartTemp = this.state.itemsAddedToCartList;
+    totalItem++;
+
+    console.log(itemsInCartTemp);
+    var itemInCartList;
+    if (this.state.itemsAddedToCartList) {
+      itemInCartList = this.state.itemsAddedToCartList.filter((itemInCart, index) => {
+        if (itemInCart.id === item.id) {
+          return true;
+        }
+        return false;
+      })[0];
+    }
+
+    if (itemInCartList) {
+      itemInCartList.price += item.price;
+      itemInCartList.quantity++;
+    } else {
+      var itemToadd = {
+        id: item.id,
+        name: item.item_name,
+        type: item.item_type,
+        price: item.price,
+        quantity: 1
+      }
+      itemsInCartTemp.push(itemToadd);
+      totalAmount += item.price;
+    }
+
+    this.setState({
+      totalItem: totalItem,
+      totalAmount: totalAmount,
+      itemsAddedToCartList: itemsInCartTemp,
+      showItemMessage: true,
+      itemMessage: 'Item added to cart!'
+    })
+
+    console.log(itemsInCartTemp);
+
+  }
+
+  itemSnackBarCloseHandler = () => {
+    this.setState({
+      showItemMessage: false,
+      itemMessage: ''
+    })
+  }
+
   render() {
+
     return (
       <div>
         {/** Header component included here */}
         <Header />
+
+        {/** Snackbar added to show item is added/ removed from cart */}
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+          open={this.state.showItemMessage}
+          message={this.state.itemMessage}
+          autoHideDuration={5000}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={this.itemSnackBarCloseHandler}>
+              <CloseIcon />
+            </IconButton>
+          ]}
+          className="details-snackbar"
+        ></Snackbar>
 
         {Object.keys(this.state.restaurant).length !== 0 ?
           <div className="details-body-container">
@@ -142,9 +220,9 @@ class Details extends Component {
                                 <i className="fa fa-rupee-sign" aria-hidden="true" style={{ color: "black" }}></i>
                               </ListItemIcon>
                               <ListItemText primary={" " + item.price.toFixed(2)} />
-                              <ListItemIcon>
+                              <IconButton onClick={() => this.addItemHandler(item)}>
                                 <AddIcon />
-                              </ListItemIcon>
+                              </IconButton>
                             </ListItem>
                           ))}
                         </ul>
@@ -160,7 +238,7 @@ class Details extends Component {
                 <Card className="details-card">
                   <CardContent>
                     <div className="details-card-header">
-                      <Badge badgeContent={0} showZero color="primary">
+                      <Badge badgeContent={this.state.totalItem} showZero color="primary">
                         <ShoppingCartIcon />
                       </Badge>
                       <span className="details-card-title">
@@ -175,44 +253,13 @@ class Details extends Component {
                         TOTAL AMOUNT
                       </Typography>
                       <span>
-                      <i className="fa fa-rupee-sign" aria-hidden="true" /> {this.state.totalAmount.toFixed(2)}
+                        <i className="fa fa-rupee-sign" aria-hidden="true" /> {this.state.totalAmount.toFixed(2)}
                       </span>
                     </div>
                     <Button variant="contained" color="primary" className="details-cart-button">
                       CHECKOUT
                     </Button>
-
                   </CardContent>
-
-                  {/* <CardContent>
-                    <div style={{ fontWeight: "bold" }}>
-                      <i style={{ paddingRight: "20px" }}>
-                        <Badge className="badge" badgeContent={this.state.totalItems}
-                          color="primary" showZero>
-                          <ShoppingCartIcon />
-                        </Badge>
-                      </i>My Cart
-                                    </div>
-
-                    <Grid item xs={8} lg={9}>
-                      <div style={{ marginTop: 15, marginBottom: 15 }}>
-                        <span style={{ fontWeight: 'bold' }}>TOTAL AMOUNT</span>
-                      </div>
-                    </Grid>
-                    <Grid item xs={4} lg={3}>
-                      <div style={{ marginTop: 15, marginBottom: 15 }}>
-                        <span style={{ fontWeight: 'bold', float: 'right' }}>
-                          <i className="fa fa-inr" aria-hidden="true"
-                            style={{ paddingRight: "2px" }}></i>{this.state.totalAmount.toFixed(2)}
-                        </span>
-                      </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Button className="checkout" variant="contained" color="primary" onClick={this.checkoutHandler}>
-                        <Typography>CHECKOUT</Typography>
-                      </Button>
-                    </Grid>
-                  </CardContent> */}
                 </Card>
               </div>
               {/** Restaurant cart section ends here */}
