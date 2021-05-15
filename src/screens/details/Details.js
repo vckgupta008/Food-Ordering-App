@@ -2,7 +2,17 @@ import React, { Component } from 'react';
 import './Details.css';
 import Header from '../../common/header/Header';
 import { getRestaurantById } from "../../common/api/Restaurant";
-import Typography from '@material-ui/core/Typography';
+import {
+  Typography,
+  List,
+  ListSubheader,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider
+}
+  from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 
 class Details extends Component {
 
@@ -45,10 +55,11 @@ class Details extends Component {
       <div>
         {/** Header component included here */}
         <Header />
+
         {Object.keys(this.state.restaurant).length !== 0 ?
           <div className="details-body-container">
             {/** Restaurant information section starts here */}
-            <div className="details-restaurant-section">
+            <div className="details-restaurant-info-section">
               <div>
                 <img src={this.state.restaurant.photo_URL} alt="this.state.restaurant.restaurant_name"
                   className="details-restaurant-image" />
@@ -100,9 +111,46 @@ class Details extends Component {
               </div>
             </div>
             {/** Restaurant information section ends here */}
-            <div>
 
+            {/** Restaurant menu items section ends here */}
+            <div className="details-menu-item-section">
+              <div className="details-menu">
+                {this.state.restaurant.categories ?
+                  <List>
+                    {this.state.restaurant.categories.map(category => (
+                      <li key={'category_' + category.id}>
+                        <ul className="details-menu-list-item">
+                          <ListSubheader>{category.category_name.toUpperCase()}</ListSubheader>
+                          <Divider style={{ marginBottom:10}}/>
+                          {category.item_list.map((item) => (
+                            <ListItem key={'item_' + item.id} className="details-menu-item-type">
+                              <ListItemIcon>
+                                {item.item_type === "VEG" ?
+                                  <i className="fa fa-circle" aria-hidden="true" style={{ color:"#138313", fontSize:15 }}></i>
+                                  :
+                                  <i className="fa fa-circle" aria-hidden="true" style={{ color:"#c30909", fontSize:15 }}></i>}
+                              </ListItemIcon>
+                              <ListItemText primary={item.item_name.replace(/\b\w/g, l => l.toUpperCase())} />
+                              <ListItemIcon>
+                                <i className="fa fa-rupee-sign" aria-hidden="true" style={{color:"black", fontSize:14}}></i>
+                              </ListItemIcon>
+                              <ListItemText primary={" " + item.price} />
+                              <ListItemIcon>
+                                <AddIcon />
+                              </ListItemIcon>
+                            </ListItem>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </List>
+                  : ""}
+              </div>
+              <div>
+
+              </div>
             </div>
+            {/** Restaurant menu items section ends here */}
           </div>
           : ""}
 

@@ -3,7 +3,7 @@
   flex-direction: column;
 }
 
-.details-restaurant-section {
+.details-restaurant-info-section {
   display: flex;
   background-color: #e0dfdf;
   padding: 25px;
@@ -62,6 +62,42 @@
 .details-restaurant-cost-info {
   display: flex;
   flex-direction: column;
+}
+
+.details-menu-item-section {
+  display: flex;
+  padding: 20px;
+}
+
+.details-menu {
+  width: 45%;
+  padding-left: 10px;
+}
+
+.details-menu > ul:first-child {
+  padding-top: 0;
+}
+
+.details-menu-list-item > li {
+  padding-left: 0;
+  color: black;
+  height: 40px;
+}
+
+.details-menu-item-type > div:first-child  {
+  min-width: 35px;
+}
+
+.details-menu-item-type > div:nth-child(3) {
+  min-width: 15px;
+}
+
+.details-menu-item-type > div:nth-child(2) {
+  width: 67%;
+}
+
+.details-menu-item-type > div:last-child {
+  min-width: 0;
 }
 
 @media only screen and (max-width: 768px) {
