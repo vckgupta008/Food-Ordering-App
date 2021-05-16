@@ -28,6 +28,7 @@ class Details extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      accessToken: '',
       restaurant: {},
       restaurantId: this.props.match.params.restaurantId,
       categories: '',
@@ -150,6 +151,24 @@ class Details extends Component {
       showItemMessage: false,
       itemMessage: ''
     })
+  }
+
+  /** Handler to checkout user if all required information is available */
+  checkoutButtonHandler = () => {
+    if(this.state.itemsAddedToCartList.length === 0) {
+      this.setState({
+        showItemMessage: true,
+        itemMessage: 'Please add an item to your cart!'
+      })
+      return;
+    }
+    if (!this.state.accessToken) {
+      this.setState({
+        showItemMessage: true,
+        itemMessage: 'Please login first!'
+      })
+      return;
+    }
   }
 
   render() {
@@ -321,7 +340,7 @@ class Details extends Component {
                         <i className="fa fa-rupee-sign" aria-hidden="true" /> {this.state.totalAmount.toFixed(2)}
                       </span>
                     </div>
-                    <Button variant="contained" color="primary" className="details-cart-button">
+                    <Button variant="contained" color="primary" className="details-cart-button" onClick={this.checkoutButtonHandler}>
                       CHECKOUT
                     </Button>
                   </CardContent>
