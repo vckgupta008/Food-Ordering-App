@@ -102,7 +102,7 @@
 }
 
 .details-menu-item-type > div:nth-child(3) {
-  min-width: 14px;
+  min-width: 12px;
 }
 
 .details-menu-item-type > div:nth-child(4) {
@@ -143,7 +143,7 @@
 }
 
 .details-card-title {
-  padding-left: 4%;
+  padding-left: 28px;
   font-size: 23px;
   font-weight: bold;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
@@ -178,7 +178,7 @@
 }
 
 .details-item-section1 > .fa-stop-circle {
-  width: 16%;
+  width: 18%;
 }
 
 .details-item-section2 > button {
@@ -188,6 +188,11 @@
 .details-item-section2 > span {
   width: 30px;
   text-align: center;
+}
+
+.details-minus-section {
+  display: flex;
+  align-items: center;
 }
 
 .details-cart-icon {
@@ -236,7 +241,55 @@
   margin-top: 15px;
 }
 
-@media only screen and (max-width: 769px) {
+.details-break-line {
+  display: none;
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 901px) {
+  .details-menu {
+    margin-right: 8%;
+  }
+
+  .details-cart {
+    width: 43%;
+  }
+
+  .details-menu-item-type > div:nth-child(4) {
+    min-width: 75px;
+  }
+
+  .details-item-section2 > span {
+    width: 20px;
+  }
+
+  .details-snackbar > .MuiPaper-root {
+    width: 300px;
+  }
+}
+
+@media only screen and (max-width: 900px)  and (min-width: 770px) {
+  .details-menu {
+    margin-right: 6%;
+  }
+
+  .details-cart {
+    width: 45%;
+  }
+
+  /* .details-item-section1 > .fa-stop-circle {
+    width: 45px;
+  } */
+
+  .details-item-section2 > span {
+    width: 16px;
+  }
+
+  .details-snackbar > .MuiPaper-root {
+    width: 200px;
+  }
+}
+
+@media only screen and (max-width: 770px) {
   .details-restaurant-info-section {
     flex-direction: column;
     align-items: center;
@@ -295,6 +348,8 @@
   .details-menu {
     width: 100%;
     padding-left: 0;
+    padding-right: 0;
+    margin-right: 0;
   }
 
   .details-menu-list-item {
@@ -325,6 +380,60 @@
   .fa-rupee-sign {
     font-size: 12px;
   }
+
+  .details-snackbar > .MuiPaper-root {
+    width: 150px;
+    padding: 0 16px 0 25px;
+  }
+
+  .details-cart {
+    width: 95%;
+  }
+
+  .details-card > .MuiCardContent-root > div:first-child > span:first-child > svg {
+    font-size: 25px;
+  }
+
+  .details-card-title {
+    font-size: 20px;
+  }
+
+  .details-card-header {
+    margin-bottom: 15px;
+  }
+
+  .details-cart-total {
+    margin-top: 15px;
+  }
+
+  .details-item-section1, .details-item-section2, .details-item-section3 > span {
+    font-size: 15px;
+  }
+
+  .details-item-section3 > span > .fa-rupee-sign {
+    font-size: 13px;
+  }
+
+  .details-cart-total > p {
+    font-size: 14px;
+  }
+
+  .details-cart-total > span {
+    font-size: 14px;
+  }
+
+  .details-cart-total > span> .fa-rupee-sign {
+    font-size: 13px;
+  }
+
+  .details-card > .MuiCardContent-root > button {
+    font-size: 14px;
+    margin-top: 15px;
+  }
+
+  .details-item-section1 > .fa-stop-circle {
+    width: 15%;
+}
 
 }
 
@@ -359,10 +468,157 @@
   }
 
   .details-menu-item-type > div:nth-child(4) {
-    min-width: 70px;
+    min-width: 60px;
+  }
+
+  .details-card > .MuiCardContent-root > div:first-child > span:first-child > svg {
+    font-size: 20px;
+  }
+
+  .details-card-title {
+    font-size: 18px;
+  }
+
+  .details-card-header {
+    margin-bottom: 13px;
+  }
+
+  .details-cart-total {
+    margin-top: 13px;
+  }
+
+  .details-item-section1, .details-item-section2, .details-item-section3 > span {
+    font-size: 14px;
+  }
+
+  .details-item-section2 > span {
+    width: 16px;
+  }
+
+  .details-item-section3 > span > .fa-rupee-sign {
+    font-size: 13px;
+  }
+
+  .details-cart-total > p {
+    font-size: 13px;
+  }
+
+  .details-cart-total > span {
+    font-size: 14px;
+  }
+
+  .details-cart-total > span> .fa-rupee-sign {
+    font-size: 13px;
+  }
+
+  .details-card {
+    padding: 0;
+  }
+
+  .details-card > .MuiCardContent-root > button {
+    font-size: 13px;
+    margin-top: 14px;
+  }
+
+  .details-card-title {
+    padding-left: 23px;
+  }
+
+  .details-minus-section > .MuiIconButton-root {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .details-plus-section > .MuiIconButton-root {
+    padding-right: 10px;
+    padding-left: 10px;
   }
 
 }
+
+@media only screen and (max-width: 395px) {
+
+  /* .details-cart-item > ul > li {
+    padding: 0;
+    height: 45px;
+  }
+
+  .details-item-section2 {
+    display: flex;
+    flex-wrap: wrap;
+    height: 39px;
+    margin-top: 15px;
+  } */
+
+  .details-minus-section > .MuiButtonBase-root {
+    padding: 0 6px;
+  }
+
+  .details-plus-section > .MuiButtonBase-root {
+    padding: 0 6px;
+  }
+
+  .details-cart-icon {
+    stroke-width: 1.2;
+  }
+  
+}
+
+@media only screen and (max-width: 380px) {
+
+  .details-cart-item > ul > li {
+    padding: 0;
+    height: 45px;
+    align-items: flex-start;
+  }
+
+  .details-item-section2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    /* height: 39px; */
+  }
+
+  /* .details-item-section1 {
+    margin-bottom: 20px;
+  }
+
+  .details-item-section2 {
+    margin-bottom: 16px;
+    height: 20px;
+  } */
+
+  /* .details-item-section3 {
+    margin-bottom: 20px;
+  } */
+
+  .details-minus-section > .MuiButtonBase-root {
+    padding: 0 8px;
+    /* height: 15px; */
+  }
+
+  .details-plus-section > .MuiButtonBase-root {
+    padding: 0 8px;
+    /* height: 15px; */
+  }
+  
+}
+
+/* @media only screen and (max-width: 360px) {
+  /* .details-item-section2 {
+    flex-direction: column;
+    height: 5px;
+  } */
+
+  /* .details-plus-section {
+    height: 5px;
+  }
+
+  .details-item-section1 > .fa-stop-circle {
+    width: 20px;
+}
+
+} */
 
 @media only screen and (max-width: 360px) {
 
@@ -375,7 +631,11 @@
   }
 
   .details-menu-item-type > div:nth-child(4) {
-    min-width: 60px;
+    min-width: 50px;
+  }
+
+  .details-item-section1 > .fa-stop-circle {
+    width: 20px;
   }
 
 }
@@ -384,6 +644,24 @@
 
   .details-reataurant-rating-cost-info {
     width: 250px;
+  }
+
+  .details-menu-item-type > div:nth-child(4) {
+    min-width: 45px;
+  }
+
+}
+
+@media only screen and (max-width: 305px) {
+
+  .details-minus-section > .MuiButtonBase-root {
+    padding: 0 4px;
+    /* height: 15px; */
+  }
+
+  .details-plus-section > .MuiButtonBase-root {
+    padding: 0 4px;
+    /* height: 15px; */
   }
 
 }

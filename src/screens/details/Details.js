@@ -133,15 +133,18 @@ class Details extends Component {
     itemToRemove.price -= item.unitPrice;
     itemToRemove.quantity--;
 
+    var itemMessage = 'Item quantity decreased by 1!';
+
     if (itemToRemove.quantity === 0) {
       itemsInCartTemp.splice(idx, 1);
+      itemMessage = 'Item removed from cart!';
     }
 
     this.setState({
       totalItem: totalItem,
       totalAmount: totalAmount,
       showItemMessage: true,
-      itemMessage: 'Item quantity decreased by 1!'
+      itemMessage: itemMessage
     });
   }
 
@@ -155,7 +158,7 @@ class Details extends Component {
 
   /** Handler to checkout user if all required information is available */
   checkoutButtonHandler = () => {
-    if(this.state.itemsAddedToCartList.length === 0) {
+    if (this.state.itemsAddedToCartList.length === 0) {
       this.setState({
         showItemMessage: true,
         itemMessage: 'Please add an item to your cart!'
@@ -183,8 +186,6 @@ class Details extends Component {
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={this.state.showItemMessage}
           message={this.state.itemMessage}
-          //autoHideDuration={5000}
-          //onClose={() => this.itemSnackBarCloseHandler()}
           action={[
             <IconButton
               key="close"
@@ -276,7 +277,7 @@ class Details extends Component {
                               <ListItemIcon>
                                 <i className="fa fa-rupee-sign" aria-hidden="true" style={{ color: "black" }}></i>
                               </ListItemIcon>
-                              <ListItemText primary={" " + item.price.toFixed(2)} />
+                              <ListItemText primary={item.price.toFixed(2)} />
                               <IconButton onClick={() => this.addItemHandler(item, false)}>
                                 <AddIcon />
                               </IconButton>
@@ -302,7 +303,7 @@ class Details extends Component {
                         My Cart
                       </span>
                     </div>
-                    <div>
+                    <div className="details-cart-item">
                       {this.state.itemsAddedToCartList.length > 0 ?
                         <List>
                           {this.state.itemsAddedToCartList.map(addedItem => (
@@ -315,13 +316,17 @@ class Details extends Component {
                                 <span style={{ color: "grey" }}>{addedItem.name.replace(/\b\w/g, l => l.toUpperCase())}</span>
                               </div>
                               <div className="details-item-section2">
-                                <IconButton onClick={() => this.removeItemHandler(addedItem)} style={{ color: "black" }}>
-                                  <RemoveIcon className="details-cart-icon" fontSize="small"/>
-                                </IconButton>
-                                <span>{addedItem.quantity}</span>
-                                <IconButton onClick={() => this.addItemHandler(addedItem, true)} style={{ color: "black" }}>
-                                  <AddIcon className="details-cart-icon" fontSize="small" />
-                                </IconButton>
+                                <div className="details-minus-section">
+                                  <IconButton onClick={() => this.removeItemHandler(addedItem)} style={{ color: "black" }}>
+                                    <RemoveIcon className="details-cart-icon" fontSize="small" />
+                                  </IconButton>
+                                  <span>{addedItem.quantity}</span>
+                                </div>
+                                <div className="details-plus-section">
+                                  <IconButton onClick={() => this.addItemHandler(addedItem, true)} style={{ color: "black" }}>
+                                    <AddIcon className="details-cart-icon" fontSize="small" />
+                                  </IconButton>
+                                </div>
                               </div>
                               <div className="details-item-section3">
                                 <span>
