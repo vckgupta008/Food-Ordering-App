@@ -5,7 +5,7 @@ import {
   getRestaurant,
   getRestaurantByName
 } from "../../common/api/Restaurant";
-import LoginModal from "../../common/modal/LoginModal";
+// import LoginModal from "../../common/modal/LoginModal";
 import "./Home.css";
 
 class Home extends Component {
@@ -15,8 +15,7 @@ class Home extends Component {
       restaurantList: [],
       showErrorMessage: false,
       errorMessage: "",
-      searchVal: "",
-      openLoginModal: false
+      searchVal: ""
     };
   }
 
@@ -82,12 +81,7 @@ class Home extends Component {
     });
   };
 
-  /** Handler to open/ close login modal based on user action */
-  loginModalHandler = () => {
-    this.setState({
-      openLoginModal: !this.state.openLoginModal
-    });
-  };
+ 
 
   render() {
     const {
@@ -95,7 +89,7 @@ class Home extends Component {
       showErrorMessage,
       errorMessage,
       searchVal,
-      openLoginModal
+      
     } = this.state;
     return (
       <div>
@@ -105,13 +99,10 @@ class Home extends Component {
           handleLoginModal={() => this.loginModalHandler()}
           onSearch={restaurant => this.searchRestaurantByName(restaurant)}
           isHomePage={true}
+          props={this.props}
         />
 
-        {/** Login Modal  component included here */}
-        <LoginModal
-          visible={openLoginModal}
-          onClose={() => this.loginModalHandler()}
-        />
+        
 
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
