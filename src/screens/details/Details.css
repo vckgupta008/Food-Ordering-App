@@ -123,6 +123,7 @@
 
 .details-cart {
   width: 41%;
+  margin-top: 15px;
 }
 
 .details-card {
@@ -134,7 +135,7 @@
 }
 
 .details-card-header {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .details-card > .MuiCardContent-root > div:first-child > span:first-child > svg {
@@ -148,8 +149,65 @@
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
-.details-cart-item {
+.details-cart-item > ul > li {
+  padding: 0;
+  height: 25px;
+}
 
+.details-cart-item > ul {
+  padding: 0;
+}
+
+.details-item-section1 {
+  width: 60%;
+  display: flex;
+  align-items: center;
+}
+
+.details-item-section2 {
+  display: flex;
+  align-items:center;
+}
+
+.details-item-section3 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 30%;
+  color: grey;
+}
+
+.details-item-section1 > .fa-stop-circle {
+  width: 16%;
+}
+
+.details-item-section2 > button {
+  padding: 0;
+}
+
+.details-item-section2 > span {
+  width: 30px;
+  text-align: center;
+}
+
+.details-cart-icon {
+  stroke: black;
+  stroke-width: 1.5;
+}
+
+.details-cart-icon:hover {
+  background-color: yellow;
+}
+
+.details-item-section3 > span > .fa-rupee-sign {
+  font-size: 15px;
+  -webkit-text-stroke: .1px white;
+}
+
+.details-cart-item-price {
+  display: flex;
+  justify-content: flex-end;
+  color: grey;
 }
 
 .details-cart-total {
@@ -157,12 +215,16 @@
   justify-content: space-between;
   font-weight: bold;
   font-size: 15px;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .details-cart-total > p {
   font-weight: bold;
   font-size: 15px;
+}
+
+.details-cart-total > span> .fa-rupee-sign {
+  font-size: 14px;
 }
 
 .details-cart-button {

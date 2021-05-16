@@ -19,6 +19,7 @@ import {
 }
   from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -64,16 +65,16 @@ class Details extends Component {
       });
   }
 
-  addItemHandler = (item) => {
-    var totalItem = this.state.totalItem;
-    var totalAmount = this.state.totalAmount;
+  /** Handler method to add item into the cart list */
+  addItemHandler = (item, fromCart) => {
+    var totalItem = this.state.totalItem + 1;
+    var totalAmount = this.state.totalAmount + item.price;
     var itemsInCartTemp = this.state.itemsAddedToCartList;
-    totalItem++;
 
     console.log(itemsInCartTemp);
     var itemInCartList;
     if (this.state.itemsAddedToCartList) {
-      itemInCartList = this.state.itemsAddedToCartList.filter((itemInCart, index) => {
+      itemInCartList = this.state.itemsAddedToCartList.filter((itemInCart) => {
         if (itemInCart.id === item.id) {
           return true;
         }
@@ -90,10 +91,15 @@ class Details extends Component {
         name: item.item_name,
         type: item.item_type,
         price: item.price,
+        unitPrice: item.price,
         quantity: 1
       }
       itemsInCartTemp.push(itemToadd);
-      totalAmount += item.price;
+    }
+
+    var msg = 'Item added to cart!'
+    if (fromCart) {
+      msg = 'Item quantity increased by 1!';
     }
 
     this.setState({
@@ -101,13 +107,44 @@ class Details extends Component {
       totalAmount: totalAmount,
       itemsAddedToCartList: itemsInCartTemp,
       showItemMessage: true,
-      itemMessage: 'Item added to cart!'
+      itemMessage: msg
     })
 
     console.log(itemsInCartTemp);
 
   }
 
+  /** Handler method to remove item from the cart list */
+  removeItemHandler = (item) => {
+    var totalItem = this.state.totalItem - 1;
+    var totalAmount = this.state.totalAmount - item.unitPrice;
+    var itemsInCartTemp = this.state.itemsAddedToCartList;
+
+    var idx;
+    var itemToRemove = this.state.itemsAddedToCartList.filter((itemInCart, index) => {
+      if (itemInCart.id === item.id) {
+        idx = index;
+        return true;
+      }
+      return false;
+    })[0];
+
+    itemToRemove.price -= item.unitPrice;
+    itemToRemove.quantity--;
+
+    if (itemToRemove.quantity === 0) {
+      itemsInCartTemp.splice(idx, 1);
+    }
+
+    this.setState({
+      totalItem: totalItem,
+      totalAmount: totalAmount,
+      showItemMessage: true,
+      itemMessage: 'Item quantity decreased by 1!'
+    });
+  }
+
+  /** Handler method to close Snackbar and set values onto state variables */
   itemSnackBarCloseHandler = () => {
     this.setState({
       showItemMessage: false,
@@ -127,7 +164,8 @@ class Details extends Component {
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={this.state.showItemMessage}
           message={this.state.itemMessage}
-          autoHideDuration={5000}
+          //autoHideDuration={5000}
+          //onClose={() => this.itemSnackBarCloseHandler()}
           action={[
             <IconButton
               key="close"
@@ -220,7 +258,7 @@ class Details extends Component {
                                 <i className="fa fa-rupee-sign" aria-hidden="true" style={{ color: "black" }}></i>
                               </ListItemIcon>
                               <ListItemText primary={" " + item.price.toFixed(2)} />
-                              <IconButton onClick={() => this.addItemHandler(item)}>
+                              <IconButton onClick={() => this.addItemHandler(item, false)}>
                                 <AddIcon />
                               </IconButton>
                             </ListItem>
@@ -245,8 +283,35 @@ class Details extends Component {
                         My Cart
                       </span>
                     </div>
-                    <div className="details-cart-item">
-
+                    <div>
+                      {this.state.itemsAddedToCartList.length > 0 ?
+                        <List>
+                          {this.state.itemsAddedToCartList.map(addedItem => (
+                            <ListItem key={'addedItem_' + addedItem.id}>
+                              <div className="details-item-section1">
+                                {addedItem.type === "VEG" ?
+                                  <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#138313" }}></i>
+                                  :
+                                  <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#c30909" }}></i>}
+                                <span style={{ color: "grey" }}>{addedItem.name.replace(/\b\w/g, l => l.toUpperCase())}</span>
+                              </div>
+                              <div className="details-item-section2">
+                                <IconButton onClick={() => this.removeItemHandler(addedItem)} style={{ color: "black" }}>
+                                  <RemoveIcon className="details-cart-icon" fontSize="small"/>
+                                </IconButton>
+                                <span>{addedItem.quantity}</span>
+                                <IconButton onClick={() => this.addItemHandler(addedItem, true)} style={{ color: "black" }}>
+                                  <AddIcon className="details-cart-icon" fontSize="small" />
+                                </IconButton>
+                              </div>
+                              <div className="details-item-section3">
+                                <span>
+                                  <i className="fa fa-rupee-sign" aria-hidden="true"></i> {addedItem.price.toFixed(2)}</span>
+                              </div>
+                            </ListItem>
+                          ))}
+                        </List>
+                        : ''}
                     </div>
                     <div className="details-cart-total">
                       <Typography variant="body1">
