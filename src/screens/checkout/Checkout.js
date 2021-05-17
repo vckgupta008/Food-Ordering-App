@@ -7,6 +7,8 @@ class Checkout extends Component {
 
     return (
       <div>
+        {/** Header component included here */}
+        <Header />
       </div>
     )
   }
