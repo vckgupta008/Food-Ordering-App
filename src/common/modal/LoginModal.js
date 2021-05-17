@@ -85,16 +85,16 @@ class LoginModal extends Component {
   loginFormValueChangeHandler = (value, field) => {
     this.setState({
       [field]: value,
-      loginError: false,
-      loginResponse: { code: "", message: "" },
-      loginErrorMsg: ""
+      // loginError: false,
+      // loginResponse: { code: "", message: "" },
+      // loginErrorMsg: ""
     });
   };
   signUpFormValueChangeHandler = (value, field) => {
     this.setState({
       [field]: value,
-      signUpError: false,
-      signUpErrorMessage: "",
+      // signUpError: false,
+      // signUpErrorMessage: "",
       signUpResponse: { code: "", message: "" }
     });
   };
@@ -156,7 +156,7 @@ class LoginModal extends Component {
                 signUpResponse: { code: "", message: "" }
               },
               () => {
-                this.tabChangeHandler("",0);
+                this.tabChangeHandler("", 0);
               }
             );
           }
@@ -164,7 +164,6 @@ class LoginModal extends Component {
         .catch(error => {
           console.log("error after signup", error);
         });
-
     }
   };
 
@@ -179,7 +178,7 @@ class LoginModal extends Component {
     } else if (!mobileNumber.test(loginContactNo)) {
       this.setState({
         loginError: true,
-        loginErrorMsg: "Invalid Contact"
+        // loginErrorMsg: "Invalid Contact"
       });
     } else {
       let encodedCredential = window.btoa(`${loginContactNo}:${loginPassword}`);
@@ -313,7 +312,7 @@ class LoginModal extends Component {
                 <span className="error-msg">
                   {" "}
                   {loginError && !loginContactNo && loginErrorMsg}
-                  {loginError && loginErrorMsg === "Invalid Contact"
+                  {loginError && loginContactNo&&!mobileNumber.test(loginContactNo)
                     ? "Invalid Contact"
                     : ""}
                 </span>
@@ -473,8 +472,8 @@ class LoginModal extends Component {
                     : ""}
                   {signUpError &&
                   signUpResponse &&
-                  (signUpResponse.code !== "SGR-004" &&
-                    signUpResponse.code !== "SGR-002")
+                  signUpResponse.code !== "SGR-004" &&
+                    signUpResponse.code !== "SGR-002"
                     ? signUpResponse.message
                     : ""}
                 </span>
