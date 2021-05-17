@@ -7,15 +7,39 @@ import {
   StepContent,
   Button
 } from "@material-ui/core";
+import { getAddressCustomer } from "../../common/api/Address";
 import Header from "../../common/header/Header";
 
 class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: 0
+      activeStep: 0,
+      addressList: []
     };
   }
+
+  componentDidMount() {
+    this.fetchAddressCustomer();
+  }
+
+  fetchAddressCustomer = () => {
+    let accessToken = localStorage.getItem("access-token");
+    console.log(accessToken);
+    getAddressCustomer(accessToken)
+      .then(response => {
+        if (response && response.addresses.length) {
+          this.setState({
+            addressList: response.addresses
+          });
+        }
+        console.log("response fetching restaurant", response);
+      })
+      .catch(error => {
+        console.log("error in fetching restaurant");
+      });
+  };
+
   handleStepper = val => {
     this.setState({
       activeStep: this.state.activeStep + val
@@ -23,7 +47,7 @@ class Checkout extends Component {
   };
 
   render() {
-    const { activeStep } = this.state;
+    const { activeStep, addressList } = this.state;
     return (
       <>
         {/** Header component included here */}
