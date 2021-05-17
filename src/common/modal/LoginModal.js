@@ -60,6 +60,8 @@ class LoginModal extends Component {
       selectedTab: 0,
       loginContactNo: "",
       loginPassword: "",
+      errorContactNo: "",
+      errorPassword: "",
       loginError: false,
       loginErrorMsg: "",
       loginResponse: { code: "", message: "" },
@@ -68,6 +70,12 @@ class LoginModal extends Component {
       signUpEmail: "",
       signUpPassword: "",
       signUpContactNo: "",
+
+      errorFirstName: "",
+      errorEmail: "",
+      errorPasswordSignup: "",
+      errorContactNoSignup: "",
+
       signUpError: false,
       signUpErrorMessage: "",
       signUpResponse: { code: "", message: "" }
@@ -84,7 +92,7 @@ class LoginModal extends Component {
   /** Handler to set value into a particular state variable */
   loginFormValueChangeHandler = (value, field) => {
     this.setState({
-      [field]: value,
+      [field]: value
       // loginError: false,
       // loginResponse: { code: "", message: "" },
       // loginErrorMsg: ""
@@ -116,11 +124,19 @@ class LoginModal extends Component {
     ) {
       this.setState({
         signUpError: true,
-        signUpErrorMessage: "required"
+        signUpErrorMessage: "required",
+        errorFirstName: !signUpFirstName,
+        errorEmail: !signUpEmail,
+        errorPasswordSignup: !signUpPassword,
+        errorContactNoSignup: !signUpContactNo
       });
     } else if (!mobileNumber.test(signUpContactNo)) {
       this.setState({
-        signUpError: true
+        signUpError: true,
+        signUpErrorMessage:
+          "Contact No. must contain only numbers and must be 10 digits long",
+        errorContactNo:
+          "Contact No. must contain only numbers and must be 10 digits long"
       });
     } else {
       let reqBody = {
@@ -139,12 +155,20 @@ class LoginModal extends Component {
               signUpResponse: {
                 code: response.code,
                 message: response.message
-              }
+              },
+              errorFirstName: "",
+              errorEmail: "",
+              errorPasswordSignup: "",
+              errorContactNoSignup: ""
             });
           } else {
             this.setState(
               {
                 showSnackbarComponent: true,
+                errorFirstName: "",
+                errorEmail: "",
+                errorPasswordSignup: "",
+                errorContactNoSignup: "",
                 snackBarMessage: "Registered successfully! Please login now!",
                 signUpFirstName: "",
                 signUpLastName: "",
@@ -173,12 +197,16 @@ class LoginModal extends Component {
     if (!loginPassword || !loginContactNo) {
       this.setState({
         loginError: true,
-        loginErrorMsg: "required"
+        loginErrorMsg: "required",
+        errorContactNo: !loginContactNo,
+        errorPassword: !loginPassword
       });
     } else if (!mobileNumber.test(loginContactNo)) {
       this.setState({
         loginError: true,
-        // loginErrorMsg: "Invalid Contact"
+        errorContactNo: "Invalid Contact",
+        errorPassword: "",
+        loginErrorMsg: "Invalid Contact"
       });
     } else {
       let encodedCredential = window.btoa(`${loginContactNo}:${loginPassword}`);
@@ -187,7 +215,9 @@ class LoginModal extends Component {
           if (response && response.code) {
             this.setState({
               loginError: true,
-              loginResponse: { code: response.code, message: response.message }
+              loginResponse: { code: response.code, message: response.message },
+              errorContactNo: "",
+              errorPassword: ""
             });
           } else {
             this.setState(
@@ -263,7 +293,13 @@ class LoginModal extends Component {
       signUpContactNo,
       signUpError,
       signUpErrorMessage,
-      signUpResponse
+      signUpResponse,
+      errorContactNo,
+      errorPassword,
+      errorFirstName,
+      errorEmail,
+      errorPasswordSignup,
+      errorContactNoSignup
     } = this.state;
     console.log("visible", visible);
     return (
@@ -311,10 +347,12 @@ class LoginModal extends Component {
                 />
                 <span className="error-msg">
                   {" "}
-                  {loginError && !loginContactNo && loginErrorMsg}
-                  {loginError && loginContactNo&&!mobileNumber.test(loginContactNo)
-                    ? "Invalid Contact"
+                  {loginError && errorContactNo && loginErrorMsg
+                    ? loginErrorMsg
                     : ""}
+                  {/* {loginError && loginErrorMsg
+                    ? "Invalid Contact"
+                    : ""} */}
                 </span>
               </FormControl>
 
@@ -337,7 +375,7 @@ class LoginModal extends Component {
                 />
                 <span className="error-msg">
                   {" "}
-                  {loginError && !loginPassword && loginErrorMsg}
+                  {loginError && errorPassword && loginErrorMsg}
                   {loginError && loginResponse.code
                     ? loginResponse.message
                     : ""}
@@ -371,7 +409,7 @@ class LoginModal extends Component {
                 />
                 <span className="error-msg">
                   {" "}
-                  {signUpError && !signUpFirstName && signUpErrorMessage}
+                  {signUpError && errorFirstName && signUpErrorMessage}
                 </span>
               </FormControl>
               <FormControl>
@@ -411,7 +449,7 @@ class LoginModal extends Component {
                 />
                 <span className="error-msg">
                   {" "}
-                  {signUpError && !signUpEmail && signUpErrorMessage}
+                  {signUpError && errorEmail && signUpErrorMessage}
                   {signUpError &&
                   signUpResponse &&
                   signUpResponse.code === "SGR-002"
@@ -438,7 +476,7 @@ class LoginModal extends Component {
                 />
                 <span className="error-msg">
                   {" "}
-                  {signUpError && !signUpPassword && signUpErrorMessage}
+                  {signUpError && errorPasswordSignup && signUpErrorMessage}
                   {signUpError &&
                   signUpResponse &&
                   signUpResponse.code === "SGR-004"
@@ -464,16 +502,11 @@ class LoginModal extends Component {
                 />
                 <span className="error-msg">
                   {" "}
-                  {signUpError && !signUpContactNo && signUpErrorMessage}
-                  {signUpError &&
-                  signUpContactNo &&
-                  !mobileNumber.test(signUpContactNo)
-                    ? "Contact No. must contain only numbers and must be 10 digits long"
-                    : ""}
+                  {signUpError && errorContactNoSignup && signUpErrorMessage}
                   {signUpError &&
                   signUpResponse &&
                   signUpResponse.code !== "SGR-004" &&
-                    signUpResponse.code !== "SGR-002"
+                  signUpResponse.code !== "SGR-002"
                     ? signUpResponse.message
                     : ""}
                 </span>
