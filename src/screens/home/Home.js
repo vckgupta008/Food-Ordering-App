@@ -102,8 +102,6 @@ class Home extends Component {
           props={this.props}
         />
 
-        
-
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={showErrorMessage}
@@ -120,7 +118,7 @@ class Home extends Component {
                 return (
                   <Card className="restaurant-card" key={restaurant.id}>
                     <div className="restaurant-img">
-                      <img src={restaurant.photo_URL} />
+                      <img src={restaurant.photo_URL} alt="restaurant-img"/>
                     </div>
                     <div className="restaurant-body">
                       <div className="restaurant-name">

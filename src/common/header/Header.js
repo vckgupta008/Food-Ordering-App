@@ -63,7 +63,7 @@ const Header = props => {
             />
           </div>
         ) : (
-          ""
+          <div style={{height:5}}></div>
         )}
         <div className="header-action">
           {loggedInDetail &&

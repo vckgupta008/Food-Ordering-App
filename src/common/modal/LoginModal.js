@@ -4,18 +4,14 @@ import PropTypes from "prop-types";
 import {
   Tab,
   Tabs,
-  Typography,
   Box,
-  Grid,
-  TextField,
   FormControl,
   InputLabel,
   Input,
   Button,
-  Snackbar,
-  FormHelperText
+  Snackbar
 } from "@material-ui/core";
-import { loginCustomer } from "../api/Customer";
+import { loginCustomer, signUpCustomer } from "../api/Customer";
 import "./LoginModal.css";
 
 const customStyles = {
@@ -52,6 +48,9 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 };
 
+let mobileNumber = /^\d{10}$/;
+let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
 class LoginModal extends Component {
   constructor(props) {
     super(props);
@@ -63,7 +62,15 @@ class LoginModal extends Component {
       loginPassword: "",
       loginError: false,
       loginErrorMsg: "",
-      loginResponse: { code: "", message: "" }
+      loginResponse: { code: "", message: "" },
+      signUpFirstName: "",
+      signUpLastName: "",
+      signUpEmail: "",
+      signUpPassword: "",
+      signUpContactNo: "",
+      signUpError: false,
+      signUpErrorMessage: "",
+      signUpResponse: { code: "", message: "" }
     };
   }
 
@@ -80,8 +87,85 @@ class LoginModal extends Component {
       [field]: value,
       loginError: false,
       loginResponse: { code: "", message: "" },
-      loginErrorMsg:""
+      loginErrorMsg: ""
     });
+  };
+  signUpFormValueChangeHandler = (value, field) => {
+    this.setState({
+      [field]: value,
+      signUpError: false,
+      signUpErrorMessage: "",
+      signUpResponse: { code: "", message: "" }
+    });
+  };
+
+  validateSignUp = () => {
+    const {
+      signUpFirstName,
+      signUpLastName,
+      signUpEmail,
+      signUpPassword,
+      signUpContactNo
+    } = this.state;
+
+    if (
+      !signUpFirstName ||
+      !signUpPassword ||
+      !signUpEmail ||
+      !signUpContactNo
+    ) {
+      this.setState({
+        signUpError: true,
+        signUpErrorMessage: "required"
+      });
+    } else if (!mobileNumber.test(signUpContactNo)) {
+      this.setState({
+        signUpError: true
+      });
+    } else {
+      let reqBody = {
+        contact_number: signUpContactNo,
+        email_address: signUpEmail,
+        first_name: signUpFirstName,
+        last_name: signUpLastName,
+        password: signUpPassword
+      };
+      signUpCustomer(reqBody)
+        .then(response => {
+          console.log("response after signup", response);
+          if (response && response.code) {
+            this.setState({
+              signUpError: true,
+              signUpResponse: {
+                code: response.code,
+                message: response.message
+              }
+            });
+          } else {
+            this.setState(
+              {
+                showSnackbarComponent: true,
+                snackBarMessage: "Registered successfully! Please login now!",
+                signUpFirstName: "",
+                signUpLastName: "",
+                signUpEmail: "",
+                signUpPassword: "",
+                signUpContactNo: "",
+                signUpError: false,
+                signUpErrorMessage: "",
+                signUpResponse: { code: "", message: "" }
+              },
+              () => {
+                this.tabChangeHandler("",0);
+              }
+            );
+          }
+        })
+        .catch(error => {
+          console.log("error after signup", error);
+        });
+
+    }
   };
 
   validateLoginForm = () => {
@@ -138,7 +222,16 @@ class LoginModal extends Component {
         loginPassword: "",
         loginError: false,
         loginErrorMsg: "",
-        loginResponse: { code: "", message: "" }
+        loginResponse: { code: "", message: "" },
+        loginResponse: { code: "", message: "" },
+        signUpFirstName: "",
+        signUpLastName: "",
+        signUpEmail: "",
+        signUpPassword: "",
+        signUpContactNo: "",
+        signUpError: false,
+        signUpErrorMessage: "",
+        signUpResponse: { code: "", message: "" }
       },
       () => {
         this.props.onClose();
@@ -154,7 +247,7 @@ class LoginModal extends Component {
   };
 
   render() {
-    const { visible, onClose } = this.props;
+    const { visible } = this.props;
     const {
       selectedTab,
       loginContactNo,
@@ -163,7 +256,15 @@ class LoginModal extends Component {
       loginErrorMsg,
       loginResponse,
       showSnackbarComponent,
-      snackBarMessage
+      snackBarMessage,
+      signUpFirstName,
+      signUpLastName,
+      signUpEmail,
+      signUpPassword,
+      signUpContactNo,
+      signUpError,
+      signUpErrorMessage,
+      signUpResponse
     } = this.state;
     console.log("visible", visible);
     return (
@@ -194,11 +295,11 @@ class LoginModal extends Component {
             </Tabs>
             <TabPanel value={selectedTab} index={0}>
               <FormControl>
-                <InputLabel htmlFor="my-input" required>
+                <InputLabel htmlFor="login-contact" required>
                   Contact No
                 </InputLabel>
                 <Input
-                  id="my-input"
+                  id="login-contact"
                   aria-describedby="my-helper-text"
                   value={loginContactNo}
                   onChange={e =>
@@ -212,18 +313,19 @@ class LoginModal extends Component {
                 <span className="error-msg">
                   {" "}
                   {loginError && !loginContactNo && loginErrorMsg}
-                  {loginError && loginErrorMsg == "Invalid Contact"
+                  {loginError && loginErrorMsg === "Invalid Contact"
                     ? "Invalid Contact"
                     : ""}
                 </span>
               </FormControl>
 
               <FormControl>
-                <InputLabel htmlFor="my-input" required>
+                <InputLabel htmlFor="login-password" required>
                   Password
                 </InputLabel>
                 <Input
-                  id="my-input"
+                  type="password"
+                  id="login-password"
                   aria-describedby="my-helper-text"
                   value={loginPassword}
                   onChange={e =>
@@ -252,7 +354,139 @@ class LoginModal extends Component {
               </div>
             </TabPanel>
             <TabPanel value={selectedTab} index={1}>
-              Item Two
+              <FormControl>
+                <InputLabel htmlFor="signup-firstName" required>
+                  First Name
+                </InputLabel>
+                <Input
+                  id="signup-firstName"
+                  aria-describedby="my-helper-text"
+                  value={signUpFirstName}
+                  onChange={e =>
+                    this.signUpFormValueChangeHandler(
+                      e.target.value,
+                      "signUpFirstName"
+                    )
+                  }
+                  fullWidth
+                />
+                <span className="error-msg">
+                  {" "}
+                  {signUpError && !signUpFirstName && signUpErrorMessage}
+                </span>
+              </FormControl>
+              <FormControl>
+                <InputLabel htmlFor="signup-lastName">Last Name</InputLabel>
+                <Input
+                  id="signup-lastName"
+                  aria-describedby="my-helper-text"
+                  value={signUpLastName}
+                  onChange={e =>
+                    this.signUpFormValueChangeHandler(
+                      e.target.value,
+                      "signUpLastName"
+                    )
+                  }
+                  fullWidth
+                />
+                {/* <span className="error-msg">
+                  {" "}
+                  {signUpError && !signUpLastName && signUpErrorMessage}
+                </span> */}
+              </FormControl>
+              <FormControl>
+                <InputLabel htmlFor="signup-email" required>
+                  Email
+                </InputLabel>
+                <Input
+                  id="signup-email"
+                  aria-describedby="my-helper-text"
+                  value={signUpEmail}
+                  onChange={e =>
+                    this.signUpFormValueChangeHandler(
+                      e.target.value,
+                      "signUpEmail"
+                    )
+                  }
+                  fullWidth
+                />
+                <span className="error-msg">
+                  {" "}
+                  {signUpError && !signUpEmail && signUpErrorMessage}
+                  {signUpError &&
+                  signUpResponse &&
+                  signUpResponse.code === "SGR-002"
+                    ? "Invalid Email"
+                    : ""}
+                </span>
+              </FormControl>
+              <FormControl>
+                <InputLabel htmlFor="signup-password" required>
+                  Password
+                </InputLabel>
+                <Input
+                  type="password"
+                  id="signup-password"
+                  aria-describedby="my-helper-text"
+                  value={signUpPassword}
+                  onChange={e =>
+                    this.signUpFormValueChangeHandler(
+                      e.target.value,
+                      "signUpPassword"
+                    )
+                  }
+                  fullWidth
+                />
+                <span className="error-msg">
+                  {" "}
+                  {signUpError && !signUpPassword && signUpErrorMessage}
+                  {signUpError &&
+                  signUpResponse &&
+                  signUpResponse.code === "SGR-004"
+                    ? "Password must contain at least one capital letter, one small letter, one number, and one special character"
+                    : ""}
+                </span>
+              </FormControl>
+              <FormControl>
+                <InputLabel htmlFor="signup-contact" required>
+                  Contact No
+                </InputLabel>
+                <Input
+                  id="signup-contact"
+                  aria-describedby="my-helper-text"
+                  value={signUpContactNo}
+                  onChange={e =>
+                    this.signUpFormValueChangeHandler(
+                      e.target.value,
+                      "signUpContactNo"
+                    )
+                  }
+                  fullWidth
+                />
+                <span className="error-msg">
+                  {" "}
+                  {signUpError && !signUpContactNo && signUpErrorMessage}
+                  {signUpError &&
+                  signUpContactNo &&
+                  !mobileNumber.test(signUpContactNo)
+                    ? "Contact No. must contain only numbers and must be 10 digits long"
+                    : ""}
+                  {signUpError &&
+                  signUpResponse &&
+                  (signUpResponse.code !== "SGR-004" &&
+                    signUpResponse.code !== "SGR-002")
+                    ? signUpResponse.message
+                    : ""}
+                </span>
+              </FormControl>
+              <div className="signup-footer">
+                <Button
+                  className="signup-button"
+                  onClick={() => this.validateSignUp()}
+                >
+                  SIGNUP
+                </Button>
+              </div>
             </TabPanel>
           </div>
         </Modal>

@@ -13,7 +13,7 @@
 } */
 
 .error-msg {
-  color: red;
+  color: #e06763;
   font-size: 12px;
   margin-top: 5px;
 }
@@ -22,14 +22,20 @@
   width: 100%;
   margin-bottom: 10px !important;
 }
-.login-footer {
+.login-footer,
+.signup-footer {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 35px;
 }
-.login-button {
+.login-button,
+.signup-button {
   background-color: #3f51b5 !important;
   color: #fff !important;
   width: 80px !important;
+}
+
+.modal-container > #scrollable-auto-tabpanel-1 > .MuiBox-root{
+  padding-bottom: 5px;
 }

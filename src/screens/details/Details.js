@@ -28,7 +28,6 @@ class Details extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accessToken: '',
       restaurant: {},
       restaurantId: this.props.match.params.restaurantId,
       categories: '',
@@ -156,7 +155,7 @@ class Details extends Component {
     })
   }
 
-  /** Handler to checkout user if all required information is available */
+  /** Handler to navigate customer to checkout item selected if all required information is available */
   checkoutButtonHandler = () => {
     if (this.state.itemsAddedToCartList.length === 0) {
       this.setState({
@@ -165,13 +164,16 @@ class Details extends Component {
       })
       return;
     }
-    if (!this.state.accessToken) {
+    let accessToken = localStorage.getItem("access-token");
+    if (!accessToken) {
       this.setState({
         showItemMessage: true,
         itemMessage: 'Please login first!'
       })
       return;
     }
+    console.log(this.props.history);
+    this.props.history.push('/checkout');
   }
 
   render() {
