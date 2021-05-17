@@ -138,6 +138,10 @@
   margin-bottom: 20px;
 }
 
+.details-card-header > span:first-child > .MuiBadge-badge {
+  z-index: 0;
+}
+
 .details-card > .MuiCardContent-root > div:first-child > span:first-child > svg {
   font-size: 30px;
 }

@@ -155,7 +155,7 @@ class Details extends Component {
     })
   }
 
-  /** Handler to checkout user if all required information is available */
+  /** Handler to navigate customer to checkout item selected if all required information is available */
   checkoutButtonHandler = () => {
     if (this.state.itemsAddedToCartList.length === 0) {
       this.setState({
@@ -172,6 +172,8 @@ class Details extends Component {
       })
       return;
     }
+    console.log(this.props.history);
+    this.props.history.push('/checkout');
   }
 
   render() {
