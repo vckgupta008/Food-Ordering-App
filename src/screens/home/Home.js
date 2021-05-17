@@ -102,8 +102,6 @@ class Home extends Component {
           props={this.props}
         />
 
-        
-
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={showErrorMessage}

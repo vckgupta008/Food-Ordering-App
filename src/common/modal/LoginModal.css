@@ -27,11 +27,15 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 35px;
 }
 .login-button,
 .signup-button {
   background-color: #3f51b5 !important;
   color: #fff !important;
   width: 80px !important;
+}
+
+.modal-container > #scrollable-auto-tabpanel-1 > .MuiBox-root{
+  padding-bottom: 5px;
 }
