@@ -100,10 +100,10 @@ class LoginModal extends Component {
   };
   signUpFormValueChangeHandler = (value, field) => {
     this.setState({
-      [field]: value,
+      [field]: value
       // signUpError: false,
       // signUpErrorMessage: "",
-      signUpResponse: { code: "", message: "" }
+      // signUpResponse: { code: "", message: "" }
     });
   };
 
@@ -122,6 +122,7 @@ class LoginModal extends Component {
       !signUpEmail ||
       !signUpContactNo
     ) {
+      console.log("some empty");
       this.setState({
         signUpError: true,
         signUpErrorMessage: "required",
@@ -131,12 +132,16 @@ class LoginModal extends Component {
         errorContactNoSignup: !signUpContactNo
       });
     } else if (!mobileNumber.test(signUpContactNo)) {
+      console.log("mobile no issue");
       this.setState({
         signUpError: true,
         signUpErrorMessage:
           "Contact No. must contain only numbers and must be 10 digits long",
-        errorContactNo:
-          "Contact No. must contain only numbers and must be 10 digits long"
+          errorContactNoSignup:
+          "Contact No. must contain only numbers and must be 10 digits long",
+        errorFirstName: "",
+        errorEmail: "",
+        errorPasswordSignup: ""
       });
     } else {
       let reqBody = {
