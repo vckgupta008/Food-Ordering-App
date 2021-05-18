@@ -107,7 +107,7 @@ class LoginModal extends Component {
     });
   };
 
-  validateSignUp = () => {
+  signUpCustomerHandler = () => {
     const {
       signUpFirstName,
       signUpLastName,
@@ -137,7 +137,7 @@ class LoginModal extends Component {
         signUpError: true,
         signUpErrorMessage:
           "Contact No. must contain only numbers and must be 10 digits long",
-          errorContactNoSignup:
+        errorContactNoSignup:
           "Contact No. must contain only numbers and must be 10 digits long",
         errorFirstName: "",
         errorEmail: "",
@@ -196,7 +196,7 @@ class LoginModal extends Component {
     }
   };
 
-  validateLoginForm = () => {
+  LoginCustomerHandler = () => {
     const { loginContactNo, loginPassword } = this.state;
     let mobileNumber = /^\d{10}$/;
     if (!loginPassword || !loginContactNo) {
@@ -236,7 +236,7 @@ class LoginModal extends Component {
                   JSON.stringify(response)
                 );
 
-                this.resetModal();
+                this.resetModalHandler();
               }
             );
           }
@@ -248,7 +248,7 @@ class LoginModal extends Component {
     }
   };
 
-  resetModal = () => {
+  resetModalHandler = () => {
     this.setState(
       {
         selectedTab: 0,
@@ -319,7 +319,7 @@ class LoginModal extends Component {
         <Modal
           isOpen={visible}
           ariaHideApp={false}
-          onRequestClose={() => this.resetModal()}
+          onRequestClose={() => this.resetModalHandler()}
           style={customStyles}
           contentLabel="Example Modal"
         >
@@ -389,7 +389,7 @@ class LoginModal extends Component {
               <div className="login-footer">
                 <Button
                   className="login-button"
-                  onClick={() => this.validateLoginForm()}
+                  onClick={() => this.LoginCustomerHandler()}
                 >
                   LOGIN
                 </Button>
@@ -456,8 +456,8 @@ class LoginModal extends Component {
                   {" "}
                   {signUpError && errorEmail && signUpErrorMessage}
                   {signUpError &&
-                  signUpResponse &&
-                  signUpResponse.code === "SGR-002"
+                    signUpResponse &&
+                    signUpResponse.code === "SGR-002"
                     ? "Invalid Email"
                     : ""}
                 </span>
@@ -483,8 +483,8 @@ class LoginModal extends Component {
                   {" "}
                   {signUpError && errorPasswordSignup && signUpErrorMessage}
                   {signUpError &&
-                  signUpResponse &&
-                  signUpResponse.code === "SGR-004"
+                    signUpResponse &&
+                    signUpResponse.code === "SGR-004"
                     ? "Password must contain at least one capital letter, one small letter, one number, and one special character"
                     : ""}
                 </span>
@@ -509,9 +509,9 @@ class LoginModal extends Component {
                   {" "}
                   {signUpError && errorContactNoSignup && signUpErrorMessage}
                   {signUpError &&
-                  signUpResponse &&
-                  signUpResponse.code !== "SGR-004" &&
-                  signUpResponse.code !== "SGR-002"
+                    signUpResponse &&
+                    signUpResponse.code !== "SGR-004" &&
+                    signUpResponse.code !== "SGR-002"
                     ? signUpResponse.message
                     : ""}
                 </span>
@@ -519,7 +519,7 @@ class LoginModal extends Component {
               <div className="signup-footer">
                 <Button
                   className="signup-button"
-                  onClick={() => this.validateSignUp()}
+                  onClick={() => this.signUpCustomerHandler()}
                 >
                   SIGNUP
                 </Button>

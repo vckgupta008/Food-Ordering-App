@@ -14,24 +14,27 @@ const Header = props => {
   const [openLoginModal, setLoginModal] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = event => {
+  const customerNameClickHandler = event => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const menuCloseHandler = () => {
     setAnchorEl(null);
   };
 
-  const logoutUser=()=>{
-    handleClose();
+  const logoutUser = () => {
+    menuCloseHandler();
     localStorage.clear();
-  }  
+  }
 
   const loggedInDetail = localStorage.getItem("user-information")
     ? JSON.parse(localStorage.getItem("user-information"))
     : null;
 
-  
+  const profileClickHandler = () => {
+    props.props.history.push('/profile');
+  }
+
   return (
     <header>
       {/** Login Modal  component included here */}
@@ -63,16 +66,17 @@ const Header = props => {
             />
           </div>
         ) : (
-          <div style={{height:5}}></div>
+          <div style={{ height: 5 }}></div>
         )}
         <div className="header-action">
           {loggedInDetail &&
-          loggedInDetail.message === "LOGGED IN SUCCESSFULLY" ? (
+            loggedInDetail.message === "LOGGED IN SUCCESSFULLY" ? (
             <div className="user-avatar">
               <Button
                 aria-controls="simple-menu"
                 aria-haspopup="true"
-                onClick={handleClick}
+                onClick={customerNameClickHandler}
+                style={{ textTransform: "none" }}
               >
                 <AccountCircle /> {loggedInDetail.first_name}
               </Button>
@@ -82,9 +86,9 @@ const Header = props => {
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
-                onClose={handleClose}
+                onClose={menuCloseHandler}
               >
-                <MenuItem>My Profile</MenuItem>
+                <MenuItem onClick={profileClickHandler}>My Profile</MenuItem>
                 <MenuItem onClick={logoutUser}>Logout</MenuItem>
               </Menu>
             </div>

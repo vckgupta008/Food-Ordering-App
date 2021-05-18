@@ -58,6 +58,9 @@
   font-size: 14px;
   -webkit-text-stroke: .1px white;
 }
+.snackbar > .MuiSnackbarContent-root{
+  padding: 6px 25px;
+}
 
 @media only screen and (max-width: 1513px) {
   .restaurant-card {

@@ -70,8 +70,17 @@ header {
   padding: 10px 20px;
 }
 
-#simple-menu>.MuiPaper-root{
+#simple-menu > .MuiPaper-root {
   margin-top: 30px;
+}
+
+#simple-menu > div:nth-child(3) > ul:first-child > .MuiMenuItem-root {
+  margin-bottom: 7px;
+  margin-top: 7px;
+}
+
+#simple-menu > div:nth-child(3) {
+  box-shadow: 0 4px 8px 4px rgb(0 0 0 / 30%);
 }
 
 @media only screen and (max-width: 769px) {
@@ -106,15 +115,16 @@ header {
     margin-left: 15px;
   }
   #simple-menu>.MuiPaper-root{
-    margin-top: 40px !important;
-  }
-}
-
-@media only screen and (max-width: 602px) {
-  #simple-menu>.MuiPaper-root{
     margin-top: 50px !important;
   }
 }
+
+@media only screen and (max-width: 600px) {
+  #simple-menu > div:nth-child(3) > ul:first-child > .MuiMenuItem-root {
+    margin: 0;
+  }
+}
+
 @media only screen and (max-width: 438px) {
   .header-search {
     min-width: 78%;
@@ -125,5 +135,17 @@ header {
   }
   .header-search > .MuiFormControl-root > .MuiInputBase-root>.MuiInputAdornment-root>svg{
     font-size: 30px !important;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .header-search {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 275px) {
+  .header-search {
+    width: 95%;
   }
 }
