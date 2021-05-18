@@ -48,7 +48,6 @@ class Details extends Component {
   loadRestaurantDetails(restaurantId) {
     getRestaurantById(restaurantId)
       .then(response => {
-        console.log(response);
         const categories = response.categories.map(category => category.category_name).join(", ");
         this.setState({
           restaurant: response,
@@ -57,7 +56,6 @@ class Details extends Component {
 
       })
       .catch(error => {
-        console.log("get restaurant", error);
         this.setState({
           showErrorMessage: true,
           errorMessage: error.message,
@@ -67,12 +65,11 @@ class Details extends Component {
 
   /** Handler method to add item into the cart list */
   addItemHandler = (item, fromCart) => {
-    var totalItem = this.state.totalItem + 1;
-    var totalAmount = this.state.totalAmount + item.price;
-    var itemsInCartTemp = this.state.itemsAddedToCartList;
+    let totalItem = this.state.totalItem + 1;
+    let totalAmount = this.state.totalAmount + item.price;
+    let itemsInCartTemp = this.state.itemsAddedToCartList;
 
-    console.log(itemsInCartTemp);
-    var itemInCartList;
+    let itemInCartList;
     if (this.state.itemsAddedToCartList) {
       itemInCartList = this.state.itemsAddedToCartList.filter((itemInCart) => {
         if (itemInCart.id === item.id) {
@@ -86,7 +83,7 @@ class Details extends Component {
       itemInCartList.price += item.price;
       itemInCartList.quantity++;
     } else {
-      var itemToadd = {
+      let itemToadd = {
         id: item.id,
         name: item.item_name,
         type: item.item_type,
@@ -97,7 +94,7 @@ class Details extends Component {
       itemsInCartTemp.push(itemToadd);
     }
 
-    var msg = 'Item added to cart!'
+    let msg = 'Item added to cart!'
     if (fromCart) {
       msg = 'Item quantity increased by 1!';
     }
@@ -110,18 +107,16 @@ class Details extends Component {
       itemMessage: msg
     })
 
-    console.log(itemsInCartTemp);
-
   }
 
   /** Handler method to remove item from the cart list */
   removeItemHandler = (item) => {
-    var totalItem = this.state.totalItem - 1;
-    var totalAmount = this.state.totalAmount - item.unitPrice;
-    var itemsInCartTemp = this.state.itemsAddedToCartList;
+    let totalItem = this.state.totalItem - 1;
+    let totalAmount = this.state.totalAmount - item.unitPrice;
+    let itemsInCartTemp = this.state.itemsAddedToCartList;
 
-    var idx;
-    var itemToRemove = this.state.itemsAddedToCartList.filter((itemInCart, index) => {
+    let idx;
+    let itemToRemove = this.state.itemsAddedToCartList.filter((itemInCart, index) => {
       if (itemInCart.id === item.id) {
         idx = index;
         return true;
@@ -132,7 +127,7 @@ class Details extends Component {
     itemToRemove.price -= item.unitPrice;
     itemToRemove.quantity--;
 
-    var itemMessage = 'Item quantity decreased by 1!';
+    let itemMessage = 'Item quantity decreased by 1!';
 
     if (itemToRemove.quantity === 0) {
       itemsInCartTemp.splice(idx, 1);
@@ -164,6 +159,7 @@ class Details extends Component {
       })
       return;
     }
+
     let accessToken = localStorage.getItem("access-token");
     if (!accessToken) {
       this.setState({
@@ -172,7 +168,12 @@ class Details extends Component {
       })
       return;
     }
-    console.log(this.props.history);
+
+    let checkoutSummary = {};
+    checkoutSummary.restaurantName = this.state.restaurant.restaurant_name;
+    checkoutSummary.itemsAddedForOrder = this.state.itemsAddedToCartList;
+    checkoutSummary.totalAmount = this.state.totalAmount;
+    sessionStorage.setItem("checkoutSummary", JSON.stringify(checkoutSummary));
     this.props.history.push('/checkout');
   }
 
