@@ -81,7 +81,7 @@ class Home extends Component {
     });
   };
 
- 
+
 
   render() {
     const {
@@ -89,7 +89,7 @@ class Home extends Component {
       showErrorMessage,
       errorMessage,
       searchVal,
-      
+
     } = this.state;
     return (
       <div>
@@ -108,6 +108,7 @@ class Home extends Component {
           autoHideDuration={5000}
           message={errorMessage}
           onClose={() => this.closeErrorMessageHandler()}
+          className="snackbar"
         ></Snackbar>
 
         {/** Restaurant cards begin here */}
@@ -118,7 +119,7 @@ class Home extends Component {
                 return (
                   <Card className="restaurant-card" key={restaurant.id}>
                     <div className="restaurant-img">
-                      <img src={restaurant.photo_URL} alt="restaurant-img"/>
+                      <img src={restaurant.photo_URL} alt="restaurant-img" />
                     </div>
                     <div className="restaurant-body">
                       <div className="restaurant-name">
