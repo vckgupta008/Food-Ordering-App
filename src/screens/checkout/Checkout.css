@@ -1,0 +1,8 @@
+.checkout-container {
+    display: flex;
+    padding: 20px;
+}
+
+.address-container {
+    width: 75%;
+}

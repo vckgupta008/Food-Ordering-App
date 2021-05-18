@@ -1,16 +1,126 @@
-import React, { Component } from 'react';
-import './Checkout.css';
-import Header from '../../common/header/Header';
+import React, { Component } from "react";
+import "./Checkout.css";
+import {
+  Stepper,
+  Step,
+  StepLabel,
+  StepContent,
+  Button
+} from "@material-ui/core";
+import { getAddressCustomer } from "../../common/api/Address";
+import Header from "../../common/header/Header";
 
 class Checkout extends Component {
-  render() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeStep: 0,
+      addressList: []
+    };
+  }
 
+  componentDidMount() {
+    this.fetchAddressCustomer();
+  }
+
+  fetchAddressCustomer = () => {
+    let accessToken = localStorage.getItem("access-token");
+    console.log(accessToken);
+    getAddressCustomer(accessToken)
+      .then(response => {
+        if (response && response.addresses.length) {
+          this.setState({
+            addressList: response.addresses
+          });
+        }
+        console.log("response fetching restaurant", response);
+      })
+      .catch(error => {
+        console.log("error in fetching restaurant");
+      });
+  };
+
+  handleStepper = val => {
+    this.setState({
+      activeStep: this.state.activeStep + val
+    });
+  };
+
+  render() {
+    const { activeStep, addressList } = this.state;
     return (
-      <div>
+      <>
         {/** Header component included here */}
         <Header />
-      </div>
-    )
+        <div className="checkout-container">
+          <div className="address-container">
+            <Stepper activeStep={activeStep} orientation="vertical">
+              <Step key="Delivery">
+                <StepLabel>Delivery</StepLabel>
+                <StepContent>
+                  Address
+                  <div className="button-actions">
+                    <Button
+                      disabled={true}
+                      // onClick={()=>this.handleBack()}
+                      className="back-button"
+                    >
+                      BACK
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => this.handleStepper(1)}
+                      className="next-button"
+                    >
+                      NEXT
+                    </Button>
+                  </div>
+                </StepContent>
+              </Step>
+              <Step key="Payment">
+                <StepLabel>Payment</StepLabel>
+                <StepContent>
+                  Payment
+                  <div className="button-actions">
+                    <Button
+                      // disabled={true}
+                      onClick={() => this.handleStepper(-1)}
+                      className="back-button"
+                    >
+                      BACK
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => this.handleStepper(1)}
+                      className="next-button"
+                    >
+                      FINISH
+                    </Button>
+                  </div>
+                </StepContent>
+              </Step>
+            </Stepper>
+            {activeStep == 2 ? (
+              <div className="view-summary">
+                View the summary & place your order now!
+                <Button
+                  // disabled={true}
+                  onClick={() => this.handleStepper(-2)}
+                  // className="back-button"
+                >
+                  CHANGE
+                </Button>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="summary-container">Summary</div>
+        </div>
+      </>
+    );
   }
 }
 
