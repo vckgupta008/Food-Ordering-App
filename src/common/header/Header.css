@@ -1,4 +1,4 @@
-header {
+#header {
   background: #253238;
   color: white;
   font-size: 18px;
@@ -94,7 +94,7 @@ header {
 }
 
 @media only screen and (max-width: 769px) {
-  header {
+  #header {
     height: auto;
     padding: 10px 10px;
   }
