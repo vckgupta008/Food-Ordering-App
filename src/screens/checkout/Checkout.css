@@ -123,28 +123,28 @@
 }
 
 .address-container > .MuiGrid-container {
-    min-height: 320px;
+  min-height: 320px;
 }
 
 .address-container > .MuiGrid-container > .address-card {
-    padding: 10px 15px 20px 20px;
-    height: fit-content;
+  padding: 10px 15px 20px 20px;
+  height: fit-content;
 }
-.address-container > .MuiGrid-container > .active{
-    box-shadow: 1.5px 1.5px 2px 1px #e96e92;
+.address-container > .MuiGrid-container > .active {
+  box-shadow: 1.5px 1.5px 2px 1px #e96e92;
 }
 
 .address-container > .MuiGrid-container > .address-card > .check-icon {
   display: flex;
   justify-content: flex-end;
 }
-.address-container > .MuiGrid-container > .MuiGrid-item > .check-icon>button{
-    cursor: pointer !important;
+.address-container > .MuiGrid-container > .MuiGrid-item > .check-icon > button {
+  cursor: pointer !important;
 }
 
 .address-container > .MuiGrid-container > .address-card > div {
   font-size: 14px;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 @media only screen and (max-width: 769px) {
@@ -159,6 +159,13 @@
   .summary-container {
     width: 100% !important;
   }
-  .address-payment-container {
+  .address-payment-container > .MuiStepper-root {
+    padding: 10px;
+  }
+  .tabs > .MuiTabs-scroller > .MuiTabs-flexContainer > .MuiButtonBase-root {
+    font-size: 11px;
+  }
+  .address-container > .MuiGrid-container {
+      
   }
 }

@@ -153,6 +153,7 @@ class Checkout extends Component {
                       value={tabValue}
                       onChange={this.handleChange}
                       aria-label="simple tabs example"
+                      className="tabs"
                     >
                       <Tab label="EXISTING ADDRESS" {...a11yProps(0)} />
                       <Tab label="NEW ADDRESS" {...a11yProps(1)} />
