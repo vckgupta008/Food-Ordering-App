@@ -12,18 +12,22 @@ header {
   justify-content: space-between;
   height: 100%;
 }
+
 .header-logo {
   display: flex;
   align-items: center;
   height: 100%;
 }
+
 .header-logo > .MuiSvgIcon-root {
   font-size: 35px;
   margin-left: 5px;
 }
+
 .header-search {
   min-width: 270px;
 }
+
 .header-search > .MuiFormControl-root {
   height: 70px;
   width: 100%;
@@ -51,6 +55,7 @@ header {
 .header-action > .header-login:hover {
   background-color: #e0e0e0;
 }
+
 .header-action > .header-login > .MuiButton-label > .MuiSvgIcon-root {
   margin-right: 5px !important;
 }
@@ -58,6 +63,11 @@ header {
 .header-action>.user-avatar>button {
   color:#c3c3c3; 
 }
+
+.header-action>.user-avatar>button >.MuiButton-label{
+  font-size: 15px;
+}
+
 .header-action>.user-avatar>button >.MuiButton-label>.MuiSvgIcon-root {
   margin-right: 5px !important;
 }

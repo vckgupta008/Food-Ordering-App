@@ -18,11 +18,13 @@ const Header = props => {
     setAnchorEl(event.currentTarget);
   };
 
+  /** Handler to close Menu */
   const menuCloseHandler = () => {
     setAnchorEl(null);
   };
 
-  const logoutUser = () => {
+  /** Handler to logout customer */
+  const logoutCustomerHandler = () => {
     menuCloseHandler();
     localStorage.clear();
   }
@@ -31,6 +33,7 @@ const Header = props => {
     ? JSON.parse(localStorage.getItem("user-information"))
     : null;
 
+    /** Handler to redirect customer to Profile page on clicking the Profile menu */
   const profileClickHandler = () => {
     props.props.history.push('/profile');
   }
@@ -89,7 +92,7 @@ const Header = props => {
                 onClose={menuCloseHandler}
               >
                 <MenuItem onClick={profileClickHandler}>My Profile</MenuItem>
-                <MenuItem onClick={logoutUser}>Logout</MenuItem>
+                <MenuItem onClick={logoutCustomerHandler}>Logout</MenuItem>
               </Menu>
             </div>
           ) : (
