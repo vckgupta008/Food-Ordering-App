@@ -14,24 +14,30 @@ const Header = props => {
   const [openLoginModal, setLoginModal] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = event => {
+  const customerNameClickHandler = event => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  /** Handler to close Menu */
+  const menuCloseHandler = () => {
     setAnchorEl(null);
   };
 
-  const logoutUser=()=>{
-    handleClose();
+  /** Handler to logout customer */
+  const logoutCustomerHandler = () => {
+    menuCloseHandler();
     localStorage.clear();
-  }  
+  }
 
   const loggedInDetail = localStorage.getItem("user-information")
     ? JSON.parse(localStorage.getItem("user-information"))
     : null;
 
-  
+    /** Handler to redirect customer to Profile page on clicking the Profile menu */
+  const profileClickHandler = () => {
+    props.props.history.push('/profile');
+  }
+
   return (
     <header>
       {/** Login Modal  component included here */}
@@ -63,16 +69,17 @@ const Header = props => {
             />
           </div>
         ) : (
-          <div style={{height:5}}></div>
+          <div style={{ height: 5 }}></div>
         )}
         <div className="header-action">
           {loggedInDetail &&
-          loggedInDetail.message === "LOGGED IN SUCCESSFULLY" ? (
+            loggedInDetail.message === "LOGGED IN SUCCESSFULLY" ? (
             <div className="user-avatar">
               <Button
                 aria-controls="simple-menu"
                 aria-haspopup="true"
-                onClick={handleClick}
+                onClick={customerNameClickHandler}
+                style={{ textTransform: "none" }}
               >
                 <AccountCircle /> {loggedInDetail.first_name}
               </Button>
@@ -82,10 +89,10 @@ const Header = props => {
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
-                onClose={handleClose}
+                onClose={menuCloseHandler}
               >
-                <MenuItem>My Profile</MenuItem>
-                <MenuItem onClick={logoutUser}>Logout</MenuItem>
+                <MenuItem onClick={profileClickHandler}>My Profile</MenuItem>
+                <MenuItem onClick={logoutCustomerHandler}>Logout</MenuItem>
               </Menu>
             </div>
           ) : (

@@ -11,7 +11,10 @@ import {
   Button,
   Snackbar
 } from "@material-ui/core";
-import { loginCustomer, signUpCustomer } from "../api/Customer";
+import {
+  loginCustomer,
+  signUpCustomer
+} from "../api/Customer";
 import "./LoginModal.css";
 
 const customStyles = {
@@ -49,7 +52,6 @@ TabPanel.propTypes = {
 };
 
 let mobileNumber = /^\d{10}$/;
-let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 class LoginModal extends Component {
   constructor(props) {
@@ -70,12 +72,10 @@ class LoginModal extends Component {
       signUpEmail: "",
       signUpPassword: "",
       signUpContactNo: "",
-
       errorFirstName: "",
       errorEmail: "",
       errorPasswordSignup: "",
       errorContactNoSignup: "",
-
       signUpError: false,
       signUpErrorMessage: "",
       signUpResponse: { code: "", message: "" }
@@ -93,21 +93,16 @@ class LoginModal extends Component {
   loginFormValueChangeHandler = (value, field) => {
     this.setState({
       [field]: value
-      // loginError: false,
-      // loginResponse: { code: "", message: "" },
-      // loginErrorMsg: ""
     });
   };
   signUpFormValueChangeHandler = (value, field) => {
     this.setState({
       [field]: value
-      // signUpError: false,
-      // signUpErrorMessage: "",
-      // signUpResponse: { code: "", message: "" }
     });
   };
 
-  validateSignUp = () => {
+  /** Handler to sign up customer if all the required information are provided and in required format */
+  signUpCustomerHandler = () => {
     const {
       signUpFirstName,
       signUpLastName,
@@ -122,7 +117,6 @@ class LoginModal extends Component {
       !signUpEmail ||
       !signUpContactNo
     ) {
-      console.log("some empty");
       this.setState({
         signUpError: true,
         signUpErrorMessage: "required",
@@ -132,12 +126,11 @@ class LoginModal extends Component {
         errorContactNoSignup: !signUpContactNo
       });
     } else if (!mobileNumber.test(signUpContactNo)) {
-      console.log("mobile no issue");
       this.setState({
         signUpError: true,
         signUpErrorMessage:
           "Contact No. must contain only numbers and must be 10 digits long",
-          errorContactNoSignup:
+        errorContactNoSignup:
           "Contact No. must contain only numbers and must be 10 digits long",
         errorFirstName: "",
         errorEmail: "",
@@ -151,9 +144,9 @@ class LoginModal extends Component {
         last_name: signUpLastName,
         password: signUpPassword
       };
+
       signUpCustomer(reqBody)
         .then(response => {
-          console.log("response after signup", response);
           if (response && response.code) {
             this.setState({
               signUpError: true,
@@ -196,9 +189,8 @@ class LoginModal extends Component {
     }
   };
 
-  validateLoginForm = () => {
+  LoginCustomerHandler = () => {
     const { loginContactNo, loginPassword } = this.state;
-    let mobileNumber = /^\d{10}$/;
     if (!loginPassword || !loginContactNo) {
       this.setState({
         loginError: true,
@@ -235,12 +227,10 @@ class LoginModal extends Component {
                   "user-information",
                   JSON.stringify(response)
                 );
-
-                this.resetModal();
+                this.resetModalHandler();
               }
             );
           }
-          console.log("response after login", response);
         })
         .catch(error => {
           console.log("error after login", error);
@@ -248,7 +238,8 @@ class LoginModal extends Component {
     }
   };
 
-  resetModal = () => {
+  /** Handler to reset Modal values */
+  resetModalHandler = () => {
     this.setState(
       {
         selectedTab: 0,
@@ -256,7 +247,6 @@ class LoginModal extends Component {
         loginPassword: "",
         loginError: false,
         loginErrorMsg: "",
-        loginResponse: { code: "", message: "" },
         loginResponse: { code: "", message: "" },
         signUpFirstName: "",
         signUpLastName: "",
@@ -273,6 +263,7 @@ class LoginModal extends Component {
     );
   };
 
+  /** Handler to close snackbar */
   closeSnackBarHandler = () => {
     this.setState({
       showSnackbarComponent: false,
@@ -306,9 +297,10 @@ class LoginModal extends Component {
       errorPasswordSignup,
       errorContactNoSignup
     } = this.state;
-    console.log("visible", visible);
+
     return (
-      <>
+      <div>
+        {/** Snackbar Component included here */}
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={showSnackbarComponent}
@@ -316,10 +308,12 @@ class LoginModal extends Component {
           message={snackBarMessage}
           onClose={() => this.closeSnackBarHandler()}
         ></Snackbar>
+
+        {/** Login/ Signup modal starts here */}
         <Modal
           isOpen={visible}
           ariaHideApp={false}
-          onRequestClose={() => this.resetModal()}
+          onRequestClose={() => this.resetModalHandler()}
           style={customStyles}
           contentLabel="Example Modal"
         >
@@ -355,9 +349,6 @@ class LoginModal extends Component {
                   {loginError && errorContactNo && loginErrorMsg
                     ? loginErrorMsg
                     : ""}
-                  {/* {loginError && loginErrorMsg
-                    ? "Invalid Contact"
-                    : ""} */}
                 </span>
               </FormControl>
 
@@ -389,7 +380,7 @@ class LoginModal extends Component {
               <div className="login-footer">
                 <Button
                   className="login-button"
-                  onClick={() => this.validateLoginForm()}
+                  onClick={() => this.LoginCustomerHandler()}
                 >
                   LOGIN
                 </Button>
@@ -431,10 +422,6 @@ class LoginModal extends Component {
                   }
                   fullWidth
                 />
-                {/* <span className="error-msg">
-                  {" "}
-                  {signUpError && !signUpLastName && signUpErrorMessage}
-                </span> */}
               </FormControl>
               <FormControl>
                 <InputLabel htmlFor="signup-email" required>
@@ -456,8 +443,8 @@ class LoginModal extends Component {
                   {" "}
                   {signUpError && errorEmail && signUpErrorMessage}
                   {signUpError &&
-                  signUpResponse &&
-                  signUpResponse.code === "SGR-002"
+                    signUpResponse &&
+                    signUpResponse.code === "SGR-002"
                     ? "Invalid Email"
                     : ""}
                 </span>
@@ -483,8 +470,8 @@ class LoginModal extends Component {
                   {" "}
                   {signUpError && errorPasswordSignup && signUpErrorMessage}
                   {signUpError &&
-                  signUpResponse &&
-                  signUpResponse.code === "SGR-004"
+                    signUpResponse &&
+                    signUpResponse.code === "SGR-004"
                     ? "Password must contain at least one capital letter, one small letter, one number, and one special character"
                     : ""}
                 </span>
@@ -509,9 +496,9 @@ class LoginModal extends Component {
                   {" "}
                   {signUpError && errorContactNoSignup && signUpErrorMessage}
                   {signUpError &&
-                  signUpResponse &&
-                  signUpResponse.code !== "SGR-004" &&
-                  signUpResponse.code !== "SGR-002"
+                    signUpResponse &&
+                    signUpResponse.code !== "SGR-004" &&
+                    signUpResponse.code !== "SGR-002"
                     ? signUpResponse.message
                     : ""}
                 </span>
@@ -519,7 +506,7 @@ class LoginModal extends Component {
               <div className="signup-footer">
                 <Button
                   className="signup-button"
-                  onClick={() => this.validateSignUp()}
+                  onClick={() => this.signUpCustomerHandler()}
                 >
                   SIGNUP
                 </Button>
@@ -527,7 +514,8 @@ class LoginModal extends Component {
             </TabPanel>
           </div>
         </Modal>
-      </>
+        {/** Login/ Signup modal ends here */}
+      </div>
     );
   }
 }

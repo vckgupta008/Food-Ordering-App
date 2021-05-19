@@ -1,20 +1,25 @@
 import React, { Component } from "react";
-import { Snackbar, Card } from "@material-ui/core";
+import "./Home.css";
 import Header from "../../common/header/Header";
 import {
   getRestaurant,
   getRestaurantByName
 } from "../../common/api/Restaurant";
-// import LoginModal from "../../common/modal/LoginModal";
-import "./Home.css";
+import {
+  Snackbar,
+  Card,
+  Grid,
+  Typography,
+  CardContent
+} from "@material-ui/core";
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       restaurantList: [],
-      showErrorMessage: false,
-      errorMessage: "",
+      showMessage: false,
+      message: "",
       searchVal: ""
     };
   }
@@ -27,7 +32,6 @@ class Home extends Component {
   loadAllRestaurants() {
     getRestaurant()
       .then(response => {
-        console.log("get all restaurnat", response);
         this.setState({
           restaurantList:
             response.restaurants && response.restaurants.length
@@ -37,10 +41,9 @@ class Home extends Component {
         });
       })
       .catch(error => {
-        console.log("get restaurant", error);
         this.setState({
-          showErrorMessage: true,
-          errorMessage: "Error in loading restaurants",
+          showMessage: true,
+          message: "Error in loading restaurants",
           searchVal: ""
         });
       });
@@ -51,20 +54,18 @@ class Home extends Component {
     if (restaurantName) {
       getRestaurantByName(restaurantName)
         .then(response => {
-          console.log("get restaurant name", response);
           this.setState({
             restaurantList:
               response.restaurants && response.restaurants.length
                 ? response.restaurants
-                : [],
+                : [], 
             searchVal: restaurantName
           });
         })
         .catch(error => {
-          console.log("get restaurant", error);
           this.setState({
-            showErrorMessage: true,
-            errorMessage: "Error in loading restaurants",
+            showMessage: true,
+            message: "Error in loading restaurants",
             searchVal: restaurantName
           });
         });
@@ -73,23 +74,26 @@ class Home extends Component {
     }
   };
 
-  /** Handler to close error message snackbar */
-  closeErrorMessageHandler = () => {
+  /** Handler to close snackbar */
+  closeSnackbarHandler = () => {
     this.setState({
-      showErrorMessage: false,
-      errorMessage: ""
+      showMessage: false,
+      message: ""
     });
   };
 
- 
+  /** Handler to navigate customer to the respective restuarant when clicked on the restaurant card */
+  resturantCardClickHandler = (restaurantId) => {
+    this.props.history.push('/restaurant/' + restaurantId);
+  }
 
   render() {
     const {
       restaurantList,
-      showErrorMessage,
-      errorMessage,
+      showMessage,
+      message,
       searchVal,
-      
+
     } = this.state;
     return (
       <div>
@@ -104,48 +108,65 @@ class Home extends Component {
 
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-          open={showErrorMessage}
+          open={showMessage}
           autoHideDuration={5000}
-          message={errorMessage}
-          onClose={() => this.closeErrorMessageHandler()}
+          message={message}
+          onClose={() => this.closeSnackbarHandler()}
+          className="snackbar"
         ></Snackbar>
 
         {/** Restaurant cards begin here */}
         <div className="home-page-container">
-          <div className="home-page-restaurant-list">
+          <Grid
+            container spacing={3}
+            wrap="wrap"
+            alignContent="center"
+            className="restaurant-grid"
+          >
             {restaurantList.length ? (
-              restaurantList.map(restaurant => {
-                return (
+              restaurantList.map(restaurant => (
+                <Grid
+                  key={restaurant.id}
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                >
                   <Card className="restaurant-card" key={restaurant.id}>
-                    <div className="restaurant-img">
-                      <img src={restaurant.photo_URL} alt="restaurant-img"/>
-                    </div>
-                    <div className="restaurant-body">
-                      <div className="restaurant-name">
-                        {restaurant.restaurant_name}
+                    <CardContent style={{cursor:"pointer"}} onClick={() => this.resturantCardClickHandler(restaurant.id)}>
+                      <div className="restaurant-img">
+                        <img src={restaurant.photo_URL} alt="restaurant-img" />
                       </div>
-                      <div className="restaurant-category">
-                        {restaurant.categories}
-                      </div>
-                      <div className="restaurant-info">
-                        <div className="restaurant-rating">
-                          <i className="fa fa-star" aria-hidden="true" />
-                          {restaurant.customer_rating} ({restaurant.number_customers_rated})
+                      <div className="restaurant-body">
+                        <div className="restaurant-name">
+                          {restaurant.restaurant_name}
                         </div>
-                        <div className="restaurant-price">
-                          <i className="fa fa-rupee-sign"
-                            aria-hidden="true" />
-                          {restaurant.average_price} for two
+                        <div className="restaurant-category">
+                          {restaurant.categories}
+                        </div>
+                        <div className="restaurant-info">
+                          <div className="restaurant-rating">
+                            <i className="fa fa-star" aria-hidden="true" />
+                            {restaurant.customer_rating} ({restaurant.number_customers_rated})
+                        </div>
+                          <div className="restaurant-price">
+                            <i className="fa fa-rupee-sign"
+                              aria-hidden="true" />
+                            {restaurant.average_price} for two
+                        </div>
                         </div>
                       </div>
-                    </div>
+                    </CardContent>
                   </Card>
-                );
-              })
+                </Grid>
+              ))
             ) : (
-              <div>No restaurant with the given name.</div>
+              <Typography variant="body1" component="p">
+                No restaurant with the given name.
+              </Typography>
             )}
-          </div>
+          </Grid>
         </div>
         {/** Restaurant cards end here */}
       </div>
