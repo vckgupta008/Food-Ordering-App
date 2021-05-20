@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Checkout.css";
+import Header from "../../common/header/Header";
 import {
   Stepper,
   Step,
@@ -17,13 +18,15 @@ import {
   Tab,
   Box,
   Grid,
-  IconButton
+  IconButton,
+  Snackbar,
 } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import CloseIcon from '@material-ui/icons/Close';
 import { getAddressCustomer, getStates } from "../../common/api/Address";
+import { placeOrder } from "../../common/api/Order";
 import { green } from "@material-ui/core/colors";
 import PropTypes from "prop-types";
-import Header from "../../common/header/Header";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,12 +61,15 @@ class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      accessToken: localStorage.getItem("access-token"),
       activeStep: 0,
       addressList: [],
       stateList: [],
       checkoutSummary: JSON.parse(sessionStorage.getItem("checkoutSummary")),
       tabValue: 0,
-      selectedAddress: null
+      selectedAddress: null,
+      showMessage: false,
+      message: ''
     };
   }
 
@@ -73,9 +79,8 @@ class Checkout extends Component {
   }
 
   fetchAddressCustomer = () => {
-    let accessToken = localStorage.getItem("access-token");
-    console.log(accessToken);
-    getAddressCustomer(accessToken)
+    console.log(this.state.accessToken);
+    getAddressCustomer(this.state.accessToken)
       .then(response => {
         if (response && response.addresses.length) {
           this.setState(
@@ -127,6 +132,55 @@ class Checkout extends Component {
     });
   };
 
+  /** Handler to place customer's order */
+  placeOrderClickHandler = () => {
+    let itemAdded = this.state.checkoutSummary.itemsAddedForOrder;
+    let order = [];
+    itemAdded.forEach(item => {
+      let orderItem = {
+        item_id: item.id,
+        price: item.price,
+        quantity: item.quantity
+      };
+      order.push(orderItem);
+    })
+    let reqBody = {
+      address_id: 'a73444b6-8016-4aac-90f0-2582f420c69d',//selectedAddress.id,
+      bill: this.state.checkoutSummary.totalAmount,
+      coupon_id: null,
+      discount: 0,
+      item_quantities: order,
+      payment_id: '2ddf63b0-ecd0-11e8-8eb2-f2801f1b9fd1',//payment id
+      restaurant_id: this.state.checkoutSummary.restaurantId
+    };
+
+    placeOrder(reqBody, this.state.accessToken)
+      .then(response => {
+        if (response && response.id) {
+          this.setState({
+            showMessage: true,
+            message: 'Order placed successfully! Your order ID is ' + response.id + '.'
+          })
+        } else {
+          this.setState({
+            showMessage: true,
+            message: 'Unable to place your order! Please try again!'
+          })
+        }
+      })
+      .catch(error => {
+        console.log("error while placing the order", error);
+      });
+  }
+
+  /** Handler to close snackbar */
+  closeSnackBarHandler = () => {
+    this.setState({
+      showMessage: false,
+      message: ''
+    })
+  }
+
   render() {
     const {
       activeStep,
@@ -139,6 +193,25 @@ class Checkout extends Component {
       <div>
         {/** Header component included here */}
         <Header />
+
+        {/** Snackbar added to show item is added/ removed from cart */}
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+          open={this.state.showMessage}
+          autoHideDuration={5000}
+          onClose={this.closeSnackBarHandler}
+          message={this.state.message}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={this.closeSnackBarHandler}>
+              <CloseIcon />
+            </IconButton>
+          ]}
+          className="details-snackbar"
+        ></Snackbar>
 
         {/** Checkout section starts here */}
         <div className="checkout-container">
@@ -167,12 +240,11 @@ class Checkout extends Component {
                             return (
                               <Grid
                                 item
-                                className={`address-card ${
-                                  selectedAddress &&
-                                  selectedAddress.id == address.id
-                                    ? "active"
-                                    : ""
-                                }`}
+                                className={`address-card ${selectedAddress &&
+                                  selectedAddress.id === address.id
+                                  ? "active"
+                                  : ""
+                                  }`}
                                 xs={6}
                                 sm={6}
                                 md={4}
@@ -188,10 +260,10 @@ class Checkout extends Component {
                                     aria-label="delete"
                                     // disabled
                                     onClick={() => this.selectAddress(address)}
-                                    // color="greem"
+                                  // color="greem"
                                   >
                                     {selectedAddress &&
-                                    selectedAddress.id == address.id ? (
+                                      selectedAddress.id === address.id ? (
                                       <CheckCircleIcon
                                         style={{ color: "#098000" }}
                                       />
@@ -263,13 +335,13 @@ class Checkout extends Component {
                 </StepContent>
               </Step>
             </Stepper>
-            {activeStep == 2 ? (
+            {activeStep === 2 ? (
               <div className="view-summary">
                 View the summary & place your order now!
                 <Button
                   // disabled={true}
                   onClick={() => this.handleStepper(-2)}
-                  // className="back-button"
+                // className="back-button"
                 >
                   CHANGE
                 </Button>
@@ -283,29 +355,21 @@ class Checkout extends Component {
           {/** Delivery and Order summary section starts here */}
           <div className="summary-container">
             <Card>
-              <CardContent style={{ padding: 25 }}>
+              <CardContent>
                 <Typography variant="body1">Summary</Typography>
                 <Typography variant="body1">
                   {this.state.checkoutSummary.restaurantName}
                 </Typography>
                 {this.state.checkoutSummary &&
-                this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? (
+                  this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? (
                   <List>
                     {this.state.checkoutSummary.itemsAddedForOrder.map(item => (
                       <ListItem key={"item_" + item.id}>
                         <div className="checkout-item-section1">
                           {item.type === "VEG" ? (
-                            <i
-                              className="far fa-stop-circle"
-                              aria-hidden="true"
-                              style={{ color: "#138313" }}
-                            ></i>
+                            <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#138313" }} />
                           ) : (
-                            <i
-                              className="far fa-stop-circle"
-                              aria-hidden="true"
-                              style={{ color: "#c30909" }}
-                            ></i>
+                            <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#c30909" }} />
                           )}
                           <span className="checkout-item-name">
                             {item.name.replace(/\b\w/g, l => l.toUpperCase())}
@@ -318,11 +382,7 @@ class Checkout extends Component {
                         </div>
                         <div className="checkout-item-section3">
                           <span className="checkout-item-price">
-                            <i
-                              className="fa fa-rupee-sign"
-                              aria-hidden="true"
-                              style={{ color: "grey" }}
-                            ></i>{" "}
+                            <i className="fa fa-rupee-sign" aria-hidden="true" style={{ color: "grey" }} />{" "}
                             {item.price.toFixed(2)}
                           </span>
                         </div>
@@ -337,14 +397,11 @@ class Checkout extends Component {
                   <Typography variant="body1">Net Amount</Typography>
                   <Typography variant="body1">
                     <i className="fa fa-rupee-sign" aria-hidden="true"></i>{" "}
-                    {this.state.checkoutSummary.totalAmount}
+                    {this.state.checkoutSummary.totalAmount.toFixed(2)}
                   </Typography>
                 </div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="order-button"
-                >
+                <Button variant="contained" color="primary" className="order-button"
+                  onClick={this.placeOrderClickHandler}>
                   PLACE ORDER
                 </Button>
               </CardContent>
