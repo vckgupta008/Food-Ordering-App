@@ -1,33 +1,39 @@
 .checkout-container {
   display: flex;
+  justify-content: space-between;
   padding: 20px;
 }
 
 .address-payment-container {
-  width: 75%;
+  width: 74%;
 }
 
 .summary-container {
   width: 25%;
+  padding-top: 5px;
 }
 
-.summary-container > div:first-child > .MuiCardContent-root > {
-  padding: 25px !important;
+.summary-container > div:first-child > .MuiCardContent-root {
+  padding: 25px;
 }
 
 .summary-container > div:first-child > .MuiCardContent-root > p:first-child {
   color: black;
   font-size: 28px;
   margin-bottom: 30px;
-  line-height: .8;
+  line-height: 0.8;
 }
 
-.summary-container > div:first-child > .MuiCardContent-root > p:nth-child(2) > {
-  font-size: 19px !important;
-  color: #666666 !important;
+.summary-container > div:first-child > .MuiCardContent-root > p:nth-child(2) {
+  font-size: 18px;
+  color: #666666;
 }
 
-.summary-container > div:first-child > .MuiCardContent-root > ul > .MuiListItem-gutters {
+.summary-container
+  > div:first-child
+  > .MuiCardContent-root
+  > ul
+  > .MuiListItem-gutters {
   padding-left: 0;
   padding-right: 0;
 }
@@ -41,16 +47,26 @@
   margin-bottom: 20px;
 }
 
-.summary-container > div:first-child > .MuiCardContent-root > .MuiButtonBase-root {
+.summary-container
+  > div:first-child
+  > .MuiCardContent-root
+  > .MuiButtonBase-root {
   margin-top: 20px;
+}
+
+.summary-container > .MuiPaper-root > .MuiCardContent-root > .MuiList-root > .MuiListItem-root {
+  align-items: flex-start;
 }
 
 .checkout-item-section1 {
   width: 60%;
+  display: flex;
+  padding-right: 5px;
 }
 
 .checkout-item-section2 {
   width: 5%;
+  padding-right: 5px;
 }
 
 .checkout-item-section3 {
@@ -59,23 +75,23 @@
   justify-content: flex-end;
 }
 
-.fa-stop-circle {
+.checkout-item-section1 > .fa-stop-circle {
   width: 30px;
 }
 
 .checkout-item-name {
   color: grey;
-  font-size: 17px;
+  font-size: 16px;
 }
 
-.fa-rupee-sign {
-  font-size: 15px;
-  -webkit-text-stroke: .2px white;
+.checkout-item-price > .fa-rupee-sign {
+  font-size: 14px;
+  -webkit-text-stroke: 0.2px white;
 }
 
 .checkout-item-price {
   color: grey;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .checkout-net-amount {
@@ -87,11 +103,150 @@
   font-size: 17px;
 }
 
-.checkout-net-amount > p > .fa-rupee-sign{
+.checkout-net-amount > p > .fa-rupee-sign {
   color: grey;
 }
 
 .order-button {
   width: 100%;
   margin-top: 20px;
+}
+
+.address-container {
+  padding: 20px 0px;
+  display: flex;
+  flex-direction: column;
+}
+.no-address-msg {
+  font-size: 13px;
+  color: #9a9a9a;
+}
+
+.address-list,
+.no-address-msg {
+  min-height: 320px;
+}
+
+.address-payment-container > .MuiStepper-root {
+  padding-top: 0;
+}
+
+.address-container > .button-actions > .MuiButton-containedPrimary {
+  margin-left: 10px;
+}
+
+.address-container > .MuiGrid-container {
+  min-height: 320px;
+}
+
+.address-container > .MuiGrid-container > .address-card {
+  padding: 10px 15px 20px 20px;
+  height: fit-content;
+}
+.address-container > .MuiGrid-container > .active {
+  box-shadow: 1.5px 1.5px 2px 1px #e96e92;
+}
+
+.address-container > .MuiGrid-container > .address-card > .check-icon {
+  display: flex;
+  justify-content: flex-end;
+}
+.address-container > .MuiGrid-container > .MuiGrid-item > .check-icon > button {
+  cursor: pointer !important;
+}
+
+.address-container > .MuiGrid-container > .address-card > div {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+@media only screen and (max-width: 1220px) {
+  .address-payment-container {
+    width: 72%;
+  }
+  
+  .summary-container {
+    width: 27%;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .address-payment-container {
+    width: 71%;
+  }
+  
+  .summary-container {
+    width: 28%;
+  }
+
+  .summary-container > div:first-child > .MuiCardContent-root > p:first-child {
+    font-size: 25px;
+  }
+
+  .summary-container > div:first-child > .MuiCardContent-root {
+    padding: 15px;
+  }
+
+  .summary-container > div:first-child > .MuiCardContent-root > p:nth-child(2) {
+    font-size: 17px;
+  }
+  
+  .checkout-item-name {
+    font-size: 15px;
+  }
+  
+  .checkout-item-price > .fa-rupee-sign {
+    font-size: 13px;
+  }
+  
+  .checkout-item-price {
+    font-size: 14px;
+  }
+  
+  .checkout-net-amount > p {
+    font-size: 15px;
+  }
+
+}
+
+@media only screen and (max-width: 835px) {
+
+  .address-payment-container {
+    width: 70%;
+  }
+  
+  .summary-container {
+    width: 29%;
+  }
+  
+}
+
+@media only screen and (max-width: 769px) {
+
+  .checkout-container {
+    flex-direction: column;
+    padding: unset;
+    align-items: center;
+  }
+
+  .address-payment-container {
+    width: 100% !important;
+  }
+
+  .summary-container {
+    width: 90% !important;
+    margin-bottom: 20px;
+  }
+
+  .address-payment-container > .MuiStepper-root {
+    padding-top: 10px;
+  }
+
+  .tabs > .MuiTabs-scroller > .MuiTabs-flexContainer > .MuiButtonBase-root {
+    font-size: 11px;
+  }
+
+  .address-container > .MuiGrid-container {
+      
+  }
 }

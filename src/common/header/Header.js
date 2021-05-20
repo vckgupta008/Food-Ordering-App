@@ -39,7 +39,7 @@ const Header = props => {
   }
 
   return (
-    <header>
+    <header id="header">
       {/** Login Modal  component included here */}
       <LoginModal
         visible={openLoginModal}

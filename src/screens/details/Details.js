@@ -170,6 +170,7 @@ class Details extends Component {
     }
 
     let checkoutSummary = {};
+    checkoutSummary.restaurantId = this.state.restaurantId;
     checkoutSummary.restaurantName = this.state.restaurant.restaurant_name;
     checkoutSummary.itemsAddedForOrder = this.state.itemsAddedToCartList;
     checkoutSummary.totalAmount = this.state.totalAmount;
