@@ -297,7 +297,38 @@
 
   .address-container > .MuiGrid-container {
   }
+  
   .address-form > .MuiFormControl-root {
     width: 100%;
+  }
+
+  .payment-step-content 
+    > .MuiCollapse-container 
+    > .MuiCollapse-wrapper 
+    > .MuiCollapse-wrapperInner 
+    > .MuiFormControl-root 
+    > legend {
+    font-size: 15px;
+  }
+  
+  .payment-step-content 
+    > .MuiCollapse-container 
+    > .MuiCollapse-wrapper 
+    > .MuiCollapse-wrapperInner 
+    > .MuiFormControl-root 
+    > .MuiFormGroup-root
+    > .MuiFormControlLabel-root {
+    margin-bottom: 0;
+  }
+
+  .payment-step-content 
+    > .MuiCollapse-container 
+    > .MuiCollapse-wrapper 
+    > .MuiCollapse-wrapperInner 
+    > .MuiFormControl-root 
+    > .MuiFormGroup-root
+    > .MuiFormControlLabel-root
+    > .MuiTypography-body1 {
+      font-size: 15px;
   }
 }
