@@ -9,7 +9,9 @@ class Profile extends Component {
         {/** Header component included here */}
         <Header />
 
-        Profile Page
+        <div style={{ margin: 10 }}>
+          Profile Page
+        </div>
       </div>
     )
   }

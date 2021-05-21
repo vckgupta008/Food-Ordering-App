@@ -173,11 +173,44 @@
 .address-form > .MuiFormControl-root {
   width: 300px;
 }
+
 .save-address-button {
   background-color: #f50b57 !important;
   color: #ffffff !important;
   width: 200px !important;
   margin-top: 20px !important;
+}
+
+.payment-step > .MuiStepContent-root {
+  margin-top: 25px;
+  padding-left: 30px;
+}
+
+.payment-step-content 
+  > .MuiCollapse-container 
+  > .MuiCollapse-wrapper 
+  > .MuiCollapse-wrapperInner 
+  > .MuiFormControl-root 
+  > legend {
+  margin-bottom: 10px;
+}
+
+.payment-step-content 
+  > .MuiCollapse-container 
+  > .MuiCollapse-wrapper 
+  > .MuiCollapse-wrapperInner 
+  > .MuiFormControl-root 
+  > .MuiFormGroup-root
+  > .MuiFormControlLabel-root {
+  margin-bottom: 5px;
+}
+
+.button-actions {
+  margin-top: 10px;
+}
+
+.button-actions > .MuiButton-text {
+  margin-right: 15px;
 }
 
 @media only screen and (max-width: 1220px) {

@@ -2,34 +2,26 @@ import React, { Component } from "react";
 import "./Checkout.css";
 import Header from "../../common/header/Header";
 import {
-  Stepper,
-  Step,
-  StepLabel,
-  StepContent,
+  Stepper, Step, StepLabel, StepContent,
   Button,
-  Card,
-  CardContent,
+  Card, CardContent,
   Typography,
-  List,
-  ListItem,
+  List, ListItem,
   Divider,
   AppBar,
-  Tabs,
-  Tab,
+  Tabs, Tab,
   Box,
   Grid,
   IconButton,
   Snackbar,
-  FormControl,
-  InputLabel,
-  Input,
-  Select,
-  MenuItem
+  FormControl, InputLabel, Input, Select, MenuItem,
+  FormLabel, RadioGroup, FormControlLabel, Radio
 } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
-import { getAddressCustomer, getStates,addAddress } from "../../common/api/Address";
+import { getAddressCustomer, getStates, addAddress } from "../../common/api/Address";
 import { placeOrder } from "../../common/api/Order";
+import { getPaymentMethods } from "../../common/api/Payment";
 import { green } from "@material-ui/core/colors";
 import PropTypes from "prop-types";
 
@@ -72,9 +64,11 @@ class Checkout extends Component {
       activeStep: 0,
       addressList: [],
       stateList: [],
+      paymentList: [],
       checkoutSummary: JSON.parse(sessionStorage.getItem("checkoutSummary")),
       tabValue: 0,
       selectedAddress: null,
+      selectedPaymentId: '',
       showMessage: false,
       message: "",
       buildingNo: "",
@@ -93,14 +87,14 @@ class Checkout extends Component {
 
   componentDidMount() {
     if (localStorage.getItem("user-information")) {
-      this.fetchAddressCustomer();
-      console.log(this.state.checkoutSummary);
+      this.fetchCustomerAddress();
+      this.fetchPaymentMethods();
     } else {
       this.props.history.push("/");
     }
   }
 
-  fetchAddressCustomer = () => {
+  fetchCustomerAddress = () => {
     console.log(this.state.accessToken);
     getAddressCustomer(this.state.accessToken)
       .then(response => {
@@ -132,6 +126,19 @@ class Checkout extends Component {
       });
   };
 
+  /** Method to retrieve the payment methods */
+  fetchPaymentMethods = () => {
+    getPaymentMethods()
+      .then(response => {
+        this.setState({
+          paymentList: response.paymentMethods
+        });
+      })
+      .catch(error => {
+        console.log("error while fetching payments: " + error);
+      });
+  };
+
   handleStepper = val => {
     this.setState({
       activeStep: this.state.activeStep + val
@@ -150,6 +157,13 @@ class Checkout extends Component {
     });
   };
 
+  /** Handler to set the state value when a particular payment method is selected */
+  paymentSelectHandler = (event) => {
+    this.setState({
+      selectedPaymentId: event.target.value
+    });
+  }
+
   /** Handler to place customer's order */
   placeOrderClickHandler = () => {
     let itemAdded = this.state.checkoutSummary.itemsAddedForOrder;
@@ -163,12 +177,12 @@ class Checkout extends Component {
       order.push(orderItem);
     });
     let reqBody = {
-      address_id: "a73444b6-8016-4aac-90f0-2582f420c69d", //selectedAddress.id,
+      address_id: this.state.selectedAddress.id,
       bill: this.state.checkoutSummary.totalAmount,
       coupon_id: null,
       discount: 0,
       item_quantities: order,
-      payment_id: "2ddf63b0-ecd0-11e8-8eb2-f2801f1b9fd1", //payment id
+      payment_id: this.state.selectedPaymentId,
       restaurant_id: this.state.checkoutSummary.restaurantId
     };
 
@@ -288,7 +302,7 @@ class Checkout extends Component {
                 tabValue: 0
               },
               () => {
-                this.fetchAddressCustomer();
+                this.fetchCustomerAddress();
               }
             );
           }
@@ -370,12 +384,11 @@ class Checkout extends Component {
                             return (
                               <Grid
                                 item
-                                className={`address-card ${
-                                  selectedAddress &&
+                                className={`address-card ${selectedAddress &&
                                   selectedAddress.id === address.id
-                                    ? "active"
-                                    : ""
-                                }`}
+                                  ? "active"
+                                  : ""
+                                  }`}
                                 xs={6}
                                 sm={6}
                                 md={4}
@@ -391,10 +404,10 @@ class Checkout extends Component {
                                     aria-label="delete"
                                     // disabled
                                     onClick={() => this.selectAddress(address)}
-                                    // color="greem"
+                                  // color="greem"
                                   >
                                     {selectedAddress &&
-                                    selectedAddress.id === address.id ? (
+                                      selectedAddress.id === address.id ? (
                                       <CheckCircleIcon
                                         style={{ color: "#098000" }}
                                       />
@@ -551,13 +564,31 @@ class Checkout extends Component {
                   </TabPanel>
                 </StepContent>
               </Step>
-              <Step key="Payment">
+              <Step key="payment" className="payment-step">
                 <StepLabel>Payment</StepLabel>
-                <StepContent>
-                  Payment
+                <StepContent  className="payment-step-content">
+                  <FormControl component="fieldset">
+                    <FormLabel component="legend">
+                      Select Mode of Payment
+                    </FormLabel>
+                    <RadioGroup
+                      aria-label="payment-type"
+                      name="payment-type"
+                      value={this.state.selectedPaymentId}
+                      onChange={this.paymentSelectHandler}
+                    >
+                      {this.state.paymentList.map(payment => (
+                        <FormControlLabel
+                          key={"payment_" + payment.id}
+                          value={payment.id}
+                          control={<Radio />}
+                          label={payment.payment_name}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
                   <div className="button-actions">
                     <Button
-                      // disabled={true}
                       onClick={() => this.handleStepper(-1)}
                       className="back-button"
                     >
@@ -581,7 +612,7 @@ class Checkout extends Component {
                 <Button
                   // disabled={true}
                   onClick={() => this.handleStepper(-2)}
-                  // className="back-button"
+                // className="back-button"
                 >
                   CHANGE
                 </Button>
@@ -601,23 +632,15 @@ class Checkout extends Component {
                   {this.state.checkoutSummary.restaurantName}
                 </Typography>
                 {this.state.checkoutSummary &&
-                this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? (
+                  this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? (
                   <List>
                     {this.state.checkoutSummary.itemsAddedForOrder.map(item => (
                       <ListItem key={"item_" + item.id}>
                         <div className="checkout-item-section1">
                           {item.type === "VEG" ? (
-                            <i
-                              className="far fa-stop-circle"
-                              aria-hidden="true"
-                              style={{ color: "#138313" }}
-                            />
+                            <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#138313" }} />
                           ) : (
-                            <i
-                              className="far fa-stop-circle"
-                              aria-hidden="true"
-                              style={{ color: "#c30909" }}
-                            />
+                            <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#c30909" }} />
                           )}
                           <span className="checkout-item-name">
                             {item.name.replace(/\b\w/g, l => l.toUpperCase())}
@@ -630,11 +653,7 @@ class Checkout extends Component {
                         </div>
                         <div className="checkout-item-section3">
                           <span className="checkout-item-price">
-                            <i
-                              className="fa fa-rupee-sign"
-                              aria-hidden="true"
-                              style={{ color: "grey" }}
-                            />{" "}
+                            <i className="fa fa-rupee-sign" aria-hidden="true" style={{ color: "grey" }} />{" "}
                             {item.price.toFixed(2)}
                           </span>
                         </div>
@@ -652,12 +671,8 @@ class Checkout extends Component {
                     {this.state.checkoutSummary.totalAmount.toFixed(2)}
                   </Typography>
                 </div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="order-button"
-                  onClick={this.placeOrderClickHandler}
-                >
+                <Button variant="contained" color="primary" className="order-button"
+                  onClick={this.placeOrderClickHandler} >
                   PLACE ORDER
                 </Button>
               </CardContent>

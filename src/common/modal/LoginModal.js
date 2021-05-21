@@ -345,7 +345,6 @@ class LoginModal extends Component {
                   fullWidth
                 />
                 <span className="error-msg">
-                  {" "}
                   {loginError && errorContactNo && loginErrorMsg
                     ? loginErrorMsg
                     : ""}
@@ -370,7 +369,6 @@ class LoginModal extends Component {
                   fullWidth
                 />
                 <span className="error-msg">
-                  {" "}
                   {loginError && errorPassword && loginErrorMsg}
                   {loginError && loginResponse.code
                     ? loginResponse.message
@@ -378,10 +376,7 @@ class LoginModal extends Component {
                 </span>
               </FormControl>
               <div className="login-footer">
-                <Button
-                  className="login-button"
-                  onClick={() => this.LoginCustomerHandler()}
-                >
+                <Button className="login-button" onClick={() => this.LoginCustomerHandler()} >
                   LOGIN
                 </Button>
               </div>
@@ -404,7 +399,6 @@ class LoginModal extends Component {
                   fullWidth
                 />
                 <span className="error-msg">
-                  {" "}
                   {signUpError && errorFirstName && signUpErrorMessage}
                 </span>
               </FormControl>
@@ -440,7 +434,6 @@ class LoginModal extends Component {
                   fullWidth
                 />
                 <span className="error-msg">
-                  {" "}
                   {signUpError && errorEmail && signUpErrorMessage}
                   {signUpError &&
                     signUpResponse &&
@@ -467,7 +460,6 @@ class LoginModal extends Component {
                   fullWidth
                 />
                 <span className="error-msg">
-                  {" "}
                   {signUpError && errorPasswordSignup && signUpErrorMessage}
                   {signUpError &&
                     signUpResponse &&
@@ -493,7 +485,6 @@ class LoginModal extends Component {
                   fullWidth
                 />
                 <span className="error-msg">
-                  {" "}
                   {signUpError && errorContactNoSignup && signUpErrorMessage}
                   {signUpError &&
                     signUpResponse &&
@@ -504,10 +495,7 @@ class LoginModal extends Component {
                 </span>
               </FormControl>
               <div className="signup-footer">
-                <Button
-                  className="signup-button"
-                  onClick={() => this.signUpCustomerHandler()}
-                >
+                <Button className="signup-button" onClick={() => this.signUpCustomerHandler()} >
                   SIGNUP
                 </Button>
               </div>
