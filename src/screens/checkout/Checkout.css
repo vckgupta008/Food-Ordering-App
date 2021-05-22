@@ -213,6 +213,20 @@
   margin-right: 15px;
 }
 
+.view-summary > .MuiTypography-body1 {
+  margin-left: 30px;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.view-summary > .MuiButton-text {
+  margin-left: 40px;
+}
+
+.view-summary > .MuiButton-root {
+  font-size: 16px;
+}
+
 @media only screen and (max-width: 1220px) {
   .address-payment-container {
     width: 72%;
@@ -330,5 +344,17 @@
     > .MuiFormControlLabel-root
     > .MuiTypography-body1 {
       font-size: 15px;
+  }
+
+  .view-summary > .MuiTypography-body1 {
+    font-size: 18px;
+  }
+
+  .view-summary > .MuiButton-text {
+    margin-bottom: 20px;
+  }
+  
+  .view-summary > .MuiButton-root {
+    font-size: 15px;
   }
 }

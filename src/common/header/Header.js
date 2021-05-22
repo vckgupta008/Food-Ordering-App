@@ -27,6 +27,10 @@ const Header = props => {
   const logoutCustomerHandler = () => {
     menuCloseHandler();
     localStorage.clear();
+    sessionStorage.clear();
+    if (props.history && props.history.location.pathname === '/checkout') {
+      props.history.push('/');
+    }
   }
 
   const loggedInDetail = localStorage.getItem("user-information")

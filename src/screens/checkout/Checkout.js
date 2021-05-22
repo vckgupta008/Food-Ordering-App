@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from 'react-router-dom';
 import "./Checkout.css";
 import Header from "../../common/header/Header";
 import {
@@ -86,12 +87,8 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem("user-information")) {
-      this.fetchCustomerAddress();
-      this.fetchPaymentMethods();
-    } else {
-      this.props.history.push("/");
-    }
+    this.fetchCustomerAddress();
+    this.fetchPaymentMethods();
   }
 
   fetchCustomerAddress = () => {
@@ -168,6 +165,7 @@ class Checkout extends Component {
   placeOrderClickHandler = () => {
     let itemAdded = this.state.checkoutSummary.itemsAddedForOrder;
     let order = [];
+
     itemAdded.forEach(item => {
       let orderItem = {
         item_id: item.id,
@@ -176,6 +174,7 @@ class Checkout extends Component {
       };
       order.push(orderItem);
     });
+
     let reqBody = {
       address_id: this.state.selectedAddress.id,
       bill: this.state.checkoutSummary.totalAmount,
@@ -191,8 +190,7 @@ class Checkout extends Component {
         if (response && response.id) {
           this.setState({
             showMessage: true,
-            message:
-              "Order placed successfully! Your order ID is " + response.id + "."
+            message: "Order placed successfully! Your order ID is " + response.id + "."
           });
         } else {
           this.setState({
@@ -314,6 +312,12 @@ class Checkout extends Component {
   };
 
   render() {
+    if (!this.state.accessToken || !this.state.checkoutSummary) {
+      return (
+        <Redirect to="/" />
+      )
+    }
+
     const {
       activeStep,
       addressList,
@@ -332,10 +336,11 @@ class Checkout extends Component {
       errorPincode,
       addAddressMsg
     } = this.state;
+
     return (
       <div>
         {/** Header component included here */}
-        <Header />
+        <Header history={this.props.history} />
 
         {/** Snackbar added to show item is added/ removed from cart */}
         <Snackbar
@@ -382,7 +387,7 @@ class Checkout extends Component {
                         <Grid container>
                           {addressList.map(address => {
                             return (
-                              <Grid
+                              <Grid key={"address_"+address.id}
                                 item
                                 className={`address-card ${selectedAddress &&
                                   selectedAddress.id === address.id
@@ -427,7 +432,7 @@ class Checkout extends Component {
                           menu option.
                         </div>
                       )}
-                      <div className="button-actions">
+                      {/* <div className="button-actions">
                         <Button
                           disabled={true}
                           // onClick={()=>this.handleBack()}
@@ -447,7 +452,7 @@ class Checkout extends Component {
                         >
                           NEXT
                         </Button>
-                      </div>
+                      </div> */}
                     </div>
                   </TabPanel>
                   <TabPanel value={tabValue} index={1}>
@@ -523,7 +528,7 @@ class Checkout extends Component {
                         >
                           {stateList.map(state => {
                             return (
-                              <MenuItem value={state.id}>
+                              <MenuItem key={"state_"+state.id} value={state.id}>
                                 {state.state_name}
                               </MenuItem>
                             );
@@ -562,11 +567,32 @@ class Checkout extends Component {
                       </Button>
                     </div>
                   </TabPanel>
+                  <div className="button-actions">
+                    <Button
+                      disabled={true}
+                      // onClick={()=>this.handleBack()}
+                      className="back-button"
+                    >
+                      BACK
+                        </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        if (selectedAddress && selectedAddress.id) {
+                          this.handleStepper(1);
+                        }
+                      }}
+                      className="next-button"
+                    >
+                      NEXT
+                        </Button>
+                  </div>
                 </StepContent>
               </Step>
               <Step key="payment" className="payment-step">
                 <StepLabel>Payment</StepLabel>
-                <StepContent  className="payment-step-content">
+                <StepContent className="payment-step-content">
                   <FormControl component="fieldset">
                     <FormLabel component="legend">
                       Select Mode of Payment
@@ -608,7 +634,9 @@ class Checkout extends Component {
             </Stepper>
             {activeStep === 2 ? (
               <div className="view-summary">
-                View the summary & place your order now!
+                <Typography>
+                  View the summary & place your order now!
+                </Typography>
                 <Button
                   // disabled={true}
                   onClick={() => this.handleStepper(-2)}
@@ -632,7 +660,7 @@ class Checkout extends Component {
                   {this.state.checkoutSummary.restaurantName}
                 </Typography>
                 {this.state.checkoutSummary &&
-                  this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? (
+                  this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? 
                   <List>
                     {this.state.checkoutSummary.itemsAddedForOrder.map(item => (
                       <ListItem key={"item_" + item.id}>
@@ -660,9 +688,7 @@ class Checkout extends Component {
                       </ListItem>
                     ))}
                   </List>
-                ) : (
-                  ""
-                )}
+                : "" }
                 <Divider />
                 <div className="checkout-net-amount">
                   <Typography variant="body1">Net Amount</Typography>
