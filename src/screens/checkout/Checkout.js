@@ -1,29 +1,46 @@
 import React, { Component } from "react";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 import "./Checkout.css";
 import Header from "../../common/header/Header";
 import ListCheckoutItems from "../../common/ListCheckoutItems";
 import {
-  Stepper, Step, StepLabel, StepContent,
+  Stepper,
+  Step,
+  StepLabel,
+  StepContent,
   Button,
-  Card, CardContent,
+  Card,
+  CardContent,
   Typography,
   Divider,
   AppBar,
-  Tabs, Tab,
+  Tabs,
+  Tab,
   Box,
-  Grid,
   IconButton,
   Snackbar,
-  FormControl, InputLabel, Input, Select, MenuItem,
-  FormLabel, RadioGroup, FormControlLabel, Radio
+  FormControl,
+  InputLabel,
+  Input,
+  Select,
+  MenuItem,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  GridListTile,
+  GridList
 } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
-import { getAddressCustomer, getStates, addAddress } from "../../common/api/Address";
+import {
+  getAddressCustomer,
+  getStates,
+  addAddress
+} from "../../common/api/Address";
 import { placeOrder } from "../../common/api/Order";
 import { getPaymentMethods } from "../../common/api/Payment";
-import { green } from "@material-ui/core/colors";
 import PropTypes from "prop-types";
 
 function TabPanel(props) {
@@ -55,7 +72,19 @@ function a11yProps(index) {
   };
 }
 
-let pincodeRegex = /^\d{6}$/;
+const useStyles = theme => ({
+  gridList: {
+    flexWrap: "nowrap",
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: "translateZ(0)"
+  },
+  active: {
+    border: "1.5px solid #e96e92",
+    borderRightWidth: "3px",
+    borderBottomWidth: "3px",
+    borderRadius: 7
+  }
+});
 
 class Checkout extends Component {
   constructor(props) {
@@ -69,7 +98,7 @@ class Checkout extends Component {
       checkoutSummary: JSON.parse(sessionStorage.getItem("checkoutSummary")),
       tabValue: 0,
       selectedAddress: null,
-      selectedPaymentId: '',
+      selectedPaymentId: "",
       showMessage: false,
       message: "",
       buildingNo: "",
@@ -92,7 +121,6 @@ class Checkout extends Component {
   }
 
   fetchCustomerAddress = () => {
-    console.log(this.state.accessToken);
     getAddressCustomer(this.state.accessToken)
       .then(response => {
         if (response && response.addresses.length) {
@@ -101,7 +129,6 @@ class Checkout extends Component {
           });
         }
         this.getAllStates();
-        console.log("response fetching restaurant", response);
       })
       .catch(error => {
         console.log("error in fetching restaurant");
@@ -111,7 +138,6 @@ class Checkout extends Component {
   getAllStates = () => {
     getStates()
       .then(response => {
-        console.log("response fetching states", response);
         if (response && response.states && response.states.length) {
           this.setState({
             stateList: response.states
@@ -119,7 +145,7 @@ class Checkout extends Component {
         }
       })
       .catch(error => {
-        console.log("error in fetching states");
+        console.log("error in fetching states",error);
       });
   };
 
@@ -155,11 +181,11 @@ class Checkout extends Component {
   };
 
   /** Handler to set the state value when a particular payment method is selected */
-  paymentSelectHandler = (event) => {
+  paymentSelectHandler = event => {
     this.setState({
       selectedPaymentId: event.target.value
     });
-  }
+  };
 
   /** Handler to place customer's order */
   placeOrderClickHandler = () => {
@@ -190,7 +216,8 @@ class Checkout extends Component {
         if (response && response.id) {
           this.setState({
             showMessage: true,
-            message: "Order placed successfully! Your order ID is " + response.id + "."
+            message:
+              "Order placed successfully! Your order ID is " + response.id + "."
           });
         } else {
           this.setState({
@@ -225,12 +252,7 @@ class Checkout extends Component {
       locality,
       city,
       state,
-      pincode,
-      errorBuildingNo,
-      errorLocality,
-      errorCity,
-      errorState,
-      errorPincode
+      pincode
     } = this.state;
 
     if (!buildingNo || !locality || !city || !state || !pincode) {
@@ -242,32 +264,7 @@ class Checkout extends Component {
         errorPincode: !pincode,
         addAddressMsg: "required"
       });
-    } else if (!pincodeRegex.test(pincode)) {
-      this.setState({
-        errorBuildingNo: "",
-        errorLocality: "",
-        errorCity: "",
-        errorState: "",
-        errorPincode: true,
-        addAddressMsg:
-          "Pincode must contain only numbers and must be 6 digits long"
-      });
     } else {
-      // this.setState({
-      //   buildingNo: "",
-      //   locality: "",
-      //   city: "",
-      //   state: "",
-      //   pincode: "",
-      //   errorBuildingNo: "",
-      //   errorLocality: "",
-      //   errorCity: "",
-      //   errorState: "",
-      //   errorPincode: "",
-      //   addAddressMsg: "",
-      //   tabValue: 0
-      // });
-
       let addressBody = {
         city: city,
         flat_building_name: buildingNo,
@@ -278,8 +275,18 @@ class Checkout extends Component {
 
       addAddress(addressBody, localStorage.getItem("access-token"))
         .then(response => {
-          console.log("response on saving address", response);
-          if (
+
+          if (response && response.code && response.code === "SAR-002") {
+            this.setState({
+              errorBuildingNo: "",
+              errorLocality: "",
+              errorCity: "",
+              errorState: "",
+              errorPincode: true,
+              addAddressMsg:
+                "Pincode must contain only numbers and must be 6 digits long"
+            });
+          } else if (
             response &&
             response.status &&
             response.status === "ADDRESS SUCCESSFULLY REGISTERED"
@@ -306,16 +313,14 @@ class Checkout extends Component {
           }
         })
         .catch(error => {
-          console.log("error in saving address");
+          console.log("error in saving address",error);
         });
     }
   };
 
   render() {
     if (!this.state.accessToken || !this.state.checkoutSummary) {
-      return (
-        <Redirect to="/" />
-      )
+      return <Redirect to="/" />;
     }
 
     const {
@@ -336,6 +341,8 @@ class Checkout extends Component {
       errorPincode,
       addAddressMsg
     } = this.state;
+
+    const { classes } = this.props;
 
     return (
       <div>
@@ -384,20 +391,17 @@ class Checkout extends Component {
                   <TabPanel value={tabValue} index={0}>
                     <div className="address-container">
                       {addressList.length ? (
-                        <Grid container>
+                        <GridList className={classes.gridList} cols={3}>
                           {addressList.map(address => {
                             return (
-                              <Grid key={"address_" + address.id}
-                                item
-                                className={`address-card ${selectedAddress &&
+                              <GridListTile
+                                key={"address_" + address.id}
+                                className={`address-card ${
+                                  selectedAddress &&
                                   selectedAddress.id === address.id
-                                  ? "active"
-                                  : ""
-                                  }`}
-                                xs={6}
-                                sm={6}
-                                md={4}
-                                lg={4}
+                                    ? classes.active
+                                    : ""
+                                }`}
                               >
                                 <div>{address.flat_building_name}</div>
                                 <div>{address.locality}</div>
@@ -407,12 +411,11 @@ class Checkout extends Component {
                                 <div className="check-icon">
                                   <IconButton
                                     aria-label="delete"
-                                    // disabled
                                     onClick={() => this.selectAddress(address)}
-                                  // color="greem"
+                                    
                                   >
                                     {selectedAddress &&
-                                      selectedAddress.id === address.id ? (
+                                    selectedAddress.id === address.id ? (
                                       <CheckCircleIcon
                                         style={{ color: "#098000" }}
                                       />
@@ -421,10 +424,10 @@ class Checkout extends Component {
                                     )}
                                   </IconButton>
                                 </div>
-                              </Grid>
+                              </GridListTile>
                             );
                           })}
-                        </Grid>
+                        </GridList>
                       ) : (
                         <div className="no-address-msg">
                           There are no saved addresses! You can save an address
@@ -432,27 +435,6 @@ class Checkout extends Component {
                           menu option.
                         </div>
                       )}
-                      {/* <div className="button-actions">
-                        <Button
-                          disabled={true}
-                          // onClick={()=>this.handleBack()}
-                          className="back-button"
-                        >
-                          BACK
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => {
-                            if (selectedAddress && selectedAddress.id) {
-                              this.handleStepper(1);
-                            }
-                          }}
-                          className="next-button"
-                        >
-                          NEXT
-                        </Button>
-                      </div> */}
                     </div>
                   </TabPanel>
                   <TabPanel value={tabValue} index={1}>
@@ -525,10 +507,25 @@ class Checkout extends Component {
                           onChange={e =>
                             this.addressFormValueChange(e.target.value, "state")
                           }
+                          MenuProps={{
+                            transformOrigin: {
+                              vertical: "top",
+                              horizontal: "center"
+                            },
+                            anchorOrigin: {
+                              vertical: "bottom",
+                              horizontal: "center"
+                            },
+                            elevation:0,
+                            getContentAnchorEl: null
+                          }}
                         >
                           {stateList.map(state => {
                             return (
-                              <MenuItem key={"state_" + state.id} value={state.id}>
+                              <MenuItem
+                                key={"state_" + state.id}
+                                value={state.id}
+                              >
                                 {state.state_name}
                               </MenuItem>
                             );
@@ -574,7 +571,7 @@ class Checkout extends Component {
                       className="back-button"
                     >
                       BACK
-                        </Button>
+                    </Button>
                     <Button
                       variant="contained"
                       color="primary"
@@ -586,7 +583,7 @@ class Checkout extends Component {
                       className="next-button"
                     >
                       NEXT
-                        </Button>
+                    </Button>
                   </div>
                 </StepContent>
               </Step>
@@ -640,7 +637,7 @@ class Checkout extends Component {
                 <Button
                   // disabled={true}
                   onClick={() => this.handleStepper(-2)}
-                // className="back-button"
+                  // className="back-button"
                 >
                   CHANGE
                 </Button>
@@ -660,12 +657,14 @@ class Checkout extends Component {
                   {this.state.checkoutSummary.restaurantName}
                 </Typography>
                 {this.state.checkoutSummary &&
-                  this.state.checkoutSummary.itemsAddedForOrder.length > 0 ?
+                this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? (
                   <ListCheckoutItems
                     itemsAdded={this.state.checkoutSummary.itemsAddedForOrder}
                     page="checkout"
                   />
-                  : ""}
+                ) : (
+                  ""
+                )}
                 <Divider />
                 <div className="checkout-net-amount">
                   <Typography variant="body1">Net Amount</Typography>
@@ -674,8 +673,12 @@ class Checkout extends Component {
                     {this.state.checkoutSummary.totalAmount.toFixed(2)}
                   </Typography>
                 </div>
-                <Button variant="contained" color="primary" className="order-button"
-                  onClick={this.placeOrderClickHandler} >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="order-button"
+                  onClick={this.placeOrderClickHandler}
+                >
                   PLACE ORDER
                 </Button>
               </CardContent>
@@ -689,4 +692,4 @@ class Checkout extends Component {
   }
 }
 
-export default Checkout;
+export default withStyles(useStyles)(Checkout);

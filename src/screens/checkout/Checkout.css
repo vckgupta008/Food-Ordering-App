@@ -139,27 +139,21 @@
   margin-left: 10px;
 }
 
-.address-container > .MuiGrid-container {
-  min-height: 320px;
+.address-container > .MuiGridList-root > .address-card{
+  padding: 10px 15px 20px 20px !important;
+  min-height: 230px !important;
+  height: unset !important;
+}
+.address-container > .MuiGridList-root > .active {
+  box-shadow: 1.5px 1.5px 2px 1px #e96e92 !important;
 }
 
-.address-container > .MuiGrid-container > .address-card {
-  padding: 10px 15px 20px 20px;
-  height: fit-content;
-}
-.address-container > .MuiGrid-container > .active {
-  box-shadow: 1.5px 1.5px 2px 1px #e96e92;
-}
-
-.address-container > .MuiGrid-container > .address-card > .check-icon {
+.address-container > .MuiGridList-root > .address-card > .MuiGridListTile-tile> .check-icon {
   display: flex;
   justify-content: flex-end;
 }
-.address-container > .MuiGrid-container > .MuiGrid-item > .check-icon > button {
-  cursor: pointer !important;
-}
 
-.address-container > .MuiGrid-container > .address-card > div {
+.address-container > .MuiGridList-root > .address-card > .MuiGridListTile-tile>div {
   font-size: 14px;
   margin-top: 10px;
 }
@@ -225,6 +219,30 @@
 
 .view-summary > .MuiButton-root {
   font-size: 16px;
+}
+
+.MuiGridListTile-tile {
+  height: unset !important;
+}
+
+.MuiMenu-paper {
+  height: 180px !important;
+  max-height: unset !important;
+}
+@media only screen and (max-width: 768px) {
+  .address-container > .MuiGridList-root > .address-card{
+    /* padding: 10px 15px 20px 20px !important; */
+    width: 50% !important;
+    /* min-height: 250px !important;
+    height: 250px !important; */
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .address-container > .MuiGridList-root > .address-card{
+    /* min-height: 280px !important; */
+    /* height: 250px !important; */
+  }
 }
 
 @media only screen and (max-width: 1220px) {
@@ -356,5 +374,13 @@
   
   .view-summary > .MuiButton-root {
     font-size: 15px;
+  }
+}
+
+
+@media only screen and (max-width: 330px) {
+
+  .address-payment-container > .MuiStepper-root {
+   padding: 10px !important;
   }
 }
