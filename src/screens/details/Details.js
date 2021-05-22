@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './Details.css';
 import Header from '../../common/header/Header';
-import { getRestaurantById } from "../../common/api/Restaurant";
+import ListCheckoutItems from '../../common/ListCheckoutItems';
+import { getRestaurantById } from '../../common/api/Restaurant';
 import {
   Typography,
   List,
@@ -19,7 +20,6 @@ import {
 }
   from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -70,6 +70,8 @@ class Details extends Component {
     let itemsInCartTemp = this.state.itemsAddedToCartList;
 
     let itemInCartList;
+
+    // Check if the item selected already exists in the cart list
     if (this.state.itemsAddedToCartList) {
       itemInCartList = this.state.itemsAddedToCartList.filter((itemInCart) => {
         if (itemInCart.id === item.id) {
@@ -150,7 +152,9 @@ class Details extends Component {
     })
   }
 
-  /** Handler to navigate customer to checkout item selected if all required information is available */
+  /** Handler to navigate customer to checkout item selected if all required information is available
+   * and naviagte the customer to Checkout page
+   */
   checkoutButtonHandler = () => {
     if (this.state.itemsAddedToCartList.length === 0) {
       this.setState({
@@ -309,36 +313,11 @@ class Details extends Component {
                     </div>
                     <div className="details-cart-item">
                       {this.state.itemsAddedToCartList.length > 0 ?
-                        <List>
-                          {this.state.itemsAddedToCartList.map(addedItem => (
-                            <ListItem key={'addedItem_' + addedItem.id}>
-                              <div className="details-item-section1">
-                                {addedItem.type === "VEG" ?
-                                  <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#138313" }}></i>
-                                  :
-                                  <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#c30909" }}></i>}
-                                <span style={{ color: "grey" }}>{addedItem.name.replace(/\b\w/g, l => l.toUpperCase())}</span>
-                              </div>
-                              <div className="details-item-section2">
-                                <div className="details-minus-section">
-                                  <IconButton onClick={() => this.removeItemHandler(addedItem)} style={{ color: "black" }}>
-                                    <RemoveIcon className="details-cart-icon" fontSize="small" />
-                                  </IconButton>
-                                  <span>{addedItem.quantity}</span>
-                                </div>
-                                <div className="details-plus-section">
-                                  <IconButton onClick={() => this.addItemHandler(addedItem, true)} style={{ color: "black" }}>
-                                    <AddIcon className="details-cart-icon" fontSize="small" />
-                                  </IconButton>
-                                </div>
-                              </div>
-                              <div className="details-item-section3">
-                                <span>
-                                  <i className="fa fa-rupee-sign" aria-hidden="true"></i> {addedItem.price.toFixed(2)}</span>
-                              </div>
-                            </ListItem>
-                          ))}
-                        </List>
+                        <ListCheckoutItems
+                          itemsAdded={this.state.itemsAddedToCartList}
+                          page="details"
+                          removeItemHandler={this.removeItemHandler}
+                          addItemHandler={this.addItemHandler} />
                         : ''}
                     </div>
                     <div className="details-cart-total">

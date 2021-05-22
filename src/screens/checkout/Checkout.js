@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
 import "./Checkout.css";
 import Header from "../../common/header/Header";
+import ListCheckoutItems from "../../common/ListCheckoutItems";
 import {
   Stepper, Step, StepLabel, StepContent,
   Button,
   Card, CardContent,
   Typography,
-  List, ListItem,
   Divider,
   AppBar,
   Tabs, Tab,
@@ -387,7 +387,7 @@ class Checkout extends Component {
                         <Grid container>
                           {addressList.map(address => {
                             return (
-                              <Grid key={"address_"+address.id}
+                              <Grid key={"address_" + address.id}
                                 item
                                 className={`address-card ${selectedAddress &&
                                   selectedAddress.id === address.id
@@ -528,7 +528,7 @@ class Checkout extends Component {
                         >
                           {stateList.map(state => {
                             return (
-                              <MenuItem key={"state_"+state.id} value={state.id}>
+                              <MenuItem key={"state_" + state.id} value={state.id}>
                                 {state.state_name}
                               </MenuItem>
                             );
@@ -660,35 +660,12 @@ class Checkout extends Component {
                   {this.state.checkoutSummary.restaurantName}
                 </Typography>
                 {this.state.checkoutSummary &&
-                  this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? 
-                  <List>
-                    {this.state.checkoutSummary.itemsAddedForOrder.map(item => (
-                      <ListItem key={"item_" + item.id}>
-                        <div className="checkout-item-section1">
-                          {item.type === "VEG" ? (
-                            <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#138313" }} />
-                          ) : (
-                            <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#c30909" }} />
-                          )}
-                          <span className="checkout-item-name">
-                            {item.name.replace(/\b\w/g, l => l.toUpperCase())}
-                          </span>
-                        </div>
-                        <div className="checkout-item-section2">
-                          <span className="checkout-item-name">
-                            {item.quantity}
-                          </span>
-                        </div>
-                        <div className="checkout-item-section3">
-                          <span className="checkout-item-price">
-                            <i className="fa fa-rupee-sign" aria-hidden="true" style={{ color: "grey" }} />{" "}
-                            {item.price.toFixed(2)}
-                          </span>
-                        </div>
-                      </ListItem>
-                    ))}
-                  </List>
-                : "" }
+                  this.state.checkoutSummary.itemsAddedForOrder.length > 0 ?
+                  <ListCheckoutItems
+                    itemsAdded={this.state.checkoutSummary.itemsAddedForOrder}
+                    page="checkout"
+                  />
+                  : ""}
                 <Divider />
                 <div className="checkout-net-amount">
                   <Typography variant="body1">Net Amount</Typography>
