@@ -58,7 +58,7 @@ class Home extends Component {
             restaurantList:
               response.restaurants && response.restaurants.length
                 ? response.restaurants
-                : [], 
+                : [],
             searchVal: restaurantName
           });
         })
@@ -125,16 +125,11 @@ class Home extends Component {
           >
             {restaurantList.length ? (
               restaurantList.map(restaurant => (
-                <Grid
-                  key={restaurant.id}
-                  item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
+                <Grid key={restaurant.id} item
+                  xs={12} sm={6} md={4} lg={3}
                 >
                   <Card className="restaurant-card" key={restaurant.id}>
-                    <CardContent style={{cursor:"pointer"}} onClick={() => this.resturantCardClickHandler(restaurant.id)}>
+                    <CardContent style={{ cursor: "pointer" }} onClick={() => this.resturantCardClickHandler(restaurant.id)}>
                       <div className="restaurant-img">
                         <img src={restaurant.photo_URL} alt="restaurant-img" />
                       </div>

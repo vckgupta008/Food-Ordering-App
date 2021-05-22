@@ -54,7 +54,11 @@
   margin-top: 20px;
 }
 
-.summary-container > .MuiPaper-root > .MuiCardContent-root > .MuiList-root > .MuiListItem-root {
+.summary-container
+  > .MuiPaper-root
+  > .MuiCardContent-root
+  > .MuiList-root
+  > .MuiListItem-root {
   align-items: flex-start;
 }
 
@@ -160,11 +164,74 @@
   margin-top: 10px;
 }
 
+.address-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.address-form > .MuiFormControl-root {
+  width: 300px;
+}
+
+.save-address-button {
+  background-color: #f50b57 !important;
+  color: #ffffff !important;
+  width: 200px !important;
+  margin-top: 20px !important;
+}
+
+.payment-step > .MuiStepContent-root {
+  margin-top: 25px;
+  padding-left: 30px;
+}
+
+.payment-step-content 
+  > .MuiCollapse-container 
+  > .MuiCollapse-wrapper 
+  > .MuiCollapse-wrapperInner 
+  > .MuiFormControl-root 
+  > legend {
+  margin-bottom: 10px;
+}
+
+.payment-step-content 
+  > .MuiCollapse-container 
+  > .MuiCollapse-wrapper 
+  > .MuiCollapse-wrapperInner 
+  > .MuiFormControl-root 
+  > .MuiFormGroup-root
+  > .MuiFormControlLabel-root {
+  margin-bottom: 5px;
+}
+
+.button-actions {
+  margin-top: 10px;
+}
+
+.button-actions > .MuiButton-text {
+  margin-right: 15px;
+}
+
+.view-summary > .MuiTypography-body1 {
+  margin-left: 30px;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.view-summary > .MuiButton-text {
+  margin-left: 40px;
+}
+
+.view-summary > .MuiButton-root {
+  font-size: 16px;
+}
+
 @media only screen and (max-width: 1220px) {
   .address-payment-container {
     width: 72%;
   }
-  
+
   .summary-container {
     width: 27%;
   }
@@ -174,7 +241,7 @@
   .address-payment-container {
     width: 71%;
   }
-  
+
   .summary-container {
     width: 28%;
   }
@@ -190,39 +257,35 @@
   .summary-container > div:first-child > .MuiCardContent-root > p:nth-child(2) {
     font-size: 17px;
   }
-  
+
   .checkout-item-name {
     font-size: 15px;
   }
-  
+
   .checkout-item-price > .fa-rupee-sign {
     font-size: 13px;
   }
-  
+
   .checkout-item-price {
     font-size: 14px;
   }
-  
+
   .checkout-net-amount > p {
     font-size: 15px;
   }
-
 }
 
 @media only screen and (max-width: 835px) {
-
   .address-payment-container {
     width: 70%;
   }
-  
+
   .summary-container {
     width: 29%;
   }
-  
 }
 
 @media only screen and (max-width: 769px) {
-
   .checkout-container {
     flex-direction: column;
     padding: unset;
@@ -247,6 +310,51 @@
   }
 
   .address-container > .MuiGrid-container {
-      
+  }
+  
+  .address-form > .MuiFormControl-root {
+    width: 100%;
+  }
+
+  .payment-step-content 
+    > .MuiCollapse-container 
+    > .MuiCollapse-wrapper 
+    > .MuiCollapse-wrapperInner 
+    > .MuiFormControl-root 
+    > legend {
+    font-size: 15px;
+  }
+  
+  .payment-step-content 
+    > .MuiCollapse-container 
+    > .MuiCollapse-wrapper 
+    > .MuiCollapse-wrapperInner 
+    > .MuiFormControl-root 
+    > .MuiFormGroup-root
+    > .MuiFormControlLabel-root {
+    margin-bottom: 0;
+  }
+
+  .payment-step-content 
+    > .MuiCollapse-container 
+    > .MuiCollapse-wrapper 
+    > .MuiCollapse-wrapperInner 
+    > .MuiFormControl-root 
+    > .MuiFormGroup-root
+    > .MuiFormControlLabel-root
+    > .MuiTypography-body1 {
+      font-size: 15px;
+  }
+
+  .view-summary > .MuiTypography-body1 {
+    font-size: 18px;
+  }
+
+  .view-summary > .MuiButton-text {
+    margin-bottom: 20px;
+  }
+  
+  .view-summary > .MuiButton-root {
+    font-size: 15px;
   }
 }

@@ -113,11 +113,11 @@
   min-width: 35px;
 }
 
-.fa-circle {
+.checkout-item-section1 > .fa-circle {
   font-size: 14px;
 }
 
-.fa-rupee-sign {
+.checkout-item-section1 > .fa-rupee-sign {
   font-size: 13px;
 }
 
@@ -147,7 +147,7 @@
 }
 
 .details-card-title {
-  padding-left: 28px;
+  padding-left: 25px;
   font-size: 23px;
   font-weight: bold;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
@@ -156,10 +156,16 @@
 .details-cart-item > ul > li {
   padding: 0;
   height: 25px;
+  margin-bottom: 3px;
 }
 
 .details-cart-item > ul {
   padding: 0;
+}
+
+.details-item-name {
+  color: grey;
+  font-size: 17px;
 }
 
 .details-item-section1 {
@@ -190,7 +196,7 @@
 }
 
 .details-item-section2 > span {
-  width: 30px;
+  /* width: 30px; */
   text-align: center;
 }
 
@@ -262,21 +268,10 @@
     min-width: 75px;
   }
 
-  .details-item-section2 > span {
-    width: 20px;
-  }
-
   .details-snackbar > .MuiPaper-root {
     width: 300px;
   }
 }
-
-/* @media only screen and (max-width: 769px) {
-header {
-  height: 100px;
-  padding: 10px 10px;
-}
-} */
 
 @media only screen and (max-width: 900px)  and (min-width: 770px) {
   .details-menu {
@@ -285,14 +280,6 @@ header {
 
   .details-cart {
     width: 45%;
-  }
-
-  /* .details-item-section1 > .fa-stop-circle {
-    width: 45px;
-  } */
-
-  .details-item-section2 > span {
-    width: 16px;
   }
 
   .details-snackbar > .MuiPaper-root {
@@ -384,11 +371,11 @@ header {
     font-size: 20px;
   }
 
-  .fa-circle {
+  .checkout-item-section1 > .fa-circle {
     font-size: 13px;
   }
   
-  .fa-rupee-sign {
+  .checkout-item-section1 > .fa-rupee-sign {
     font-size: 12px;
   }
 
@@ -415,6 +402,10 @@ header {
 
   .details-cart-total {
     margin-top: 15px;
+  }
+
+  .details-item-name {
+    font-size: 15px;
   }
 
   .details-item-section1, .details-item-section2, .details-item-section3 > span {
@@ -470,11 +461,11 @@ header {
     font-size: 18px;
   }
 
-  .fa-circle {
+  .checkout-item-section1 > .fa-circle {
     font-size: 12px;
   }
   
-  .fa-rupee-sign {
+  .checkout-item-section1 > .fa-rupee-sign {
     font-size: 11px;
   }
 
@@ -502,8 +493,8 @@ header {
     font-size: 14px;
   }
 
-  .details-item-section2 > span {
-    width: 16px;
+  .details-item-section1 > .fa-stop-circle {
+    width: 30px;
   }
 
   .details-item-section3 > span > .fa-rupee-sign {
@@ -549,18 +540,6 @@ header {
 
 @media only screen and (max-width: 395px) {
 
-  /* .details-cart-item > ul > li {
-    padding: 0;
-    height: 45px;
-  }
-
-  .details-item-section2 {
-    display: flex;
-    flex-wrap: wrap;
-    height: 39px;
-    margin-top: 15px;
-  } */
-
   .details-minus-section > .MuiButtonBase-root {
     padding: 0 6px;
   }
@@ -587,49 +566,17 @@ header {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    /* height: 39px; */
   }
-
-  /* .details-item-section1 {
-    margin-bottom: 20px;
-  }
-
-  .details-item-section2 {
-    margin-bottom: 16px;
-    height: 20px;
-  } */
-
-  /* .details-item-section3 {
-    margin-bottom: 20px;
-  } */
 
   .details-minus-section > .MuiButtonBase-root {
     padding: 0 8px;
-    /* height: 15px; */
   }
 
   .details-plus-section > .MuiButtonBase-root {
     padding: 0 8px;
-    /* height: 15px; */
   }
   
 }
-
-/* @media only screen and (max-width: 360px) {
-  /* .details-item-section2 {
-    flex-direction: column;
-    height: 5px;
-  } */
-
-  /* .details-plus-section {
-    height: 5px;
-  }
-
-  .details-item-section1 > .fa-stop-circle {
-    width: 20px;
-}
-
-} */
 
 @media only screen and (max-width: 360px) {
 
@@ -667,12 +614,10 @@ header {
 
   .details-minus-section > .MuiButtonBase-root {
     padding: 0 4px;
-    /* height: 15px; */
   }
 
   .details-plus-section > .MuiButtonBase-root {
     padding: 0 4px;
-    /* height: 15px; */
   }
 
 }

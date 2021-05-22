@@ -27,13 +27,17 @@ const Header = props => {
   const logoutCustomerHandler = () => {
     menuCloseHandler();
     localStorage.clear();
+    sessionStorage.clear();
+    if (props.history && props.history.location.pathname === '/checkout') {
+      props.history.push('/');
+    }
   }
 
   const loggedInDetail = localStorage.getItem("user-information")
     ? JSON.parse(localStorage.getItem("user-information"))
     : null;
 
-    /** Handler to redirect customer to Profile page on clicking the Profile menu */
+  /** Handler to redirect customer to Profile page on clicking the Profile menu */
   const profileClickHandler = () => {
     props.props.history.push('/profile');
   }
@@ -96,10 +100,7 @@ const Header = props => {
               </Menu>
             </div>
           ) : (
-            <Button
-              className="header-login"
-              onClick={() => setLoginModal(true)}
-            >
+            <Button className="header-login" onClick={() => setLoginModal(true)} >
               <AccountCircle /> Login
             </Button>
           )}
