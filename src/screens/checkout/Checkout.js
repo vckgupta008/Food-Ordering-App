@@ -75,7 +75,7 @@ function a11yProps(index) {
 const useStyles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper
   },
   gridList: {
     flexWrap: "nowrap",
@@ -160,8 +160,8 @@ class Checkout extends Component {
   redirectToHome = () => {
     localStorage.clear();
     sessionStorage.clear();
-    this.props.history.push('/');
-  }
+    this.props.history.push("/");
+  };
 
   /** Method to retrieve the payment methods */
   fetchPaymentMethods = () => {
@@ -232,7 +232,9 @@ class Checkout extends Component {
             this.setState({
               showMessage: true,
               message:
-                "Order placed successfully! Your order ID is " + response.id + "."
+                "Order placed successfully! Your order ID is " +
+                response.id +
+                "."
             });
           } else {
             this.setState({
@@ -245,8 +247,6 @@ class Checkout extends Component {
           console.log("error while placing the order", error);
         });
     }
-
-
   };
 
   /** Handler to close snackbar */
@@ -265,13 +265,7 @@ class Checkout extends Component {
   };
 
   validateAddressForm = () => {
-    const {
-      buildingNo,
-      locality,
-      city,
-      state,
-      pincode
-    } = this.state;
+    const { buildingNo, locality, city, state, pincode } = this.state;
 
     if (!buildingNo || !locality || !city || !state || !pincode) {
       this.setState({
@@ -373,10 +367,11 @@ class Checkout extends Component {
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={this.state.showMessage}
+          id="checkout-snackbar"
           autoHideDuration={5000}
           onClose={this.closeSnackBarHandler}
           message={this.state.message}
-          action={[
+          action={
             <IconButton
               key="close"
               aria-label="Close"
@@ -385,7 +380,7 @@ class Checkout extends Component {
             >
               <CloseIcon />
             </IconButton>
-          ]}
+          }
           className="details-snackbar"
         ></Snackbar>
 
@@ -416,11 +411,12 @@ class Checkout extends Component {
                             return (
                               <GridListTile
                                 key={"address_" + address.id}
-                                className={`address-card ${selectedAddress &&
+                                className={`address-card ${
+                                  selectedAddress &&
                                   selectedAddress.id === address.id
-                                  ? classes.active
-                                  : ""
-                                  }`}
+                                    ? classes.active
+                                    : ""
+                                }`}
                               >
                                 <Typography variant="body1" component="p">
                                   {address.flat_building_name}
@@ -443,7 +439,7 @@ class Checkout extends Component {
                                     onClick={() => this.selectAddress(address)}
                                   >
                                     {selectedAddress &&
-                                      selectedAddress.id === address.id ? (
+                                    selectedAddress.id === address.id ? (
                                       <CheckCircleIcon
                                         style={{ color: "#098000" }}
                                       />
@@ -529,8 +525,8 @@ class Checkout extends Component {
                           State
                         </InputLabel>
                         <Select
-                          labelId="demo-simple-select-label"
                           id="address-state"
+                          labelId="demo-simple-select-label"
                           value={state}
                           onChange={e =>
                             this.addressFormValueChange(e.target.value, "state")
@@ -666,7 +662,7 @@ class Checkout extends Component {
                 <Button
                   // disabled={true}
                   onClick={() => this.handleStepper(-2)}
-                // className="back-button"
+                  // className="back-button"
                 >
                   CHANGE
                 </Button>
@@ -686,7 +682,7 @@ class Checkout extends Component {
                   {this.state.checkoutSummary.restaurantName}
                 </Typography>
                 {this.state.checkoutSummary &&
-                  this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? (
+                this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? (
                   <ListCheckoutItems
                     itemsAdded={this.state.checkoutSummary.itemsAddedForOrder}
                     page="checkout"

@@ -39,7 +39,7 @@ const Header = props => {
 
   /** Handler to redirect customer to Profile page on clicking the Profile menu */
   const profileClickHandler = () => {
-    props.props.history.push('/profile');
+    props.history.push('/profile');
   }
 
   return (

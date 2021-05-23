@@ -243,7 +243,7 @@
 }
 
 .MuiMenu-paper {
-  height: 180px !important;
+  height: 154px !important;
   max-height: unset !important;
 }
 
@@ -265,6 +265,15 @@
   margin-left: 10px;
 }
 
+#checkout-snackbar>.MuiPaper-root>.MuiSnackbarContent-message{
+  width: 75%;
+}
+
+@media only screen and (max-width: 599px) {
+  .MuiMenu-paper {
+    height: 200px !important;
+  }
+}
 @media only screen and (max-width: 1320px) {
   .address-container > .MuiGridList-root > li {
     width: 30.5% !important;
