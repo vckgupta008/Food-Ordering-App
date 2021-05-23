@@ -83,7 +83,7 @@ const useStyles = theme => ({
     transform: "translateZ(0)"
   },
   active: {
-    border: "1.7px solid #f23c71",
+    border: "1.5px solid #f23c71",
     borderRightWidth: "3px",
     borderBottomWidth: "3px",
     borderRadius: 7
@@ -469,7 +469,7 @@ class Checkout extends Component {
                     <div className="address-form">
                       <FormControl>
                         <InputLabel htmlFor="address-building" required>
-                          Flat / Building No
+                          Flat / Building No.
                         </InputLabel>
                         <Input
                           id="address-building"

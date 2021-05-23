@@ -1,4 +1,8 @@
-import { GET_ADDRESS_CUSTOMER_URL, GET_STATES_URL, ADD_ADDRESS_URL } from "../common";
+import {
+  GET_ADDRESS_CUSTOMER_URL,
+  GET_STATES_URL,
+  ADD_ADDRESS_URL
+} from "../common";
 
 /** Functional component to fetch address of the customer */
 export function getAddressCustomer(accessToken) {

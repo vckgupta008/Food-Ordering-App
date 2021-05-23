@@ -1,4 +1,7 @@
-import { LOGIN_CUSTOMER_URL, SIGNUP_CUSTOMER_URL } from "../common";
+import {
+  LOGIN_CUSTOMER_URL,
+  SIGNUP_CUSTOMER_URL
+} from "../common";
 
 /** Functional component to login the user */
 export function loginCustomer(encodedCredential) {

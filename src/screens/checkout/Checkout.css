@@ -62,25 +62,25 @@
   align-items: flex-start;
 }
 
-.checkout-item-section1 {
+.checkout-item-section1 > .fa-stop-circle {
+  width: 30px;
+}
+
+.checkout-item-section2 {
   width: 60%;
   display: flex;
   padding-right: 5px;
 }
 
-.checkout-item-section2 {
+.checkout-item-section3 {
   width: 5%;
   padding-right: 5px;
 }
 
-.checkout-item-section3 {
+.checkout-item-section4 {
   width: 35%;
   display: flex;
   justify-content: flex-end;
-}
-
-.checkout-item-section1 > .fa-stop-circle {
-  width: 30px;
 }
 
 .checkout-item-name {
@@ -123,7 +123,7 @@
   margin-bottom: 30px;
 }
 .no-address-msg {
-  font-size: 13px;
+  font-size: 15px;
   color: #9a9a9a;
 }
 
@@ -259,6 +259,10 @@
 #menu- > .MuiPaper-root {
   box-shadow: 0 4px 8px 4px rgb(0 0 0 / 30%);
   margin-bottom: 3px;
+}
+
+#simple-tabpanel-1 {
+  margin-left: 10px;
 }
 
 @media only screen and (max-width: 1320px) {
@@ -433,6 +437,9 @@
     margin-left: 5px;
   }
 
+}
+
+@media only screen and (max-width: 405px) {
   .address-form > .MuiFormControl-root {
     width: 100%;
   }

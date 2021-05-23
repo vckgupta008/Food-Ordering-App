@@ -40,9 +40,11 @@
 #input-with-icon-textfield {
   color: #ffffff;
 }
+
 .header-search > .MuiFormControl-root > .Mui-focused:after {
   border-bottom: 1px solid #ffffff !important;
 }
+
 .header-search > .MuiFormControl-root>.MuiInputBase-root {
   background: #253238;
 }

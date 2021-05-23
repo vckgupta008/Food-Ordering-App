@@ -131,6 +131,7 @@ class Details extends Component {
 
     let itemMessage = 'Item quantity decreased by 1!';
 
+    // If quantity has been made to zero, remove item from the list
     if (itemToRemove.quantity === 0) {
       itemsInCartTemp.splice(idx, 1);
       itemMessage = 'Item removed from cart!';

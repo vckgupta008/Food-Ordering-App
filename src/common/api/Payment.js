@@ -2,7 +2,7 @@ import { GET_PAYMENT_METHODS_URL } from "../common";
 
 /** Functional component to fetch payment methods */
 export function getPaymentMethods() {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     fetch(GET_PAYMENT_METHODS_URL, {
       method: "GET"
     })
