@@ -23,7 +23,7 @@ class ListCheckoutItems extends Component {
                 <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#138313" }}></i>
                 :
                 <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#c30909" }}></i>}
-              <span className={this.props.page + "-item-name"}>
+              <span className={this.props.page + "-item-name"} style={{ color: "grey" }}>
                 {item.name.replace(/\b\w/g, l => l.toUpperCase())}
               </span>
             </div>

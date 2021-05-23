@@ -13,7 +13,7 @@
   display: flex;
   background-color: #e0dfdf;
   padding: 25px;
-  height: 180px;
+  height: auto;
 }
 
 .details-restaurant-image {
@@ -25,7 +25,7 @@
   display: flex;
   flex-direction: column;
   padding-left: 60px;
-  width: 45%;
+  width: 100%;
 }
 
 .details-restaurant-name > p {
@@ -46,12 +46,12 @@
 
 .details-reataurant-rating-cost-info {
   display: flex;
-  justify-content: space-between;
 }
 
 .details-restaurant-rating-info {
   display: flex;
   flex-direction: column;
+  width: 50%;
 }
 
 .details-restaurant-icon {
@@ -68,6 +68,7 @@
 .details-restaurant-cost-info {
   display: flex;
   flex-direction: column;
+  width: 50%;
 }
 
 .details-menu-cart-section {
@@ -99,6 +100,7 @@
 
 .details-menu-item-type > div:nth-child(2) {
   width: 67%;
+  padding-right: 10px;
 }
 
 .details-menu-item-type > div:nth-child(3) {
@@ -124,6 +126,7 @@
 .details-cart {
   width: 41%;
   margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .details-card {
@@ -164,7 +167,6 @@
 }
 
 .details-item-name {
-  color: grey;
   font-size: 17px;
 }
 
@@ -196,7 +198,6 @@
 }
 
 .details-item-section2 > span {
-  /* width: 30px; */
   text-align: center;
 }
 
@@ -292,7 +293,6 @@
     flex-direction: column;
     align-items: center;
     padding-top: 6px;
-    height: 285px;
   }
 
   .details-restaurant-image {
@@ -303,13 +303,13 @@
   .details-restaurant-info {
     align-items: center;
     padding: 0;
-    width: 100%;
   }
 
   .details-restaurant-name > p {
     font-size: 22px;
     margin-top: 9px;
     margin-bottom: 3px;
+    text-align: center;
   }
   
   .details-restaurant-locality > p {
@@ -405,6 +405,7 @@
   }
 
   .details-item-name {
+    color: black;
     font-size: 15px;
   }
 
@@ -579,10 +580,6 @@
 }
 
 @media only screen and (max-width: 360px) {
-
-  .details-restaurant-info-section {
-    height: 290px;
-  }
 
   .details-reataurant-rating-cost-info {
     width: 280px;

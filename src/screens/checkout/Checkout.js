@@ -73,13 +73,17 @@ function a11yProps(index) {
 }
 
 const useStyles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
   gridList: {
     flexWrap: "nowrap",
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)"
   },
   active: {
-    border: "1.5px solid #e96e92",
+    border: "1.7px solid #f23c71",
     borderRightWidth: "3px",
     borderBottomWidth: "3px",
     borderRadius: 7
@@ -123,6 +127,10 @@ class Checkout extends Component {
   fetchCustomerAddress = () => {
     getAddressCustomer(this.state.accessToken)
       .then(response => {
+        if (response === "authorization exception") {
+          this.redirectToHome();
+        }
+        // if (response && response.code && (response.code === ))
         if (response && response.addresses.length) {
           this.setState({
             addressList: response.addresses
@@ -145,9 +153,15 @@ class Checkout extends Component {
         }
       })
       .catch(error => {
-        console.log("error in fetching states",error);
+        console.log("error in fetching states", error);
       });
   };
+
+  redirectToHome = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    this.props.history.push('/');
+  }
 
   /** Method to retrieve the payment methods */
   fetchPaymentMethods = () => {
@@ -189,46 +203,50 @@ class Checkout extends Component {
 
   /** Handler to place customer's order */
   placeOrderClickHandler = () => {
-    let itemAdded = this.state.checkoutSummary.itemsAddedForOrder;
-    let order = [];
+    if (this.state.selectedAddress && this.state.selectedPaymentId) {
+      let itemAdded = this.state.checkoutSummary.itemsAddedForOrder;
+      let order = [];
 
-    itemAdded.forEach(item => {
-      let orderItem = {
-        item_id: item.id,
-        price: item.price,
-        quantity: item.quantity
-      };
-      order.push(orderItem);
-    });
-
-    let reqBody = {
-      address_id: this.state.selectedAddress.id,
-      bill: this.state.checkoutSummary.totalAmount,
-      coupon_id: null,
-      discount: 0,
-      item_quantities: order,
-      payment_id: this.state.selectedPaymentId,
-      restaurant_id: this.state.checkoutSummary.restaurantId
-    };
-
-    placeOrder(reqBody, this.state.accessToken)
-      .then(response => {
-        if (response && response.id) {
-          this.setState({
-            showMessage: true,
-            message:
-              "Order placed successfully! Your order ID is " + response.id + "."
-          });
-        } else {
-          this.setState({
-            showMessage: true,
-            message: "Unable to place your order! Please try again!"
-          });
-        }
-      })
-      .catch(error => {
-        console.log("error while placing the order", error);
+      itemAdded.forEach(item => {
+        let orderItem = {
+          item_id: item.id,
+          price: item.price,
+          quantity: item.quantity
+        };
+        order.push(orderItem);
       });
+
+      let reqBody = {
+        address_id: this.state.selectedAddress.id,
+        bill: this.state.checkoutSummary.totalAmount,
+        coupon_id: null,
+        discount: 0,
+        item_quantities: order,
+        payment_id: this.state.selectedPaymentId,
+        restaurant_id: this.state.checkoutSummary.restaurantId
+      };
+
+      placeOrder(reqBody, this.state.accessToken)
+        .then(response => {
+          if (response && response.id) {
+            this.setState({
+              showMessage: true,
+              message:
+                "Order placed successfully! Your order ID is " + response.id + "."
+            });
+          } else {
+            this.setState({
+              showMessage: true,
+              message: "Unable to place your order! Please try again!"
+            });
+          }
+        })
+        .catch(error => {
+          console.log("error while placing the order", error);
+        });
+    }
+
+
   };
 
   /** Handler to close snackbar */
@@ -275,7 +293,9 @@ class Checkout extends Component {
 
       addAddress(addressBody, localStorage.getItem("access-token"))
         .then(response => {
-
+          if (response === "authorization exception") {
+            this.redirectToHome();
+          }
           if (response && response.code && response.code === "SAR-002") {
             this.setState({
               errorBuildingNo: "",
@@ -313,7 +333,7 @@ class Checkout extends Component {
           }
         })
         .catch(error => {
-          console.log("error in saving address",error);
+          console.log("error in saving address", error);
         });
     }
   };
@@ -396,26 +416,34 @@ class Checkout extends Component {
                             return (
                               <GridListTile
                                 key={"address_" + address.id}
-                                className={`address-card ${
-                                  selectedAddress &&
+                                className={`address-card ${selectedAddress &&
                                   selectedAddress.id === address.id
-                                    ? classes.active
-                                    : ""
-                                }`}
+                                  ? classes.active
+                                  : ""
+                                  }`}
                               >
-                                <div>{address.flat_building_name}</div>
-                                <div>{address.locality}</div>
-                                <div>{address.city}</div>
-                                <div>{address.state.state_name}</div>
-                                <div>{address.pincode}</div>
-                                <div className="check-icon">
+                                <Typography variant="body1" component="p">
+                                  {address.flat_building_name}
+                                </Typography>
+                                <Typography variant="body1" component="p">
+                                  {address.locality}
+                                </Typography>
+                                <Typography variant="body1" component="p">
+                                  {address.city}
+                                </Typography>
+                                <Typography variant="body1" component="p">
+                                  {address.state.state_name}
+                                </Typography>
+                                <Typography variant="body1" component="p">
+                                  {address.pincode}
+                                </Typography>
+                                <div className="check-icon" component="p">
                                   <IconButton
                                     aria-label="delete"
                                     onClick={() => this.selectAddress(address)}
-                                    
                                   >
                                     {selectedAddress &&
-                                    selectedAddress.id === address.id ? (
+                                      selectedAddress.id === address.id ? (
                                       <CheckCircleIcon
                                         style={{ color: "#098000" }}
                                       />
@@ -516,20 +544,21 @@ class Checkout extends Component {
                               vertical: "bottom",
                               horizontal: "center"
                             },
-                            elevation:0,
-                            getContentAnchorEl: null
+                            elevation: 0,
+                            getContentAnchorEl: null,
+                            style: {
+                              marginTop: 10
+                            }
                           }}
                         >
-                          {stateList.map(state => {
-                            return (
-                              <MenuItem
-                                key={"state_" + state.id}
-                                value={state.id}
-                              >
-                                {state.state_name}
-                              </MenuItem>
-                            );
-                          })}
+                          {stateList.map(state => (
+                            <MenuItem
+                              key={"state_" + state.id}
+                              value={state.id}
+                            >
+                              {state.state_name}
+                            </MenuItem>
+                          ))}
                         </Select>
 
                         <span className="error-msg">
@@ -637,7 +666,7 @@ class Checkout extends Component {
                 <Button
                   // disabled={true}
                   onClick={() => this.handleStepper(-2)}
-                  // className="back-button"
+                // className="back-button"
                 >
                   CHANGE
                 </Button>
@@ -657,7 +686,7 @@ class Checkout extends Component {
                   {this.state.checkoutSummary.restaurantName}
                 </Typography>
                 {this.state.checkoutSummary &&
-                this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? (
+                  this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? (
                   <ListCheckoutItems
                     itemsAdded={this.state.checkoutSummary.itemsAddedForOrder}
                     page="checkout"
