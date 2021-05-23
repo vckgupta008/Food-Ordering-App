@@ -17,8 +17,7 @@ import {
   Badge,
   Button,
   Snackbar
-}
-  from '@material-ui/core';
+} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import CloseIcon from '@material-ui/icons/Close';
@@ -36,7 +35,8 @@ class Details extends Component {
       itemsAddedToCartList: [],
       itemAddedToCart: {},
       showItemMessage: false,
-      itemMessage: ''
+      itemMessage: '',
+      noRestaurant: false
     };
   }
 
@@ -48,12 +48,18 @@ class Details extends Component {
   loadRestaurantDetails(restaurantId) {
     getRestaurantById(restaurantId)
       .then(response => {
-        const categories = response.categories.map(category => category.category_name).join(", ");
-        this.setState({
-          restaurant: response,
-          categories: categories
-        });
-
+        if (response === "No Restaurant found exception") {
+          this.setState({
+            noRestaurant: true,
+          });
+        } else {
+          const categories = response.categories.map(category => category.category_name).join(", ");
+          this.setState({
+            restaurant: response,
+            categories: categories,
+            noRestaurant: false
+          });
+        }
       })
       .catch(error => {
         this.setState({
@@ -188,7 +194,7 @@ class Details extends Component {
     return (
       <div>
         {/** Header component included here */}
-        <Header history={this.props.history}/>
+        <Header history={this.props.history} />
 
         {/** Snackbar added to show item is added/ removed from cart */}
         <Snackbar
@@ -340,7 +346,11 @@ class Details extends Component {
             {/** Restaurant menu and cart section ends here */}
           </div>
           : ""}
-
+        {this.state.noRestaurant ?
+          <div style={{ margin: 10 }}>
+            No Restaurant found
+          </div>
+          : ""}
       </div>
     )
   }

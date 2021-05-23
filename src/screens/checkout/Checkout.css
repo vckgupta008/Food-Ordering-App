@@ -265,7 +265,7 @@
   margin-left: 10px;
 }
 
-#checkout-snackbar>.MuiPaper-root>.MuiSnackbarContent-message{
+#checkout-snackbar>.MuiPaper-root>.MuiSnackbarContent-message {
   width: 75%;
 }
 

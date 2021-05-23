@@ -90,12 +90,18 @@ class LoginModal extends Component {
     });
   };
 
-  /** Handler to set value into a particular state variable */
+  /** Handler to set value into a particular state variable
+   * when customer fills details in the login form
+   */
   loginFormValueChangeHandler = (value, field) => {
     this.setState({
       [field]: value
     });
   };
+
+  /** Handler to set value into a particular state variable
+   * when customer fills details in the signup form
+   */
   signUpFormValueChangeHandler = (value, field) => {
     this.setState({
       [field]: value

@@ -1,6 +1,6 @@
 import { PLACE_ORDER_URL } from "../common";
 
-/** Functional component to place order for the signed in customer */
+/** Functional component to place order for the logged-in customer */
 export function placeOrder(reqBody, accessToken) {
   return new Promise(function (resolve, reject) {
     fetch(`${PLACE_ORDER_URL}`, {
