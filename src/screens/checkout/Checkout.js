@@ -370,7 +370,8 @@ class Checkout extends Component {
       errorCity,
       errorState,
       errorPincode,
-      addAddressMsg
+      addAddressMsg,
+      selectedPaymentId
     } = this.state;
 
     const { classes } = this.props;
@@ -676,7 +677,11 @@ class Checkout extends Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => this.stepperHandler(1)}
+                      onClick={() => {
+                        if(selectedPaymentId){
+                          this.stepperHandler(1);
+                        }
+                      }}
                       className="next-button"
                     >
                       FINISH
