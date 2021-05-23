@@ -23,11 +23,13 @@ class ListCheckoutItems extends Component {
                 <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#138313" }}></i>
                 :
                 <i className="far fa-stop-circle" aria-hidden="true" style={{ color: "#c30909" }}></i>}
-              <span className={this.props.page + "-item-name"}>
+            </div>
+            <div className={this.props.page + "-item-section2"}>
+              <span className={this.props.page + "-item-name"} style={{ color: "grey" }}>
                 {item.name.replace(/\b\w/g, l => l.toUpperCase())}
               </span>
             </div>
-            <div className={this.props.page + "-item-section2"}>
+            <div className={this.props.page + "-item-section3"}>
               {this.props.page === "details" ?
                 <div className="details-minus-section">
                   <IconButton onClick={() => this.props.removeItemHandler(item)} style={{ color: "black" }}>
@@ -44,9 +46,9 @@ class ListCheckoutItems extends Component {
                 </div>
                 : ""}
             </div>
-            <div className={this.props.page + "-item-section3"}>
+            <div className={this.props.page + "-item-section4"}>
               <span className={this.props.page + "-item-price"}>
-                <i className="fa fa-rupee-sign" aria-hidden="true"></i> {item.price.toFixed(2)}
+                <i className="fa fa-rupee-sign" aria-hidden="true"></i> {" " + item.price.toFixed(2)}
               </span>
             </div>
           </ListItem>

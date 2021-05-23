@@ -8,6 +8,7 @@ import {
   FormControl,
   InputLabel,
   Input,
+  FormHelperText,
   Button,
   Snackbar
 } from "@material-ui/core";
@@ -189,7 +190,10 @@ class LoginModal extends Component {
     }
   };
 
-  LoginCustomerHandler = () => {
+  /** Handler to login customer if valid creadentials are provided
+   * Else show useful message to the customer
+   */
+  loginCustomerHandler = () => {
     const { loginContactNo, loginPassword } = this.state;
     if (!loginPassword || !loginContactNo) {
       this.setState({
@@ -306,8 +310,7 @@ class LoginModal extends Component {
           open={showSnackbarComponent}
           autoHideDuration={5000}
           message={snackBarMessage}
-          onClose={() => this.closeSnackBarHandler()}
-        ></Snackbar>
+          onClose={() => this.closeSnackBarHandler()} />
 
         {/** Login/ Signup modal starts here */}
         <Modal
@@ -327,30 +330,30 @@ class LoginModal extends Component {
               <Tab label="LOGIN" />
               <Tab label="SIGNUP" />
             </Tabs>
+
+            {/** Login tab starts here */}
             <TabPanel value={selectedTab} index={0}>
               <FormControl>
                 <InputLabel htmlFor="login-contact" required>
-                  Contact No
+                  Contact No.
                 </InputLabel>
                 <Input
                   id="login-contact"
                   aria-describedby="my-helper-text"
                   value={loginContactNo}
                   onChange={e =>
-                    this.loginFormValueChangeHandler(
-                      e.target.value,
-                      "loginContactNo"
-                    )
+                    this.loginFormValueChangeHandler(e.target.value, "loginContactNo")
                   }
                   fullWidth
                 />
-                <span className="error-msg">
-                  {loginError && errorContactNo && loginErrorMsg
-                    ? loginErrorMsg
-                    : ""}
-                </span>
+                <FormHelperText>
+                  <span className="error-msg">
+                    {loginError && errorContactNo && loginErrorMsg
+                      ? loginErrorMsg
+                      : ""}
+                  </span>
+                </FormHelperText>
               </FormControl>
-
               <FormControl>
                 <InputLabel htmlFor="login-password" required>
                   Password
@@ -361,26 +364,28 @@ class LoginModal extends Component {
                   aria-describedby="my-helper-text"
                   value={loginPassword}
                   onChange={e =>
-                    this.loginFormValueChangeHandler(
-                      e.target.value,
-                      "loginPassword"
-                    )
+                    this.loginFormValueChangeHandler(e.target.value, "loginPassword")
                   }
                   fullWidth
                 />
-                <span className="error-msg">
-                  {loginError && errorPassword && loginErrorMsg}
-                  {loginError && loginResponse.code
-                    ? loginResponse.message
-                    : ""}
-                </span>
+                <FormHelperText>
+                  <span className="error-msg">
+                    {loginError && errorPassword && loginErrorMsg}
+                    {loginError && loginResponse.code
+                      ? loginResponse.message
+                      : ""}
+                  </span>
+                </FormHelperText>
               </FormControl>
               <div className="login-footer">
-                <Button className="login-button" onClick={() => this.LoginCustomerHandler()} >
+                <Button className="login-button" onClick={() => this.loginCustomerHandler()} >
                   LOGIN
                 </Button>
               </div>
             </TabPanel>
+            {/** Login tab ends here */}
+
+            {/** Signup tab starts here */}
             <TabPanel value={selectedTab} index={1}>
               <FormControl>
                 <InputLabel htmlFor="signup-firstName" required>
@@ -391,16 +396,15 @@ class LoginModal extends Component {
                   aria-describedby="my-helper-text"
                   value={signUpFirstName}
                   onChange={e =>
-                    this.signUpFormValueChangeHandler(
-                      e.target.value,
-                      "signUpFirstName"
-                    )
+                    this.signUpFormValueChangeHandler(e.target.value, "signUpFirstName")
                   }
                   fullWidth
                 />
-                <span className="error-msg">
-                  {signUpError && errorFirstName && signUpErrorMessage}
-                </span>
+                <FormHelperText>
+                  <span className="error-msg">
+                    {signUpError && errorFirstName && signUpErrorMessage}
+                  </span>
+                </FormHelperText>
               </FormControl>
               <FormControl>
                 <InputLabel htmlFor="signup-lastName">Last Name</InputLabel>
@@ -409,10 +413,7 @@ class LoginModal extends Component {
                   aria-describedby="my-helper-text"
                   value={signUpLastName}
                   onChange={e =>
-                    this.signUpFormValueChangeHandler(
-                      e.target.value,
-                      "signUpLastName"
-                    )
+                    this.signUpFormValueChangeHandler(e.target.value, "signUpLastName")
                   }
                   fullWidth
                 />
@@ -426,21 +427,20 @@ class LoginModal extends Component {
                   aria-describedby="my-helper-text"
                   value={signUpEmail}
                   onChange={e =>
-                    this.signUpFormValueChangeHandler(
-                      e.target.value,
-                      "signUpEmail"
-                    )
+                    this.signUpFormValueChangeHandler(e.target.value, "signUpEmail")
                   }
                   fullWidth
                 />
-                <span className="error-msg">
-                  {signUpError && errorEmail && signUpErrorMessage}
-                  {signUpError &&
-                    signUpResponse &&
-                    signUpResponse.code === "SGR-002"
-                    ? "Invalid Email"
-                    : ""}
-                </span>
+                <FormHelperText>
+                  <span className="error-msg">
+                    {signUpError && errorEmail && signUpErrorMessage}
+                    {signUpError &&
+                      signUpResponse &&
+                      signUpResponse.code === "SGR-002"
+                      ? "Invalid Email"
+                      : ""}
+                  </span>
+                </FormHelperText>
               </FormControl>
               <FormControl>
                 <InputLabel htmlFor="signup-password" required>
@@ -452,47 +452,45 @@ class LoginModal extends Component {
                   aria-describedby="my-helper-text"
                   value={signUpPassword}
                   onChange={e =>
-                    this.signUpFormValueChangeHandler(
-                      e.target.value,
-                      "signUpPassword"
-                    )
+                    this.signUpFormValueChangeHandler(e.target.value, "signUpPassword")
                   }
                   fullWidth
                 />
-                <span className="error-msg">
-                  {signUpError && errorPasswordSignup && signUpErrorMessage}
-                  {signUpError &&
-                    signUpResponse &&
-                    signUpResponse.code === "SGR-004"
-                    ? "Password must contain at least one capital letter, one small letter, one number, and one special character"
-                    : ""}
-                </span>
+                <FormHelperText>
+                  <span className="error-msg">
+                    {signUpError && errorPasswordSignup && signUpErrorMessage}
+                    {signUpError &&
+                      signUpResponse &&
+                      signUpResponse.code === "SGR-004"
+                      ? "Password must contain at least one capital letter, one small letter, one number, and one special character"
+                      : ""}
+                  </span>
+                </FormHelperText>
               </FormControl>
               <FormControl>
                 <InputLabel htmlFor="signup-contact" required>
-                  Contact No
+                  Contact No.
                 </InputLabel>
                 <Input
                   id="signup-contact"
                   aria-describedby="my-helper-text"
                   value={signUpContactNo}
                   onChange={e =>
-                    this.signUpFormValueChangeHandler(
-                      e.target.value,
-                      "signUpContactNo"
-                    )
+                    this.signUpFormValueChangeHandler(e.target.value, "signUpContactNo")
                   }
                   fullWidth
                 />
-                <span className="error-msg">
-                  {signUpError && errorContactNoSignup && signUpErrorMessage}
-                  {signUpError &&
-                    signUpResponse &&
-                    signUpResponse.code !== "SGR-004" &&
-                    signUpResponse.code !== "SGR-002"
-                    ? signUpResponse.message
-                    : ""}
-                </span>
+                <FormHelperText>
+                  <span className="error-msg">
+                    {signUpError && errorContactNoSignup && signUpErrorMessage}
+                    {signUpError &&
+                      signUpResponse &&
+                      signUpResponse.code !== "SGR-004" &&
+                      signUpResponse.code !== "SGR-002"
+                      ? signUpResponse.message
+                      : ""}
+                  </span>
+                </FormHelperText>
               </FormControl>
               <div className="signup-footer">
                 <Button className="signup-button" onClick={() => this.signUpCustomerHandler()} >
@@ -500,6 +498,7 @@ class LoginModal extends Component {
                 </Button>
               </div>
             </TabPanel>
+            {/** Signup tab ends here */}
           </div>
         </Modal>
         {/** Login/ Signup modal ends here */}

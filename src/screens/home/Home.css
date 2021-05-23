@@ -79,6 +79,7 @@
   .restaurant-name {
     font-size: 22px;
     height: 55px;
+    margin-bottom: 5px;
   }
   .restaurant-category {
     font-size: 15px;
