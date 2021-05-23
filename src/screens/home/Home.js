@@ -86,9 +86,9 @@ class Home extends Component {
   };
 
   /** Handler to navigate customer to the respective restuarant when clicked on the restaurant card */
-  resturantCardClickHandler = (restaurantId) => {
-    this.props.history.push('/restaurant/' + restaurantId);
-  }
+  resturantCardClickHandler = restaurantId => {
+    this.props.history.push("/restaurant/" + restaurantId);
+  };
 
   render() {
     const {
@@ -121,18 +121,22 @@ class Home extends Component {
         {/** Restaurant cards begin here */}
         <div className="home-page-container">
           <Grid
-            container spacing={3}
+            container
+            spacing={3}
             wrap="wrap"
             alignContent="center"
             className="restaurant-grid"
           >
             {restaurantList.length ? (
               restaurantList.map(restaurant => (
-                <Grid key={restaurant.id} item
-                  xs={12} sm={6} md={4} lg={3}
-                >
+                <Grid key={restaurant.id} item xs={12} sm={6} md={4} lg={3}>
                   <Card className="restaurant-card" key={restaurant.id}>
-                    <CardContent style={{ cursor: "pointer" }} onClick={() => this.resturantCardClickHandler(restaurant.id)}>
+                    <CardContent
+                      style={{ cursor: "pointer" }}
+                      onClick={() =>
+                        this.resturantCardClickHandler(restaurant.id)
+                      }
+                    >
                       <div className="restaurant-img">
                         <img src={restaurant.photo_URL} alt="restaurant-img" />
                       </div>
@@ -146,23 +150,28 @@ class Home extends Component {
                         <div className="restaurant-info">
                           <div className="restaurant-rating">
                             <i className="fa fa-star" aria-hidden="true" />
-                            {restaurant.customer_rating} ({restaurant.number_customers_rated})
-                        </div>
+                            {restaurant.customer_rating} (
+                            {restaurant.number_customers_rated})
+                          </div>
                           <div className="restaurant-price">
-                            <i className="fa fa-rupee-sign"
-                              aria-hidden="true" />
+                            <i
+                              className="fa fa-rupee-sign"
+                              aria-hidden="true"
+                            />
                             {restaurant.average_price} for two
-                        </div>
+                          </div>
                         </div>
                       </div>
                     </CardContent>
                   </Card>
                 </Grid>
               ))
-            ) : (
-              isFetchRestaurant?<Typography variant="body1" component="p">
+            ) : isFetchRestaurant ? (
+              <Typography variant="body1" component="p">
                 No restaurant with the given name.
-              </Typography>:""
+              </Typography>
+            ) : (
+              ""
             )}
           </Grid>
         </div>
