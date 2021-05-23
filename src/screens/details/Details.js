@@ -188,7 +188,7 @@ class Details extends Component {
     return (
       <div>
         {/** Header component included here */}
-        <Header />
+        <Header history={this.props.history}/>
 
         {/** Snackbar added to show item is added/ removed from cart */}
         <Snackbar

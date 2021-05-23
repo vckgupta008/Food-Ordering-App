@@ -20,7 +20,8 @@ class Home extends Component {
       restaurantList: [],
       showMessage: false,
       message: "",
-      searchVal: ""
+      searchVal: "",
+      isFetchRestaurant: false
     };
   }
 
@@ -37,7 +38,8 @@ class Home extends Component {
             response.restaurants && response.restaurants.length
               ? response.restaurants
               : [],
-          searchVal: ""
+          searchVal: "",
+          isFetchRestaurant: true
         });
       })
       .catch(error => {
@@ -59,7 +61,8 @@ class Home extends Component {
               response.restaurants && response.restaurants.length
                 ? response.restaurants
                 : [],
-            searchVal: restaurantName
+            searchVal: restaurantName,
+            isFetchRestaurant: true
           });
         })
         .catch(error => {
@@ -93,7 +96,7 @@ class Home extends Component {
       showMessage,
       message,
       searchVal,
-
+      isFetchRestaurant
     } = this.state;
     return (
       <div>
@@ -103,7 +106,7 @@ class Home extends Component {
           handleLoginModal={() => this.loginModalHandler()}
           onSearch={restaurant => this.searchRestaurantByName(restaurant)}
           isHomePage={true}
-          props={this.props}
+          history={this.props.history}
         />
 
         <Snackbar
@@ -157,9 +160,9 @@ class Home extends Component {
                 </Grid>
               ))
             ) : (
-              <Typography variant="body1" component="p">
+              isFetchRestaurant?<Typography variant="body1" component="p">
                 No restaurant with the given name.
-              </Typography>
+              </Typography>:""
             )}
           </Grid>
         </div>

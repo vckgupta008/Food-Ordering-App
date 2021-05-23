@@ -207,7 +207,8 @@ class LoginModal extends Component {
         loginError: true,
         errorContactNo: "Invalid Contact",
         errorPassword: "",
-        loginErrorMsg: "Invalid Contact"
+        loginErrorMsg: "Invalid Contact",
+        loginResponse: { code: "", message: "" },
       });
     } else {
       let encodedCredential = window.btoa(`${loginContactNo}:${loginPassword}`);
