@@ -175,7 +175,7 @@
 }
 
 .details-item-section2 {
-  width: 60%;
+  width: 50%;
   display: flex;
   align-items: center;
 }
@@ -625,6 +625,10 @@
 
   .details-menu-item-type > div:nth-child(4) {
     min-width: 45px;
+  }
+
+  .details-item-section2 {
+    width: 45%;
   }
 
 }

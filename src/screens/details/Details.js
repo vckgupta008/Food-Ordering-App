@@ -397,7 +397,9 @@ class Details extends Component {
           ""
         )}
         {this.state.noRestaurant ? (
-          <div style={{ margin: 10 }}>No Restaurant found</div>
+          <Typography variant="body1" component="p" style={{margin: "15px 30px"}}>
+            No Restaurant found
+          </Typography>
         ) : (
           ""
         )}
