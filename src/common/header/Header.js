@@ -28,7 +28,9 @@ const Header = props => {
     menuCloseHandler();
     localStorage.clear();
     sessionStorage.clear();
-    if (props.history && props.history.location.pathname === '/checkout') {
+    if (props.history
+      && (props.history.location.pathname === '/checkout'
+        || props.history.location.pathname === '/profile')) {
       props.history.push('/');
     }
   }
@@ -39,7 +41,7 @@ const Header = props => {
 
   /** Handler to redirect customer to Profile page on clicking the Profile menu */
   const profileClickHandler = () => {
-    props.props.history.push('/profile');
+    props.history.push('/profile');
   }
 
   return (

@@ -22,6 +22,7 @@ import {
   FormControl,
   InputLabel,
   Input,
+  FormHelperText,
   Select,
   MenuItem,
   FormLabel,
@@ -75,7 +76,7 @@ function a11yProps(index) {
 const useStyles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper
   },
   gridList: {
     flexWrap: "nowrap",
@@ -124,13 +125,13 @@ class Checkout extends Component {
     this.fetchPaymentMethods();
   }
 
+  /** Method to fetch all the customer address(es) */
   fetchCustomerAddress = () => {
     getAddressCustomer(this.state.accessToken)
       .then(response => {
         if (response === "authorization exception") {
           this.redirectToHome();
         }
-        // if (response && response.code && (response.code === ))
         if (response && response.addresses.length) {
           this.setState({
             addressList: response.addresses
@@ -143,6 +144,7 @@ class Checkout extends Component {
       });
   };
 
+  /** Method to fetch all the states */
   getAllStates = () => {
     getStates()
       .then(response => {
@@ -157,11 +159,12 @@ class Checkout extends Component {
       });
   };
 
+  /** Method to redirect the customer to Home page */
   redirectToHome = () => {
     localStorage.clear();
     sessionStorage.clear();
-    this.props.history.push('/');
-  }
+    this.props.history.push("/");
+  };
 
   /** Method to retrieve the payment methods */
   fetchPaymentMethods = () => {
@@ -176,19 +179,27 @@ class Checkout extends Component {
       });
   };
 
-  handleStepper = val => {
+  /** Hanlder to increment/ decrement step value depending
+   *  on the button clicked in the stepper section */
+  stepperHandler = val => {
     this.setState({
       activeStep: this.state.activeStep + val
     });
   };
 
-  handleChange = (event, newValue) => {
+  /** Hanlder to set the value of the tab in the 
+   * state variable as per the selection
+   * */
+  tabChangeHandler = (event, newValue) => {
     this.setState({
       tabValue: newValue
     });
   };
 
-  selectAddress = address => {
+  /** Hanlder to set the value of the address selected
+   *  in the state variable
+  */
+  selectAddressHanlder = address => {
     this.setState({
       selectedAddress: address
     });
@@ -201,7 +212,9 @@ class Checkout extends Component {
     });
   };
 
-  /** Handler to place customer's order */
+  /** Handler to place customer's order
+   * Customer can place order only if the address and the payment method is selected
+   */
   placeOrderClickHandler = () => {
     if (this.state.selectedAddress && this.state.selectedPaymentId) {
       let itemAdded = this.state.checkoutSummary.itemsAddedForOrder;
@@ -216,6 +229,7 @@ class Checkout extends Component {
         order.push(orderItem);
       });
 
+      // Set values into the request body
       let reqBody = {
         address_id: this.state.selectedAddress.id,
         bill: this.state.checkoutSummary.totalAmount,
@@ -226,13 +240,16 @@ class Checkout extends Component {
         restaurant_id: this.state.checkoutSummary.restaurantId
       };
 
+      // Call api to place the order
       placeOrder(reqBody, this.state.accessToken)
         .then(response => {
           if (response && response.id) {
             this.setState({
               showMessage: true,
               message:
-                "Order placed successfully! Your order ID is " + response.id + "."
+                "Order placed successfully! Your order ID is " +
+                response.id +
+                "."
             });
           } else {
             this.setState({
@@ -245,8 +262,6 @@ class Checkout extends Component {
           console.log("error while placing the order", error);
         });
     }
-
-
   };
 
   /** Handler to close snackbar */
@@ -264,14 +279,10 @@ class Checkout extends Component {
     });
   };
 
-  validateAddressForm = () => {
-    const {
-      buildingNo,
-      locality,
-      city,
-      state,
-      pincode
-    } = this.state;
+  /** Hanlder to validate all the inputs of the address form
+   * and save the address details if the values provided are valid */
+  validateSaveAddressFormHanlder = () => {
+    const { buildingNo, locality, city, state, pincode } = this.state;
 
     if (!buildingNo || !locality || !city || !state || !pincode) {
       this.setState({
@@ -373,10 +384,11 @@ class Checkout extends Component {
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={this.state.showMessage}
+          id="checkout-snackbar"
           autoHideDuration={5000}
           onClose={this.closeSnackBarHandler}
           message={this.state.message}
-          action={[
+          action={
             <IconButton
               key="close"
               aria-label="Close"
@@ -385,7 +397,7 @@ class Checkout extends Component {
             >
               <CloseIcon />
             </IconButton>
-          ]}
+          }
           className="details-snackbar"
         ></Snackbar>
 
@@ -394,13 +406,14 @@ class Checkout extends Component {
           {/** Delivery and Payment section starts here */}
           <div className="address-payment-container">
             <Stepper activeStep={activeStep} orientation="vertical">
+              {/** Deliver steps starts here */}
               <Step key="Delivery">
                 <StepLabel>Delivery</StepLabel>
                 <StepContent>
                   <AppBar position="static">
                     <Tabs
                       value={tabValue}
-                      onChange={this.handleChange}
+                      onChange={this.tabChangeHandler}
                       aria-label="simple tabs example"
                       className="tabs"
                     >
@@ -408,6 +421,7 @@ class Checkout extends Component {
                       <Tab label="NEW ADDRESS" {...a11yProps(1)} />
                     </Tabs>
                   </AppBar>
+                  {/** Existing Address tabs starts here */}
                   <TabPanel value={tabValue} index={0}>
                     <div className="address-container">
                       {addressList.length ? (
@@ -417,9 +431,9 @@ class Checkout extends Component {
                               <GridListTile
                                 key={"address_" + address.id}
                                 className={`address-card ${selectedAddress &&
-                                  selectedAddress.id === address.id
-                                  ? classes.active
-                                  : ""
+                                    selectedAddress.id === address.id
+                                    ? classes.active
+                                    : ""
                                   }`}
                               >
                                 <Typography variant="body1" component="p">
@@ -440,7 +454,7 @@ class Checkout extends Component {
                                 <div className="check-icon" component="p">
                                   <IconButton
                                     aria-label="delete"
-                                    onClick={() => this.selectAddress(address)}
+                                    onClick={() => this.selectAddressHanlder(address)}
                                   >
                                     {selectedAddress &&
                                       selectedAddress.id === address.id ? (
@@ -465,6 +479,8 @@ class Checkout extends Component {
                       )}
                     </div>
                   </TabPanel>
+                  {/** Existing Address tabs ends here */}
+                  {/** New Address tabs starts here */}
                   <TabPanel value={tabValue} index={1}>
                     <div className="address-form">
                       <FormControl>
@@ -483,9 +499,11 @@ class Checkout extends Component {
                           }
                           fullWidth
                         />
-                        <span className="error-msg">
-                          {errorBuildingNo && addAddressMsg}
-                        </span>
+                        <FormHelperText>
+                          <span className="error-msg">
+                            {errorBuildingNo && addAddressMsg}
+                          </span>
+                        </FormHelperText>
                       </FormControl>
                       <FormControl>
                         <InputLabel htmlFor="address-locality" required>
@@ -503,9 +521,11 @@ class Checkout extends Component {
                           }
                           fullWidth
                         />
-                        <span className="error-msg">
-                          {errorLocality && addAddressMsg}
-                        </span>
+                        <FormHelperText>
+                          <span className="error-msg">
+                            {errorLocality && addAddressMsg}
+                          </span>
+                        </FormHelperText>
                       </FormControl>
                       <FormControl>
                         <InputLabel htmlFor="address-city" required>
@@ -520,17 +540,19 @@ class Checkout extends Component {
                           }
                           fullWidth
                         />
-                        <span className="error-msg">
-                          {errorCity && addAddressMsg}
-                        </span>
+                        <FormHelperText>
+                          <span className="error-msg">
+                            {errorCity && addAddressMsg}
+                          </span>
+                        </FormHelperText>
                       </FormControl>
                       <FormControl>
                         <InputLabel htmlFor="address-state" required>
                           State
                         </InputLabel>
                         <Select
-                          labelId="demo-simple-select-label"
                           id="address-state"
+                          labelId="demo-simple-select-label"
                           value={state}
                           onChange={e =>
                             this.addressFormValueChange(e.target.value, "state")
@@ -560,10 +582,11 @@ class Checkout extends Component {
                             </MenuItem>
                           ))}
                         </Select>
-
-                        <span className="error-msg">
-                          {errorState && addAddressMsg}
-                        </span>
+                        <FormHelperText>
+                          <span className="error-msg">
+                            {errorState && addAddressMsg}
+                          </span>
+                        </FormHelperText>
                       </FormControl>
                       <FormControl>
                         <InputLabel htmlFor="address-pincode" required>
@@ -581,22 +604,24 @@ class Checkout extends Component {
                           }
                           fullWidth
                         />
-                        <span className="error-msg">
-                          {errorPincode && addAddressMsg}
-                        </span>
+                        <FormHelperText>
+                          <span className="error-msg">
+                            {errorPincode && addAddressMsg}
+                          </span>
+                        </FormHelperText>
                       </FormControl>
                       <Button
                         className="save-address-button"
-                        onClick={() => this.validateAddressForm()}
+                        onClick={() => this.validateSaveAddressFormHanlder()}
                       >
                         SAVE ADDRESS
                       </Button>
                     </div>
                   </TabPanel>
+                  {/** New Address tabs ends here */}
                   <div className="button-actions">
                     <Button
                       disabled={true}
-                      // onClick={()=>this.handleBack()}
                       className="back-button"
                     >
                       BACK
@@ -606,7 +631,7 @@ class Checkout extends Component {
                       color="primary"
                       onClick={() => {
                         if (selectedAddress && selectedAddress.id) {
-                          this.handleStepper(1);
+                          this.stepperHandler(1);
                         }
                       }}
                       className="next-button"
@@ -616,6 +641,8 @@ class Checkout extends Component {
                   </div>
                 </StepContent>
               </Step>
+              {/** Deliver steps ends here */}
+              {/** Payment steps starts here */}
               <Step key="payment" className="payment-step">
                 <StepLabel>Payment</StepLabel>
                 <StepContent className="payment-step-content">
@@ -641,7 +668,7 @@ class Checkout extends Component {
                   </FormControl>
                   <div className="button-actions">
                     <Button
-                      onClick={() => this.handleStepper(-1)}
+                      onClick={() => this.stepperHandler(-1)}
                       className="back-button"
                     >
                       BACK
@@ -649,7 +676,7 @@ class Checkout extends Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => this.handleStepper(1)}
+                      onClick={() => this.stepperHandler(1)}
                       className="next-button"
                     >
                       FINISH
@@ -657,6 +684,7 @@ class Checkout extends Component {
                   </div>
                 </StepContent>
               </Step>
+              {/** Payment steps ends here */}
             </Stepper>
             {activeStep === 2 ? (
               <div className="view-summary">
@@ -664,9 +692,7 @@ class Checkout extends Component {
                   View the summary & place your order now!
                 </Typography>
                 <Button
-                  // disabled={true}
-                  onClick={() => this.handleStepper(-2)}
-                // className="back-button"
+                  onClick={() => this.stepperHandler(-2)}
                 >
                   CHANGE
                 </Button>

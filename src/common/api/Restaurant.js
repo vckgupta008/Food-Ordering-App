@@ -19,7 +19,7 @@ export function getRestaurant() {
   });
 }
 
-/** Functional component to retrieve all restaurants for the given name */
+/** Functional component to retrieve all restaurants for the given restaurant name */
 export function getRestaurantByName(restaurantName) {
   return new Promise(function (resolve, reject) {
     fetch(`${GET_RESTAURANT_BY_NAME_URL}${restaurantName}`)
@@ -39,13 +39,13 @@ export function getRestaurantById(restaurantID) {
   return new Promise(function (resolve, reject) {
     fetch(`${GET_RESTAURANT_BY_ID_URL}${restaurantID}`)
       .then(resp => {
-        resp.json().then(res => {
-          if (resp.status === 200) {
+        if (resp.status === 404) {
+          return resolve("No Restaurant found exception");
+        } else {
+          resp.json().then(res => {
             return resolve(res);
-          } else {
-            reject(res);
-          }
-        });
+          })
+        }
       })
       .catch(error => {
         reject(error);

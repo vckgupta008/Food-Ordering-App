@@ -3,7 +3,7 @@ import {
   SIGNUP_CUSTOMER_URL
 } from "../common";
 
-/** Functional component to login the user */
+/** Functional component to login the customer */
 export function loginCustomer(encodedCredential) {
   return new Promise(function (resolve, reject) {
     fetch(LOGIN_CUSTOMER_URL, {
@@ -25,7 +25,7 @@ export function loginCustomer(encodedCredential) {
   });
 }
 
-/** Functional component to sign up the user */
+/** Functional component to sign up the customer */
 export function signUpCustomer(reqBody) {
   return new Promise(function (resolve, reject) {
     fetch(SIGNUP_CUSTOMER_URL, {

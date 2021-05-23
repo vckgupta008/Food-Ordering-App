@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
 import './Profile.css';
 import Header from '../../common/header/Header';
 
 class Profile extends Component {
   render() {
+    if (!localStorage.getItem("access-token")) {
+      return <Redirect to="/" />;
+    }
     return (
       <div>
         {/** Header component included here */}
-        <Header />
+        <Header history={this.props.history} />
 
-        <div style={{ margin: 10 }}>
+        <div className="profile-container">
           Profile Page
         </div>
       </div>

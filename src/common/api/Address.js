@@ -45,7 +45,7 @@ export function getStates() {
   });
 }
 
-/** Functional component to add addresss */
+/** Functional component to add addresss for the customer */
 export function addAddress(reqBody, accessToken) {
   return new Promise(function (resolve, reject) {
     fetch(ADD_ADDRESS_URL, {

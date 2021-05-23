@@ -95,6 +95,10 @@
   box-shadow: 0 4px 8px 4px rgb(0 0 0 / 30%);
 }
 
+#simple-menu>.MuiMenu-paper{
+  height: auto !important;
+}
+
 @media only screen and (max-width: 769px) {
   #header {
     height: auto;
