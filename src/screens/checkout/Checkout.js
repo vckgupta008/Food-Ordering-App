@@ -187,7 +187,7 @@ class Checkout extends Component {
     });
   };
 
-  /** Hanlder to set the value of the tab in the 
+  /** Hanlder to set the value of the tab in the
    * state variable as per the selection
    * */
   tabChangeHandler = (event, newValue) => {
@@ -198,7 +198,7 @@ class Checkout extends Component {
 
   /** Hanlder to set the value of the address selected
    *  in the state variable
-  */
+   */
   selectAddressHanlder = address => {
     this.setState({
       selectedAddress: address
@@ -370,7 +370,8 @@ class Checkout extends Component {
       errorCity,
       errorState,
       errorPincode,
-      addAddressMsg
+      addAddressMsg,
+      selectedPaymentId
     } = this.state;
 
     const { classes } = this.props;
@@ -430,11 +431,12 @@ class Checkout extends Component {
                             return (
                               <GridListTile
                                 key={"address_" + address.id}
-                                className={`address-card ${selectedAddress &&
-                                    selectedAddress.id === address.id
+                                className={`address-card ${
+                                  selectedAddress &&
+                                  selectedAddress.id === address.id
                                     ? classes.active
                                     : ""
-                                  }`}
+                                }`}
                               >
                                 <Typography variant="body1" component="p">
                                   {address.flat_building_name}
@@ -454,10 +456,12 @@ class Checkout extends Component {
                                 <div className="check-icon" component="p">
                                   <IconButton
                                     aria-label="delete"
-                                    onClick={() => this.selectAddressHanlder(address)}
+                                    onClick={() =>
+                                      this.selectAddressHanlder(address)
+                                    }
                                   >
                                     {selectedAddress &&
-                                      selectedAddress.id === address.id ? (
+                                    selectedAddress.id === address.id ? (
                                       <CheckCircleIcon
                                         style={{ color: "#098000" }}
                                       />
@@ -620,10 +624,7 @@ class Checkout extends Component {
                   </TabPanel>
                   {/** New Address tabs ends here */}
                   <div className="button-actions">
-                    <Button
-                      disabled={true}
-                      className="back-button"
-                    >
+                    <Button disabled={true} className="back-button">
                       BACK
                     </Button>
                     <Button
@@ -676,7 +677,11 @@ class Checkout extends Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => this.stepperHandler(1)}
+                      onClick={() => {
+                        if(selectedPaymentId){
+                          this.stepperHandler(1);
+                        }
+                      }}
                       className="next-button"
                     >
                       FINISH
@@ -691,11 +696,7 @@ class Checkout extends Component {
                 <Typography>
                   View the summary & place your order now!
                 </Typography>
-                <Button
-                  onClick={() => this.stepperHandler(-2)}
-                >
-                  CHANGE
-                </Button>
+                <Button onClick={() => this.stepperHandler(-2)}>CHANGE</Button>
               </div>
             ) : (
               ""
@@ -712,7 +713,7 @@ class Checkout extends Component {
                   {this.state.checkoutSummary.restaurantName}
                 </Typography>
                 {this.state.checkoutSummary &&
-                  this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? (
+                this.state.checkoutSummary.itemsAddedForOrder.length > 0 ? (
                   <ListCheckoutItems
                     itemsAdded={this.state.checkoutSummary.itemsAddedForOrder}
                     page="checkout"
